@@ -29,7 +29,7 @@ matrix:
         - sdkmanager --list
         - echo no | avdmanager create avd --force -n test -k "system-images;android-$EMULATOR_API_LEVEL;$ANDROID_ABI"
 #        - $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window -gpu swiftshader &
-        - emulator -avd test -no-audio -no-window &
+        - emulator -avd test -no-audio -no-window -gpu swiftshader &
         # Wait for emulator to startup.
         - android-wait-for-emulator
         - adb shell input keyevent 82
