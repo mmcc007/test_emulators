@@ -22,11 +22,13 @@ matrix:
         - sdkmanager --list
         # Silence warning.
         - touch ~/.android/repositories.cfg
-#        - yes | sdkmanager "platforms;android-26" > /dev/null
-        - yes | sdkmanager "platforms;android-27" > /dev/null
+        - yes | sdkmanager "platforms;android-26" > /dev/null
+#        - yes | sdkmanager "platforms;android-27" > /dev/null
         # Install the rest of tools (e.g., avdmanager)
-        - yes | sdkmanager tools
+        # installs tools ver 26.1.1
+#        - yes | sdkmanager tools
         # Create and start emulator.
+        # installs emulator ver 27.3.10
         - echo "no" | sdkmanager "system-images;android-$EMULATOR_API_LEVEL;$ANDROID_ABI"
         - sdkmanager --list
         - echo "no" | avdmanager create avd --force -n test -k "system-images;android-$EMULATOR_API_LEVEL;$ANDROID_ABI"
