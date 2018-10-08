@@ -1,5 +1,6 @@
-sudo: required
-dist: precise
+#sudo: required
+#dist: precise
+sudo: false
 language: android
 
 jdk:
@@ -9,11 +10,14 @@ android:
   components:
     - tools
     - platform-tools
+    - tools
     - android-22
     - android-24
     - android-25
-    - build-tools-25.0.2
+    - build-tools-27.0.3
     - extra-android-m2repository
+licenses:
+    - 'android-sdk-license-.+'
 
 env:
   matrix:
@@ -29,12 +33,14 @@ env:
 
 # Emulator Management: Create, Start and Wait
 before_script:
-  - android-update-sdk --components=sys-img-$ABI-$API --accept-licenses='android-sdk-license-[0-9a-f]{8}'
-#  - echo no | android create avd --force -n test -t $API --abi $ABI
-  - echo no | android create avd --force -n test -t $API --abi ${ABI}
-
-#  - emulator -avd test -no-audio -no-window
-  - emulator -avd test -no-audio -no-window -gpu swiftshader
+  - sdkmanager --list
+  # Install the rest of tools (e.g., avdmanager)
+#  - sdkmanager tools
+  # Create and start emulator.
+  - sdkmanager "system-images;android-$API;$ABI" >/dev/null
+  - sdkmanager --list
+  - echo no | avdmanager create avd --force -n test -k "system-images;android-$API;$ABI"
+  - emulator -avd test -no-audio -no-window -gpu swiftshader &
   - android-wait-for-emulator
   - adb shell input keyevent 82 &
 
