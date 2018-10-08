@@ -11,7 +11,7 @@ matrix:
         components:
           - tools
           - platform-tools
-          - tools
+#          - tools
 #          - build-tools-26.0.2
 #          - build-tools-26.0.3
 #          - build-tools-27.0.3
@@ -25,7 +25,7 @@ matrix:
 #        - yes | sdkmanager "platforms;android-26" > /dev/null
 #        - yes | sdkmanager "platforms;android-27" > /dev/null
         # Install the rest of tools (e.g., avdmanager)
-#        - sdkmanager tools
+        - sdkmanager tools
         # Create and start emulator.
         - no | sdkmanager "system-images;android-$EMULATOR_API_LEVEL;$ANDROID_ABI"
         - sdkmanager --list
