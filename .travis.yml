@@ -37,9 +37,9 @@ before_script:
   # Install the rest of tools (e.g., avdmanager)
 #  - sdkmanager tools
   # Create and start emulator.
-  - sdkmanager "system-images;android-$API;$ABI" >/dev/null
+  - sdkmanager "system-images;$API;$ABI" >/dev/null
   - sdkmanager --list
-  - echo no | avdmanager create avd --force -n test -k "system-images;android-$API;$ABI"
+  - echo no | avdmanager create avd --force -n test -k "system-images;$API;$ABI"
   - emulator -avd test -no-audio -no-window -gpu swiftshader &
   - android-wait-for-emulator
   - adb shell input keyevent 82 &
