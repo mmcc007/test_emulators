@@ -29,7 +29,7 @@ matrix:
         # Create and start emulator.
         - no | sdkmanager "system-images;android-$EMULATOR_API_LEVEL;$ANDROID_ABI"
         - sdkmanager --list
-        - no | avdmanager create avd --force -n test -k "system-images;android-$EMULATOR_API_LEVEL;$ANDROID_ABI"
+        - echo "N" | avdmanager create avd --force -n test -k "system-images;android-$EMULATOR_API_LEVEL;$ANDROID_ABI"
 #        - $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window -gpu swiftshader &
         - emulator -avd test -no-audio -no-window &
       before_script:
