@@ -9,26 +9,29 @@ matrix:
       language: android
       android:
         components:
-          - tools
-          - platform-tools
-          - tools
-          - build-tools-26.0.2
-          - build-tools-26.0.3
-          - build-tools-27.0.3
+          - tools # revision 25.2.5
+          - platform-tools # revision 28.0.1
+#          - tools # revision 25.2.5
+#          - build-tools-26.0.2
+#          - build-tools-26.0.3
+#          - build-tools-27.0.3
       sudo: false
       licenses:
           - 'android-sdk-license-.+'
       before_install:
+        # Silence warning.
+        - touch ~/.android/repositories.cfg
         - sdkmanager --list
-        - yes | sdkmanager "platforms;android-26" > /dev/null
-        - yes | sdkmanager "platforms;android-27" > /dev/null
+#        - yes | sdkmanager "platforms;android-26" > /dev/null
+#        - yes | sdkmanager "platforms;android-27" > /dev/null
         # Install the rest of tools (e.g., avdmanager)
-        - sdkmanager tools
+        - yes | sdkmanager tools
         # Create and start emulator.
-        - sdkmanager "system-images;android-$EMULATOR_API_LEVEL;$ANDROID_ABI" >/dev/null
+        - yes | sdkmanager "system-images;android-$EMULATOR_API_LEVEL;$ANDROID_ABI" >/dev/null
         - sdkmanager --list
         - echo no | avdmanager create avd --force -n test -k "system-images;android-$EMULATOR_API_LEVEL;$ANDROID_ABI"
         # important to use the correct emulator path in case older version installed
+#        - emulator -avd test -no-audio -no-window -gpu swiftshader &
         - $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window &
       before_script:
         # Wait for emulator to startup.
