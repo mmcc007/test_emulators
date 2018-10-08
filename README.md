@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/mmcc007/test_emulators.svg?branch=master)](https://travis-ci.org/mmcc007/test_emulators)
+
 # Test Android Emulators
 
 Since travis does not support nested hypervisors, it is not possible to run the x86 emulators on travis.
