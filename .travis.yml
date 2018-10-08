@@ -1,54 +1,45 @@
-# sudo: false --> run same image in docker container on shared host for faster startup (runs slower)
-# sudo: required --> run same image in VM on Google Compute Engine for slower startup (runs faster)
+# sudo: false --> run dist image in docker container on shared host for faster startup (runs slower)
+# sudo: required --> run dist image in VM on Google Compute Engine for slower startup (runs faster)
 sudo: required
 dist: trusty
-os:
-  - linux
-#  - osx
-
-#  include:
-#    - os: linux
-#      dist: trusty
-#      sudo: required
-#    - os: osx
-#      osx_image: xcode8.0
+os: linux
 
 env:
-  - EMULATOR_API_LEVEL=25 ANDROID_ABI="google_apis;arm64-v8a"
-  - EMULATOR_API_LEVEL=25 ANDROID_ABI="google_apis;armeabi-v7a"
-  - EMULATOR_API_LEVEL=24 ANDROID_ABI="google_apis;arm64-v8a"
-  - EMULATOR_API_LEVEL=24 ANDROID_ABI="google_apis;armeabi-v7a"
-  - EMULATOR_API_LEVEL=23 ANDROID_ABI="google_apis;armeabi-v7a"
+  - SYSTEM_LEVEL=25 ABI="google_apis;arm64-v8a"
+  - SYSTEM_LEVEL=25 ABI="google_apis;armeabi-v7a"
+  - SYSTEM_LEVEL=24 ABI="google_apis;arm64-v8a"
+  - SYSTEM_LEVEL=24 ABI="google_apis;armeabi-v7a"
+  - SYSTEM_LEVEL=23 ABI="google_apis;armeabi-v7a"
 
-  - EMULATOR_API_LEVEL=22 ANDROID_ABI="default;x86"
-  - EMULATOR_API_LEVEL=22 ANDROID_ABI="default;x86_64"
-  - EMULATOR_API_LEVEL=22 ANDROID_ABI="google_apis;armeabi-v7a"
-  - EMULATOR_API_LEVEL=22 ANDROID_ABI="google_apis;x86"
-  - EMULATOR_API_LEVEL=22 ANDROID_ABI="google_apis;x86_64"
-  - EMULATOR_API_LEVEL=22 ANDROID_ABI="default;armeabi-v7a"
+  - SYSTEM_LEVEL=22 ABI="default;x86"
+  - SYSTEM_LEVEL=22 ABI="default;x86_64"
+  - SYSTEM_LEVEL=22 ABI="google_apis;armeabi-v7a"
+  - SYSTEM_LEVEL=22 ABI="google_apis;x86"
+  - SYSTEM_LEVEL=22 ABI="google_apis;x86_64"
+  - SYSTEM_LEVEL=22 ABI="default;armeabi-v7a"
 
-  - EMULATOR_API_LEVEL=21 ANDROID_ABI="default;armeabi-v7a"
-  - EMULATOR_API_LEVEL=20 ANDROID_ABI="default;armeabi-v7a"
-  - EMULATOR_API_LEVEL=19 ANDROID_ABI="default;armeabi-v7a"
-  - EMULATOR_API_LEVEL=18 ANDROID_ABI="default;armeabi-v7a"
-  - EMULATOR_API_LEVEL=17 ANDROID_ABI="default;armeabi-v7a"
-  - EMULATOR_API_LEVEL=16 ANDROID_ABI="default;armeabi-v7a"
-  - EMULATOR_API_LEVEL=15 ANDROID_ABI="default;armeabi-v7a"
+  - SYSTEM_LEVEL=21 ABI="default;armeabi-v7a"
+  - SYSTEM_LEVEL=20 ABI="default;armeabi-v7a"
+  - SYSTEM_LEVEL=19 ABI="default;armeabi-v7a"
+  - SYSTEM_LEVEL=18 ABI="default;armeabi-v7a"
+  - SYSTEM_LEVEL=17 ABI="default;armeabi-v7a"
+  - SYSTEM_LEVEL=16 ABI="default;armeabi-v7a"
+  - SYSTEM_LEVEL=15 ABI="default;armeabi-v7a"
 
 
 
 matrix:
   allow_failures:
-    - env: EMULATOR_API_LEVEL=20 ANDROID_ABI="default;armeabi-v7a"
+    - env: SYSTEM_LEVEL=20 ABI="default;armeabi-v7a"
 
-    - env: EMULATOR_API_LEVEL=22 ANDROID_ABI="default;x86"
-    - env: EMULATOR_API_LEVEL=22 ANDROID_ABI="default;x86_64"
-    - env: EMULATOR_API_LEVEL=22 ANDROID_ABI="google_apis;x86"
-    - env: EMULATOR_API_LEVEL=22 ANDROID_ABI="default;x86_64"
+    - env: SYSTEM_LEVEL=22 ABI="default;x86"
+    - env: SYSTEM_LEVEL=22 ABI="default;x86_64"
+    - env: SYSTEM_LEVEL=22 ABI="google_apis;x86"
+    - env: SYSTEM_LEVEL=22 ABI="google_apis;x86_64"
 
-#  global:
-#    - EMULATOR_API_LEVEL=22
-#    - ANDROID_ABI="default;armeabi-v7a"
+    - env: SYSTEM_LEVEL=24 ABI="google_apis;arm64-v8a"
+    - env: SYSTEM_LEVEL=25 ABI="google_apis;arm64-v8a"
+
 
 language: android
 android:
@@ -65,9 +56,9 @@ before_install:
   # Install the rest of tools (e.g., avdmanager)
   - yes | sdkmanager tools # revision 26.1.1
   # Create and start emulator.
-  - yes | sdkmanager "system-images;android-$EMULATOR_API_LEVEL;$ANDROID_ABI" >/dev/null
+  - yes | sdkmanager "system-images;android-$SYSTEM_LEVEL;$ABI" >/dev/null
   - sdkmanager --list
-  - echo no | avdmanager create avd --force -n test -k "system-images;android-$EMULATOR_API_LEVEL;$ANDROID_ABI"
+  - echo no | avdmanager create avd --force -n test -k "system-images;android-$SYSTEM_LEVEL;$ABI"
   # use the absolute emulator path in case older version installed (on default path)
   - $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window &
 before_script:
