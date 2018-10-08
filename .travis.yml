@@ -9,9 +9,9 @@ matrix:
       language: android
       android:
         components:
-          - tools
-          - platform-tools
-#          - tools
+          - tools # ver 25.2.5
+          - platform-tools # ver 28.0.1
+          - tools # ver 26.1.1
 #          - build-tools-26.0.2
 #          - build-tools-26.0.3
 #          - build-tools-27.0.3
@@ -23,11 +23,11 @@ matrix:
         # Silence warning.
         - touch ~/.android/repositories.cfg
 #        - yes | sdkmanager "platforms;android-26" > /dev/null
-#        - yes | sdkmanager "platforms;android-27" > /dev/null
+        - yes | sdkmanager "platforms;android-27" > /dev/null
         # Install the rest of tools (e.g., avdmanager)
         - yes | sdkmanager tools
         # Create and start emulator.
-        - no | sdkmanager "system-images;android-$EMULATOR_API_LEVEL;$ANDROID_ABI"
+        - echo "no" | sdkmanager "system-images;android-$EMULATOR_API_LEVEL;$ANDROID_ABI"
         - sdkmanager --list
         - echo "no" | avdmanager create avd --force -n test -k "system-images;android-$EMULATOR_API_LEVEL;$ANDROID_ABI"
 #        - $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window -gpu swiftshader &
