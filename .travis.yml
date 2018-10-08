@@ -1,42 +1,37 @@
+# run in docker image instead of VM on google cloud
+sudo: false
+
 env:
   global:
     - EMULATOR_API_LEVEL=22
     - ANDROID_ABI="default;armeabi-v7a"
-matrix:
-  include:
-    - env: BLOC_FLUTTER-ANDROID
-      os: linux
-      language: android
-      android:
-        components:
-          - tools # revision 25.2.5
-          - platform-tools # revision 28.0.1
-#          - tools # revision 25.2.5
-#          - build-tools-26.0.2
-#          - build-tools-26.0.3
-#          - build-tools-27.0.3
-      sudo: false
-      licenses:
-          - 'android-sdk-license-.+'
-      before_install:
-        # Silence warning.
-        - touch ~/.android/repositories.cfg
-        - sdkmanager --list
-#        - yes | sdkmanager "platforms;android-26" > /dev/null
-#        - yes | sdkmanager "platforms;android-27" > /dev/null
-        # Install the rest of tools (e.g., avdmanager)
-        - yes | sdkmanager tools
-        # Create and start emulator.
-        - yes | sdkmanager "system-images;android-$EMULATOR_API_LEVEL;$ANDROID_ABI" >/dev/null
-        - sdkmanager --list
-        - echo no | avdmanager create avd --force -n test -k "system-images;android-$EMULATOR_API_LEVEL;$ANDROID_ABI"
-        # important to use the correct emulator path in case older version installed
-#        - emulator -avd test -no-audio -no-window -gpu swiftshader &
-        - $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window &
-      before_script:
-        # Wait for emulator to startup.
-        - android-wait-for-emulator
-        - adb shell input keyevent 82
 
-      script:
-        - echo "Done."
+os: linux
+language: android
+android:
+  components:
+    - tools # revision 25.2.5 --> goes to 26.1.1 after calling sdkmanager tools again
+    - platform-tools # revision 28.0.1
+
+licenses:
+    - 'android-sdk-license-.+'
+before_install:
+  # Silence warning.
+  - touch ~/.android/repositories.cfg
+  - sdkmanager --list
+  # Install the rest of tools (e.g., avdmanager)
+  - yes  | sdkmanager tools
+  # Create and start emulator.
+  - yes | sdkmanager "system-images;android-$EMULATOR_API_LEVEL;$ANDROID_ABI" >/dev/null
+  - sdkmanager --list
+  - echo no | avdmanager create avd --force -n test -k "system-images;android-$EMULATOR_API_LEVEL;$ANDROID_ABI"
+  # important to use the correct emulator path in case older version installed
+#        - emulator -avd test -no-audio -no-window -gpu swiftshader &
+  - $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window &
+before_script:
+  # Wait for emulator to startup.
+  - android-wait-for-emulator
+  - adb shell input keyevent 82
+
+script:
+  - echo "Done."
