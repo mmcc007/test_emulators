@@ -17,10 +17,9 @@ os:
 env:
   - EMULATOR_API_LEVEL=22
   - EMULATOR_API_LEVEL=23
-  - ANDROID_ABI="default;armeabi-v7a"
-#  global:
+  global:
 #    - EMULATOR_API_LEVEL=22
-#    - ANDROID_ABI="default;armeabi-v7a"
+    - ANDROID_ABI="default;armeabi-v7a"
 
 language: android
 android:
