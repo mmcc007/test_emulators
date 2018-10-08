@@ -28,7 +28,8 @@ matrix:
         - sdkmanager "system-images;android-$EMULATOR_API_LEVEL;$ANDROID_ABI" >/dev/null
         - sdkmanager --list
         - echo no | avdmanager create avd --force -n test -k "system-images;android-$EMULATOR_API_LEVEL;$ANDROID_ABI"
-        - emulator -avd test -no-audio -no-window -gpu swiftshader &
+        # important to use the correct emulator path in case older version installed
+        - $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window &
       before_script:
         # Wait for emulator to startup.
         - android-wait-for-emulator
