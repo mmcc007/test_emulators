@@ -16,7 +16,14 @@ os:
 
 env:
   - EMULATOR_API_LEVEL=22 ANDROID_ABI="default;armeabi-v7a"
-  - EMULATOR_API_LEVEL=23 ANDROID_ABI="default;armeabi-v7a"
+  - EMULATOR_API_LEVEL=21 ANDROID_ABI="default;armeabi-v7a"
+  - EMULATOR_API_LEVEL=20 ANDROID_ABI="default;armeabi-v7a"
+  - EMULATOR_API_LEVEL=19 ANDROID_ABI="default;armeabi-v7a"
+  - EMULATOR_API_LEVEL=18 ANDROID_ABI="default;armeabi-v7a"
+  - EMULATOR_API_LEVEL=17 ANDROID_ABI="default;armeabi-v7a"
+  - EMULATOR_API_LEVEL=16 ANDROID_ABI="default;armeabi-v7a"
+  - EMULATOR_API_LEVEL=15 ANDROID_ABI="default;armeabi-v7a"
+
 #  global:
 #    - EMULATOR_API_LEVEL=22
 #    - ANDROID_ABI="default;armeabi-v7a"
