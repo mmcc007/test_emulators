@@ -5,6 +5,7 @@ env:
 matrix:
   include:
     - env: BLOC_FLUTTER-ANDROID
+      sudo: false
       os: linux
       language: android
       android:
@@ -12,16 +13,15 @@ matrix:
           - tools
           - platform-tools
           - tools
-          - build-tools-26.0.2
-          - build-tools-26.0.3
+#          - build-tools-26.0.2
+#          - build-tools-26.0.3
           - build-tools-27.0.3
-      sudo: false
       licenses:
           - 'android-sdk-license-.+'
       before_install:
         - sdkmanager --list
-        - yes | sdkmanager "platforms;android-26" > /dev/null
-        - yes | sdkmanager "platforms;android-27" > /dev/null
+#        - yes | sdkmanager "platforms;android-26" > /dev/null
+#        - yes | sdkmanager "platforms;android-27" > /dev/null
         # Install the rest of tools (e.g., avdmanager)
         - sdkmanager tools
         # Create and start emulator.
@@ -29,10 +29,10 @@ matrix:
         - sdkmanager --list
         - echo no | avdmanager create avd --force -n test -k "system-images;android-$EMULATOR_API_LEVEL;$ANDROID_ABI"
         - $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window -gpu swiftshader &
-      before_script:
         # Wait for emulator to startup.
         - android-wait-for-emulator
         - adb shell input keyevent 82
+      before_script:
 
       script:
         - ./gradlew clean assemble
