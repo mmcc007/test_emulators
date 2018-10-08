@@ -11,11 +11,9 @@ android:
     - tools
     - platform-tools
     - tools
-    - android-22
-    - android-24
-    - android-25
+    - build-tools-26.0.2
+    - build-tools-26.0.3
     - build-tools-27.0.3
-    - extra-android-m2repository
 licenses:
     - 'android-sdk-license-.+'
 
@@ -34,15 +32,18 @@ env:
 # Emulator Management: Create, Start and Wait
 before_script:
   - sdkmanager --list
+  - yes | sdkmanager "platforms;android-26" > /dev/null
+  - yes | sdkmanager "platforms;android-27" > /dev/null
   # Install the rest of tools (e.g., avdmanager)
-#  - sdkmanager tools
+  - sdkmanager tools
   # Create and start emulator.
-  - sdkmanager "system-images;$API;$ABI" >/dev/null
+  - sdkmanager "system-images;$API;$ABI"
   - sdkmanager --list
   - echo no | avdmanager create avd --force -n test -k "system-images;$API;$ABI"
   - emulator -avd test -no-audio -no-window -gpu swiftshader &
+  # Wait for emulator to startup.
   - android-wait-for-emulator
-  - adb shell input keyevent 82 &
+  - adb shell input keyevent 82
 
 script:
   - ./gradlew clean assemble
