@@ -13,14 +13,14 @@ matrix:
           - tools
           - platform-tools
           - tools
-#          - build-tools-26.0.2
-#          - build-tools-26.0.3
+          - build-tools-26.0.2
+          - build-tools-26.0.3
           - build-tools-27.0.3
       licenses:
           - 'android-sdk-license-.+'
       before_install:
         - sdkmanager --list
-#        - yes | sdkmanager "platforms;android-26" > /dev/null
+        - yes | sdkmanager "platforms;android-26" > /dev/null
         - yes | sdkmanager "platforms;android-27" > /dev/null
         # Install the rest of tools (e.g., avdmanager)
         - sdkmanager tools
