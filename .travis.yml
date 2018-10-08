@@ -1,5 +1,6 @@
-# run in docker image instead of VM on google cloud
-sudo: false
+# sudo: false --> run in docker container instead of VM on google cloud for faster startup (runs slower)
+# sudo: required --> run in VM on google cloud for slower startup (runs faster)
+sudo: required
 
 env:
   global:
@@ -20,13 +21,12 @@ before_install:
   - touch ~/.android/repositories.cfg
   - sdkmanager --list
   # Install the rest of tools (e.g., avdmanager)
-  - yes  | sdkmanager tools
+  - yes | sdkmanager tools # revision 26.1.1
   # Create and start emulator.
   - yes | sdkmanager "system-images;android-$EMULATOR_API_LEVEL;$ANDROID_ABI" >/dev/null
   - sdkmanager --list
   - echo no | avdmanager create avd --force -n test -k "system-images;android-$EMULATOR_API_LEVEL;$ANDROID_ABI"
-  # important to use the correct emulator path in case older version installed
-#        - emulator -avd test -no-audio -no-window -gpu swiftshader &
+  # use the absolute emulator path in case older version installed (on default path)
   - $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window &
 before_script:
   # Wait for emulator to startup.
