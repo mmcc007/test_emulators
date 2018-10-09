@@ -40,6 +40,8 @@ matrix:
     - env: SYS=24 ABI="google_apis;armeabi-v7a"
     - env: SYS=25 ABI="google_apis;armeabi-v7a"
 
+    - env: SYS=14 ABI="default;armeabi-v7a"
+
 language: android
 android:
   components:
