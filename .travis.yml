@@ -5,41 +5,40 @@ dist: trusty
 os: linux
 
 env:
-  - SYSTEM_LEVEL=25 ABI="google_apis;arm64-v8a"
-  - SYSTEM_LEVEL=25 ABI="google_apis;armeabi-v7a"
-  - SYSTEM_LEVEL=24 ABI="google_apis;arm64-v8a"
-  - SYSTEM_LEVEL=24 ABI="google_apis;armeabi-v7a"
-  - SYSTEM_LEVEL=23 ABI="google_apis;armeabi-v7a"
+  - SYS=25 ABI="google_apis;arm64-v8a"
+  - SYS=25 ABI="google_apis;armeabi-v7a"
+  - SYS=24 ABI="google_apis;arm64-v8a"
+  - SYS=24 ABI="google_apis;armeabi-v7a"
+  - SYS=23 ABI="google_apis;armeabi-v7a"
 
-  - SYSTEM_LEVEL=22 ABI="default;x86"
-  - SYSTEM_LEVEL=22 ABI="default;x86_64"
-  - SYSTEM_LEVEL=22 ABI="google_apis;armeabi-v7a"
-  - SYSTEM_LEVEL=22 ABI="google_apis;x86"
-  - SYSTEM_LEVEL=22 ABI="google_apis;x86_64"
-  - SYSTEM_LEVEL=22 ABI="default;armeabi-v7a"
+  - SYS=22 ABI="default;x86"
+  - SYS=22 ABI="default;x86_64"
+  - SYS=22 ABI="google_apis;armeabi-v7a"
+  - SYS=22 ABI="google_apis;x86"
+  - SYS=22 ABI="google_apis;x86_64"
+  - SYS=22 ABI="default;armeabi-v7a"
 
-  - SYSTEM_LEVEL=21 ABI="default;armeabi-v7a"
-  - SYSTEM_LEVEL=20 ABI="default;armeabi-v7a"
-  - SYSTEM_LEVEL=19 ABI="default;armeabi-v7a"
-  - SYSTEM_LEVEL=18 ABI="default;armeabi-v7a"
-  - SYSTEM_LEVEL=17 ABI="default;armeabi-v7a"
-  - SYSTEM_LEVEL=16 ABI="default;armeabi-v7a"
-  - SYSTEM_LEVEL=15 ABI="default;armeabi-v7a"
-
-
+  - SYS=21 ABI="default;armeabi-v7a"
+  - SYS=20 ABI="default;armeabi-v7a"
+  - SYS=19 ABI="default;armeabi-v7a"
+  - SYS=18 ABI="default;armeabi-v7a"
+  - SYS=17 ABI="default;armeabi-v7a"
+  - SYS=16 ABI="default;armeabi-v7a"
+  - SYS=15 ABI="default;armeabi-v7a"
+  - SYS=14 ABI="default;armeabi-v7a"
+  - SYS=10 ABI="default;armeabi-v7a"
 
 matrix:
   allow_failures:
-    - env: SYSTEM_LEVEL=20 ABI="default;armeabi-v7a"
+    - env: SYS=20 ABI="default;armeabi-v7a"
 
-    - env: SYSTEM_LEVEL=22 ABI="default;x86"
-    - env: SYSTEM_LEVEL=22 ABI="default;x86_64"
-    - env: SYSTEM_LEVEL=22 ABI="google_apis;x86"
-    - env: SYSTEM_LEVEL=22 ABI="google_apis;x86_64"
+    - env: SYS=22 ABI="default;x86"
+    - env: SYS=22 ABI="default;x86_64"
+    - env: SYS=22 ABI="google_apis;x86"
+    - env: SYS=22 ABI="google_apis;x86_64"
 
-    - env: SYSTEM_LEVEL=24 ABI="google_apis;arm64-v8a"
-    - env: SYSTEM_LEVEL=25 ABI="google_apis;arm64-v8a"
-
+    - env: SYS=24 ABI="google_apis;armeabi-v7a"
+    - env: SYS=25 ABI="google_apis;armeabi-v7a"
 
 language: android
 android:
@@ -56,9 +55,9 @@ before_install:
   # Install the rest of tools (e.g., avdmanager)
   - yes | sdkmanager tools # revision 26.1.1
   # Create and start emulator.
-  - yes | sdkmanager "system-images;android-$SYSTEM_LEVEL;$ABI" >/dev/null
+  - yes | sdkmanager "system-images;android-$SYS;$ABI" >/dev/null
   - sdkmanager --list
-  - echo no | avdmanager create avd --force -n test -k "system-images;android-$SYSTEM_LEVEL;$ABI"
+  - echo no | avdmanager create avd --force -n test -k "system-images;android-$SYS;$ABI"
   # use the absolute emulator path in case older version installed (on default path)
   - $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window &
 before_script:
