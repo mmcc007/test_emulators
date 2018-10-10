@@ -57,7 +57,6 @@ before_install:
   # Install the rest of tools (e.g., avdmanager)
   - yes | sdkmanager tools # revision 26.1.1
   - $ANDROID_HOME/emulator/emulator -version
-  - emulator -version
   # Create and start emulator.
   - yes | sdkmanager "system-images;android-$SYS;$ABI" >/dev/null
   - sdkmanager --list
