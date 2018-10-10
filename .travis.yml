@@ -50,7 +50,7 @@ before_install:
   # Install the Android SDK Dependency.
   - export ANDROID_HOME=/opt/android-sdk-linux
   - cd /opt
-  - wget -q https://dl.google.com/android/repository/sdk-tools-$OS-4333796.zip -O android-sdk-tools.zip
+  - wget -q "https://dl.google.com/android/repository/sdk-tools-${OS}-4333796.zip" -O android-sdk-tools.zip
   - unzip -q android-sdk-tools.zip -d ${ANDROID_HOME}
   - rm android-sdk-tools.zip
   - cd -
