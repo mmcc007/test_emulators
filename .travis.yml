@@ -56,6 +56,7 @@ before_install:
   # Silence warning.
   - mkdir -p ~/.android
   - touch ~/.android/repositories.cfg
+  - if [ $TRAVIS_OS_NAME == "osx" ]; then brew cask install java; fi
   # Accept licenses before installing components, no need to echo y for each component
   - yes | sdkmanager --licenses
   # Platform tools
