@@ -2,10 +2,10 @@
 
 # Test Android Emulators
 
-Since travis does not support nested hypervisors, it is not possible to run the x86 emulators on travis.
+Since travis hypervisor does not support nested VMs, it is not possible to run the x86 emulators on travis.
 
-This project tests some of the arm emulators to make sure they run on travis and their start-up times.
+This project tests which arm emulators run on travis and shows their start-up times.
 
 Click on the travis badge to find out the start-up times of the tested emulators.
 
-Feel free to submit a PR if there is faster emulator than the ones tested.
+Feel free to submit a PR if you find more arm emulators that run on travis.
