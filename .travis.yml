@@ -72,7 +72,7 @@ before_install:
   - sdkmanager --list | head -15
   - echo no | avdmanager create avd --force -n test -k "system-images;android-$SYS;$ABI"
   # fix timezone warning
-  if [ $TRAVIS_OS_NAME == "osx" ]; then sudo ln -sf /usr/share/zoneinfo/US/Pacific /etc/localtime; fi
+  - if [ $TRAVIS_OS_NAME == "osx" ]; then sudo ln -sf /usr/share/zoneinfo/US/Pacific /etc/localtime; fi
   # use the absolute emulator path in case older version installed (on default path)
   - $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window -gpu swiftshader &
 before_script:
