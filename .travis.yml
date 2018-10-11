@@ -13,11 +13,11 @@ env:
   - SYS=24 ABI="google_apis;armeabi-v7a"
   - SYS=23 ABI="google_apis;armeabi-v7a"
 
-  - SYS=22 ABI="default;x86"
-  - SYS=22 ABI="default;x86_64"
+  - SYS=22 ABI="default;x86" # demo failure due to no accelerator on travis
+  - SYS=22 ABI="default;x86_64" # demo failure due to no accelerator on travis
   - SYS=22 ABI="google_apis;armeabi-v7a"
-  - SYS=22 ABI="google_apis;x86"
-  - SYS=22 ABI="google_apis;x86_64"
+  - SYS=22 ABI="google_apis;x86" # demo failure due to no accelerator on travis
+  - SYS=22 ABI="google_apis;x86_64" # demo failure due to no accelerator on travis
   - SYS=22 ABI="default;armeabi-v7a"
 
   - SYS=21 ABI="default;armeabi-v7a"
@@ -32,18 +32,11 @@ env:
 
 matrix:
   allow_failures:
-    - env: SYS=20 ABI="default;armeabi-v7a"
-
     - env: SYS=22 ABI="default;x86"
     - env: SYS=22 ABI="default;x86_64"
     - env: SYS=22 ABI="google_apis;x86"
     - env: SYS=22 ABI="google_apis;x86_64"
-    - env: SYS=22 ABI="google_apis;armeabi-v7a"
-
-    - env: SYS=23 ABI="google_apis;armeabi-v7a"
-    - env: SYS=24 ABI="google_apis;armeabi-v7a"
-    - env: SYS=25 ABI="google_apis;armeabi-v7a"
-
+    - env: SYS=20 ABI="default;armeabi-v7a"
     - env: SYS=14 ABI="default;armeabi-v7a"
 
 language: generic
