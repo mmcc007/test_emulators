@@ -3,7 +3,7 @@
 sudo: required
 dist: trusty
 os:
-#  - linux
+  - linux
   - osx
 
 env:
@@ -38,7 +38,9 @@ matrix:
     - env: SYS=22 ABI="default;x86_64"
     - env: SYS=22 ABI="google_apis;x86"
     - env: SYS=22 ABI="google_apis;x86_64"
+    - env: SYS=22 ABI="google_apis;armeabi-v7a"
 
+    - env: SYS=23 ABI="google_apis;armeabi-v7a"
     - env: SYS=24 ABI="google_apis;armeabi-v7a"
     - env: SYS=25 ABI="google_apis;armeabi-v7a"
 
@@ -56,6 +58,7 @@ before_install:
   # Silence warning.
   - mkdir -p ~/.android
   - touch ~/.android/repositories.cfg
+  - HOMEBREW_NO_AUTO_UPDATE=1
   - if [ $TRAVIS_OS_NAME == "osx" ]; then brew cask uninstall java; brew tap caskroom/versions; brew cask install java8; fi
   # Accept licenses before installing components, no need to echo y for each component
   - yes | sdkmanager --licenses
@@ -68,6 +71,8 @@ before_install:
   - sdkmanager "system-images;android-$SYS;$ABI" > /dev/null
   - sdkmanager --list | head -15
   - echo no | avdmanager create avd --force -n test -k "system-images;android-$SYS;$ABI"
+  # fix timezone warning
+  if [ $TRAVIS_OS_NAME == "osx" ]; then sudo ln -sf /usr/share/zoneinfo/US/Pacific /etc/localtime; fi
   # use the absolute emulator path in case older version installed (on default path)
   - $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window -gpu swiftshader &
 before_script:
