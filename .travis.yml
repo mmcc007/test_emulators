@@ -66,7 +66,7 @@ before_install:
   # Create and start emulator.
   - sdkmanager "system-images;android-$SYS;$ABI" > /dev/null
   - sdkmanager --list | head -15
-  - echo no | avdmanager create avd -n test -k "system-images;android-$SYS;$ABI" -v
+  - echo no | avdmanager create avd -n test -k "system-images;android-$SYS;$ABI"
   # fix timezone warning on osx
   - if [ $TRAVIS_OS_NAME == "osx" ]; then sudo ln -sf /usr/share/zoneinfo/US/Pacific /etc/localtime; fi
   # use the absolute emulator path in case older version installed (on default path)
