@@ -45,8 +45,7 @@ before_install:
   # Install android tools
   - ANDROID_TOOLS=4333796 # android-28
   - export ANDROID_HOME=~/android-sdk-linux
-  - echo $TRAVIS_OS_NAME
-  - if [ ${TRAVIS_OS_NAME} == "osx" ]; then export OS="osx"; else export OS="linux"; fi
+  - if test "${TRAVIS_OS_NAME}" = "osx"; then OS="osx"; else OS="linux"; fi
   - wget -q "https://dl.google.com/android/repository/sdk-tools-${OS}-${ANDROID_TOOLS}.zip" -O android-sdk-tools.zip
   - unzip -q android-sdk-tools.zip -d ${ANDROID_HOME}
   - rm android-sdk-tools.zip
