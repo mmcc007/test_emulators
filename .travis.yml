@@ -67,8 +67,10 @@ before_install:
   - echo no | avdmanager create avd -n test -k "system-images;android-$SYS;$ABI"
   # fix timezone warning on osx
   - if [ $TRAVIS_OS_NAME == "osx" ]; then sudo ln -sf /usr/share/zoneinfo/US/Pacific /etc/localtime; fi
+  # emulator debug options
+#  - DEBUG_EMU="-debug all -logcat *:e -verbose -show-kernel"
   # use the absolute emulator path in case older version installed (on default path)
-  - $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window -gpu swiftshader_indirect -camera-back none -camera-front none -memory 2048 -debug all -logcat *:e -verbose -show-kernel &
+  - $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window -gpu swiftshader_indirect -camera-back none -camera-front none -memory 2048 ${DEBUG_EMU} &
 before_script:
   # Wait for emulator to startup.
   - ./scripts/android-wait-for-emulator.sh
