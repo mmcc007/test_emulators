@@ -45,7 +45,7 @@ before_install:
   # Install android tools
   - ANDROID_TOOLS=4333796 # android-28
   - export ANDROID_HOME=~/android-sdk-linux
-  - if [ $TRAVIS_OS_NAME == "osx" ]; then wget -q "https://dl.google.com/android/repository/sdk-tools-darwin-4333796.zip" -O android-sdk-tools.zip; else wget -q "https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip" -O android-sdk-tools.zip; fi
+  - if [ $TRAVIS_OS_NAME == "osx" ]; then wget -q "https://dl.google.com/android/repository/sdk-tools-darwin-$ANDROID_TOOLS.zip" -O android-sdk-tools.zip; else wget -q "https://dl.google.com/android/repository/sdk-tools-linux-$ANDROID_TOOLS.zip" -O android-sdk-tools.zip; fi
   - unzip -q android-sdk-tools.zip -d ${ANDROID_HOME}
   - rm android-sdk-tools.zip
   - PATH=${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools
@@ -70,7 +70,7 @@ before_install:
   # emulator debug options
 #  - DEBUG_EMU="-debug all -logcat *:e -verbose -show-kernel"
   # use the absolute emulator path in case older version installed (on default path)
-  - $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window -gpu swiftshader_indirect -camera-back none -camera-front none -memory 2048 ${DEBUG_EMU} &
+  - $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window -gpu swiftshader -camera-back none -camera-front none -memory 2048 ${DEBUG_EMU} &
 before_script:
   # Wait for emulator to startup.
   - ./scripts/android-wait-for-emulator.sh
