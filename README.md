@@ -2,6 +2,8 @@
 
 # Test Android Emulators on Travis
 
+Update: see [article](https://medium.com/@nocnoc/android-emulators-in-thcloud-f39e11c15bfa) on Medium about this.
+
 Since travis hypervisor does not support nested VMs, it is not possible to run the x86 emulators on travis.
 
 This project tests which arm emulators run on travis and shows their start-up times.
