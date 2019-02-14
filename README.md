@@ -18,7 +18,7 @@ I have however found at least one emulator that is usable and reliable.
         - EMULATOR_API_LEVEL=22
         - ANDROID_ABI="default;armeabi-v7a"
         - sdkmanager "system-images;android-$EMULATOR_API_LEVEL;$ANDROID_ABI"
-```
+````
 
 You can see this emulator working reliably, for the past several months, at https://travis-ci.org/brianegan/flutter_architecture_samples
 
