@@ -33,6 +33,8 @@ env:
 
 matrix:
   allow_failures:
+    - env: SYS=25 ABI="google_apis;arm64-v8a
+    - env: SYS=24 ABI="google_apis;arm64-v8a
     - env: SYS=22 ABI="default;x86"
     - env: SYS=22 ABI="default;x86_64"
     - env: SYS=22 ABI="google_apis;x86"
