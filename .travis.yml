@@ -4,7 +4,7 @@
 sudo: required
 dist: trusty
 os:
-  - linux
+#  - linux
   - osx
 
 env:
@@ -55,7 +55,10 @@ before_install:
   - mkdir -p ~/.android
   - touch ~/.android/repositories.cfg
   # install correct version of java on osx
-  - if [ $TRAVIS_OS_NAME == "osx" ]; then brew update; brew cask uninstall java; brew tap caskroom/versions; brew cask install java8; fi
+  # skip brew update
+  #- if [ $TRAVIS_OS_NAME == "osx" ]; then brew update; brew cask uninstall java; brew tap caskroom/versions; brew cask install java8; fi
+  - export HOMEBREW_NO_AUTO_UPDATE=1
+  - if [ $TRAVIS_OS_NAME == "osx" ]; then brew cask uninstall java; brew tap caskroom/versions; brew cask install java8; fi
   # Accept licenses before installing components, no need to echo y for each component
   - yes | sdkmanager --licenses
   # Platform tools
