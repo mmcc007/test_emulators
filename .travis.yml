@@ -79,9 +79,9 @@ before_install:
 #  - $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window -gpu swiftshader $EMU_ADDITIONAL_OPTIONS ${EMU_DEBUG} &
   - GPU='off'
   - |
-    if [[ "$SYS$ANDROID_ABI" == "25google_apis;armeabi-v7a" || "$SYS$ANDROID_ABI" == "24google_apis;armeabi-v7a"]]; then
-      $GPU='swiftshader'
-    fi    
+    if [[ "$SYS$ANDROID_ABI" == "25google_apis;armeabi-v7a" || "$SYS$ANDROID_ABI" == "24google_apis;armeabi-v7a" ]]; then
+      GPU='swiftshader'
+    fi
   - $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-boot-anim -gpu $GPU $EMU_ADDITIONAL_OPTIONS ${EMU_DEBUG} &
 before_script:
   # Wait for emulator to startup.
