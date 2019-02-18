@@ -4,7 +4,7 @@
 sudo: required
 dist: trusty
 os:
-#  - linux
+  - linux
   - osx
 
 env:
@@ -44,16 +44,6 @@ matrix:
 
 language: generic
 before_install:
-  - |
-    echo env="${SYS}${ABI}"
-    if [[ "${SYS}${ABI}" =~ "25google_apis;armeabi-v7a"
-       || "${SYS}${ABI}" =~ "24google_apis;armeabi-v7a" ]]; then
-      GPU='swiftshader'
-    else
-      GPU='off'
-    fi
-    echo GPU=$GPU
-
   # Install android tools
   - ANDROID_TOOLS=4333796 # android-28
   - export ANDROID_HOME=~/android-sdk-linux
@@ -89,12 +79,11 @@ before_install:
 #  - $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window -gpu swiftshader $EMU_ADDITIONAL_OPTIONS ${EMU_DEBUG} &
   - |
     if [[ "${SYS}${ABI}" == "25google_apis;armeabi-v7a" || "${SYS}${ABI}" == "24google_apis;armeabi-v7a" ]]; then
-      echo $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window -gpu swiftshader $EMU_ADDITIONAL_OPTIONS ${EMU_DEBUG}
-      $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window -gpu swiftshader $EMU_ADDITIONAL_OPTIONS ${EMU_DEBUG} &
+      EMU_PARAMS="-no-window -gpu swiftshader
     else
-      echo $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-boot-anim -gpu off $EMU_ADDITIONAL_OPTIONS ${EMU_DEBUG}
-      $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-boot-anim -gpu off $EMU_ADDITIONAL_OPTIONS ${EMU_DEBUG} &
+      EMU_PARAMS="-no-boot-anim -gpu off"
     fi
+    $ANDROID_HOME/emulator/emulator -avd test -no-audio $EMU_PARAMS $EMU_ADDITIONAL_OPTIONS ${EMU_DEBUG} &
 before_script:
   # Wait for emulator to startup.
   - ./scripts/android-wait-for-emulator.sh
