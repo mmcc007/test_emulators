@@ -11,6 +11,7 @@ timeout_in_sec=600 # 10 minutes
 
 until [[ "$bootanim" =~ "stopped" ]]; do
   bootanim=`adb -e shell getprop init.svc.bootanim 2>&1 &`
+echo bootanim=\`$bootanim\`
   if [[ "$bootanim" =~ "device not found" || "$bootanim" =~ "device offline"
     || "$bootanim" =~ "running" ]]; then
     let "failcounter += 1"
