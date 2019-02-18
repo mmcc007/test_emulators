@@ -77,12 +77,13 @@ before_install:
 #  - EMU_ADDITIONAL_OPTIONS="-camera-back none -camera-front none -memory 2048"
   # use the absolute emulator path in case older version installed (on default path)
 #  - $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window -gpu swiftshader $EMU_ADDITIONAL_OPTIONS ${EMU_DEBUG} &
-  - GPU='off'
   - |
-    if [[ "$SYS$ANDROID_ABI" == "25google_apis;armeabi-v7a" || "$SYS$ANDROID_ABI" == "24google_apis;armeabi-v7a" ]]; then
-      GPU='swiftshader'
+    if [[ "$SYS$ANDROID_ABI" == "25google_apis;armeabi-v7a"
+       || "$SYS$ANDROID_ABI" == "24google_apis;armeabi-v7a" ]]; then
+      $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window -gpu swiftshader $EMU_ADDITIONAL_OPTIONS ${EMU_DEBUG} &
+    else
+      $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-boot-anim -gpu off $EMU_ADDITIONAL_OPTIONS ${EMU_DEBUG} &
     fi
-  - $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-boot-anim -gpu $GPU $EMU_ADDITIONAL_OPTIONS ${EMU_DEBUG} &
 before_script:
   # Wait for emulator to startup.
   - ./scripts/android-wait-for-emulator.sh
