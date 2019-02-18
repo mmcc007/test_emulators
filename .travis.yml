@@ -6,8 +6,8 @@ dist: trusty
 os:
   - linux
   - osx
-services:
-  - xvfb
+#services:
+#  - xvfb
 env:
   - SYS=25 ABI="google_apis;arm64-v8a"
   - SYS=25 ABI="google_apis;armeabi-v7a"
