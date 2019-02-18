@@ -44,6 +44,15 @@ matrix:
 
 language: generic
 before_install:
+  - |
+    if [[ "${SYS}${ANDROID_ABI}" == "25google_apis;armeabi-v7a"
+       || "${SYS}${ANDROID_ABI}" == "24google_apis;armeabi-v7a" ]]; then
+      GPU='swiftshader'
+    else
+      GPU='off'
+    fi
+    echo $GPU
+
   # Install android tools
   - ANDROID_TOOLS=4333796 # android-28
   - export ANDROID_HOME=~/android-sdk-linux
@@ -78,7 +87,7 @@ before_install:
   # use the absolute emulator path in case older version installed (on default path)
 #  - $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window -gpu swiftshader $EMU_ADDITIONAL_OPTIONS ${EMU_DEBUG} &
   - |
-    if [[ "$SYS$ANDROID_ABI" == "25google_apis;armeabi-v7a" || "$SYS$ANDROID_ABI" == "24google_apis;armeabi-v7a" ]]; then
+    if [[ "${SYS}${ANDROID_ABI}" == "25google_apis;armeabi-v7a" || "${SYS}${ANDROID_ABI}" == "24google_apis;armeabi-v7a" ]]; then
       echo $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window -gpu swiftshader $EMU_ADDITIONAL_OPTIONS ${EMU_DEBUG}
       $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window -gpu swiftshader $EMU_ADDITIONAL_OPTIONS ${EMU_DEBUG} &
     else
