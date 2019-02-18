@@ -79,7 +79,7 @@ before_install:
 #  - $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window -gpu swiftshader $EMU_ADDITIONAL_OPTIONS ${EMU_DEBUG} &
   - |
     if [[ "${SYS}${ABI}" == "25google_apis;armeabi-v7a" || "${SYS}${ABI}" == "24google_apis;armeabi-v7a" ]]; then
-      EMU_PARAMS="-no-window -gpu swiftshader
+      EMU_PARAMS="-no-window -gpu swiftshader"
     else
       EMU_PARAMS="-no-boot-anim -gpu off"
     fi
