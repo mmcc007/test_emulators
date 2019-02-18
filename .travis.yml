@@ -51,14 +51,16 @@ before_install:
       sh -e /etc/init.d/xvfb start
       sleep 3 # give xvfb some time to start
     fi
-#  - "export DISPLAY=:99.0"
-#  - "sh -e /etc/init.d/xvfb start"
-#  - sleep 3 # give xvfb some time to start
 
   # Install android tools
   - ANDROID_TOOLS=4333796 # android-28
-  - export ANDROID_HOME=~/android-sdk-linux
-  - if [ $TRAVIS_OS_NAME == "osx" ]; then wget -q "https://dl.google.com/android/repository/sdk-tools-darwin-$ANDROID_TOOLS.zip" -O android-sdk-tools.zip; else wget -q "https://dl.google.com/android/repository/sdk-tools-linux-$ANDROID_TOOLS.zip" -O android-sdk-tools.zip; fi
+  - export ANDROID_HOME=~/android-sdk
+  - |
+    if [ $TRAVIS_OS_NAME == "osx" ]; then
+      wget -q "https://dl.google.com/android/repository/sdk-tools-darwin-$ANDROID_TOOLS.zip" -O android-sdk-tools.zip
+    else
+      wget -q "https://dl.google.com/android/repository/sdk-tools-linux-$ANDROID_TOOLS.zip" -O android-sdk-tools.zip
+    fi
   - unzip -q android-sdk-tools.zip -d ${ANDROID_HOME}
   - rm android-sdk-tools.zip
   - PATH=${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools
@@ -66,10 +68,12 @@ before_install:
   - mkdir -p ~/.android
   - touch ~/.android/repositories.cfg
   # install correct version of java on osx
-  # skip brew update
-  #- if [ $TRAVIS_OS_NAME == "osx" ]; then brew update; brew cask uninstall java; brew tap caskroom/versions; brew cask install java8; fi
-  - export HOMEBREW_NO_AUTO_UPDATE=1
-  - if [ $TRAVIS_OS_NAME == "osx" ]; then brew cask uninstall java; brew tap caskroom/versions; brew cask install java8; fi
+  - |
+    if [ $TRAVIS_OS_NAME == "osx" ]; then
+      # skip brew update
+      export HOMEBREW_NO_AUTO_UPDATE=1
+      brew cask uninstall java; brew tap caskroom/versions; brew cask install java8;
+    fi
   # Accept licenses before installing components, no need to echo y for each component
   - yes | sdkmanager --licenses
   # Platform tools
@@ -86,14 +90,13 @@ before_install:
   # emulator debug options
 #  - EMU_DEBUG="-debug all -logcat *:e -verbose -show-kernel"
 #  - EMU_ADDITIONAL_OPTIONS="-camera-back none -camera-front none -memory 2048"
-  # use the absolute emulator path in case older version installed (on default path)
-#  - $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window -gpu swiftshader $EMU_ADDITIONAL_OPTIONS ${EMU_DEBUG} &
   - |
     if [[ "${SYS}${ABI}" == "25google_apis;armeabi-v7a" || "${SYS}${ABI}" == "24google_apis;armeabi-v7a" ]]; then
       EMU_PARAMS="-no-window -gpu swiftshader"
     else
       EMU_PARAMS="-no-boot-anim -gpu off"
     fi
+    # use the absolute emulator path in case older version installed (on default path)
     $ANDROID_HOME/emulator/emulator -avd test -no-audio $EMU_PARAMS $EMU_ADDITIONAL_OPTIONS ${EMU_DEBUG} &
 before_script:
   # Wait for emulator to startup.
