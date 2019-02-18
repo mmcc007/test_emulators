@@ -73,7 +73,8 @@ before_install:
 #  - EMU_DEBUG="-debug all -logcat *:e -verbose -show-kernel"
 #  - EMU_ADDITIONAL_OPTIONS="-camera-back none -camera-front none -memory 2048"
   # use the absolute emulator path in case older version installed (on default path)
-  - $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window -gpu swiftshader $EMU_ADDITIONAL_OPTIONS ${EMU_DEBUG} &
+#  - $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window -gpu swiftshader $EMU_ADDITIONAL_OPTIONS ${EMU_DEBUG} &
+  - $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-boot-anim -gpu off $EMU_ADDITIONAL_OPTIONS ${EMU_DEBUG} &
 before_script:
   # Wait for emulator to startup.
   - ./scripts/android-wait-for-emulator.sh
