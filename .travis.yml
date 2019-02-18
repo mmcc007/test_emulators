@@ -81,7 +81,7 @@ before_install:
 before_script:
   # Wait for emulator to startup.
   - ./scripts/android-wait-for-emulator.sh
-  - adb shell input keyevent 82
+#  - adb shell input keyevent 82
 
 script:
   - echo "Done."
