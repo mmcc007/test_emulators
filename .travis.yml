@@ -9,7 +9,7 @@ env:
 
   - SYS=28 ABI="google_apis;x86_64"
   - SYS=28 ABI="google_apis;x86"
-  - SYS=27 ABI="google_apis;x86_64"
+#  - SYS=27 ABI="google_apis;x86_64" # doesn't exist
   - SYS=27 ABI="google_apis;x86"
   - SYS=26 ABI="google_apis;x86_64"
   - SYS=26 ABI="google_apis;x86"
@@ -54,12 +54,12 @@ matrix:
 
 language: generic
 before_install:
-#  - |
-#    if [ $TRAVIS_OS_NAME == "linux" ]; then
-#      export DISPLAY=:99.0
-#      sh -e /etc/init.d/xvfb start
-#      sleep 3 # give xvfb some time to start
-#    fi
+  - |
+    if [ $TRAVIS_OS_NAME == "linux" ]; then
+      export DISPLAY=:99.0
+      sh -e /etc/init.d/xvfb start
+      sleep 3 # give xvfb some time to start
+    fi
 
   # Install android tools
   - ANDROID_TOOLS=4333796 # android-28
