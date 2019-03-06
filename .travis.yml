@@ -129,9 +129,9 @@ before_install:
     $ANDROID_HOME/emulator/$EMU_COMMAND -avd test -no-audio $EMU_PARAMS $EMU_ADDITIONAL_OPTIONS ${EMU_DEBUG} &
 
   # install pre-compiled flutter
-#  - sdkmanager "platforms;android-28" "build-tools;28.0.3" > /dev/null # required by flutter
+  - sdkmanager "platforms;android-28" "build-tools;28.0.3" > /dev/null # required by flutter
   - FLUTTER_CHANNEL=stable
-  - FLUTTER_VERSION=1.0.0-${FLUTTER_CHANNEL}
+  - FLUTTER_VERSION=1.2.1-${FLUTTER_CHANNEL}
   - |
     if [ $TRAVIS_OS_NAME == "osx" ]; then
       wget --quiet --output-document=flutter.zip https://storage.googleapis.com/flutter_infra/releases/${FLUTTER_CHANNEL}/macos/flutter_macos_v${FLUTTER_VERSION}.zip && unzip -qq flutter.zip > /dev/null && rm flutter.zip
