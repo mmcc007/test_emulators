@@ -7,7 +7,7 @@ dist: trusty
 #  - xvfb
 env:
 
-  - SYS=28 ABI="google_apis;x86_64"
+#  - SYS=28 ABI="google_apis;x86_64"
 #  - SYS=28 ABI="google_apis;x86"
 #  - SYS=27 ABI="google_apis;x86_64" # doesn't exist
 #  - SYS=27 ABI="google_apis;x86"
@@ -91,18 +91,18 @@ before_install:
   # install older build tools (for emulator)
   - sdkmanager "build-tools;25.0.2" "platforms;android-25" > /dev/null
 
-  # Install latest canary of emulator
-  - rm -rf $ANDROID_HOME/emulator
-  - cd $ANDROID_HOME
-  - |
-    if [ $TRAVIS_OS_NAME == "osx" ]; then
-      wget -q "https://dl.google.com/android/repository/emulator-darwin-5346014.zip" -O emulator.zip
-    else
-      sudo apt-get install -y libunwind8 libc++1
-      wget -q "https://dl.google.com/android/repository/emulator-linux-5346014.zip" -O emulator.zip
-    fi
-  - unzip -q emulator.zip
-  - cd -
+#  # Install latest canary of emulator
+#  - rm -rf $ANDROID_HOME/emulator
+#  - cd $ANDROID_HOME
+#  - |
+#    if [ $TRAVIS_OS_NAME == "osx" ]; then
+#      wget -q "https://dl.google.com/android/repository/emulator-darwin-5346014.zip" -O emulator.zip
+#    else
+#      sudo apt-get install -y libunwind8 libc++1
+#      wget -q "https://dl.google.com/android/repository/emulator-linux-5346014.zip" -O emulator.zip
+#    fi
+#  - unzip -q emulator.zip
+#  - cd -
 
   # Create and start emulator.
   - sdkmanager "system-images;android-$SYS;$ABI" > /dev/null
