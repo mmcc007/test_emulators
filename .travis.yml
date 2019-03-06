@@ -114,12 +114,12 @@ before_install:
 #  - EMU_DEBUG="-debug all -logcat *:e -verbose -show-kernel"
 #  - EMU_ADDITIONAL_OPTIONS="-camera-back none -camera-front none -memory 2048"
   - EMU_PARAMS="-no-window -gpu swiftshader"
-  - |
 #    if [[ "${SYS}${ABI}" == "25google_apis;armeabi-v7a" || "${SYS}${ABI}" == "24google_apis;armeabi-v7a" ]]; then
 #      EMU_PARAMS="-no-window -gpu swiftshader"
 #    else
 #      EMU_PARAMS="-no-boot-anim -gpu off"
 #    fi
+  - |
     if [[ $ABI =~ "x86" ]]; then
       EMU_COMMAND="emulator-headless -no-accel"
     else
