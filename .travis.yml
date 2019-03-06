@@ -3,9 +3,6 @@
 # sudo and dist are ignored on osx
 sudo: required
 dist: trusty
-os:
-  - linux
-  - osx
 #services:
 #  - xvfb
 env:
@@ -31,6 +28,10 @@ env:
   - SYS=15 ABI="default;armeabi-v7a"
   - SYS=14 ABI="default;armeabi-v7a"
   - SYS=10 ABI="default;armeabi-v7a"
+
+os:
+  - linux
+  - osx
 
 matrix:
   allow_failures:
@@ -101,6 +102,7 @@ before_install:
     $ANDROID_HOME/emulator/emulator -avd test -no-audio $EMU_PARAMS $EMU_ADDITIONAL_OPTIONS ${EMU_DEBUG} &
 
   # install pre-compiled flutter
+  - sdkmanager "platforms;android-28" "build-tools;28.0.3" > /dev/null # required by flutter
   - FLUTTER_CHANNEL=stable
   - FLUTTER_VERSION=1.2.1-${FLUTTER_CHANNEL}
   - |
@@ -121,4 +123,4 @@ before_script:
 #  - adb shell input keyevent 82
 
 script:
-  - flutter driver lib/main.dart
+  - cd flutter_app; flutter driver lib/main.dart
