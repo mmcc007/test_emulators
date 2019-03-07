@@ -122,7 +122,8 @@ before_install:
 #    else
 #      EMU_PARAMS="-no-boot-anim -gpu off"
 #    fi
-+ ./emulator-headless -no-window -gpu swiftshader_indirect -no-audio -camera-back none -camera-front none @emulator-5554
+
+#+ ./emulator-headless -no-window -gpu swiftshader_indirect -no-audio -camera-back none -camera-front none @emulator-5554
 
   - |
     if [[ $ABI =~ "x86" ]]; then
