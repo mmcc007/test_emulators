@@ -99,7 +99,7 @@ before_install:
   - rm -rf $ANDROID_HOME/emulator
   - cd $ANDROID_HOME
   - |
-#    EMULATOR_VERSION=5329922
+    # EMULATOR_VERSION=5329922
     EMULATOR_VERSION=5346014
     if [ $TRAVIS_OS_NAME == "osx" ]; then
       wget -q "https://dl.google.com/android/repository/emulator-darwin-$EMULATOR_VERSION.zip" -O emulator.zip
@@ -128,11 +128,11 @@ before_install:
 
   - |
     if [[ $ABI =~ "x86" ]]; then
-#      EMU_COMMAND="emulator-headless -no-accel"
+      # EMU_COMMAND="emulator-headless -no-accel"
       EMU_COMMAND="emulator-headless"
       $ANDROID_HOME/emulator/$EMU_COMMAND -no-window -gpu swiftshader_indirect -no-audio -camera-back none -camera-front none @test &
     else
-#      EMU_PARAMS="-no-window -gpu swiftshader"
+      # EMU_PARAMS="-no-window -gpu swiftshader"
       EMU_PARAMS="-no-window -gpu swiftshader_indirect"
       #  - EMU_DEBUG="-debug all -logcat *:e -verbose -show-kernel"
       #  - EMU_ADDITIONAL_OPTIONS="-camera-back none -camera-front none -memory 2048"
