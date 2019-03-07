@@ -18,17 +18,17 @@ env:
 #  - SYS=25 ABI="google_apis;armeabi-v7a"
 #  - SYS=24 ABI="google_apis;arm64-v8a"
 #  - SYS=24 ABI="google_apis;armeabi-v7a"
-#  - SYS=23 ABI="google_apis;armeabi-v7a"
+  - SYS=23 ABI="google_apis;armeabi-v7a"
 
 #  - SYS=22 ABI="default;x86" # demo failure due to no accelerator on travis
 #  - SYS=22 ABI="default;x86_64" # demo failure due to no accelerator on travis
 #  - SYS=22 ABI="google_apis;x86" # demo failure due to no accelerator on travis
 #  - SYS=22 ABI="google_apis;x86_64" # demo failure due to no accelerator on travis
-  - SYS=22 ABI="google_apis;armeabi-v7a"
+#  - SYS=22 ABI="google_apis;armeabi-v7a" # bad emulator
 #  - SYS=22 ABI="default;armeabi-v7a" # good emulator
 
-  - SYS=21 ABI="default;armeabi-v7a"
-#  - SYS=20 ABI="default;armeabi-v7a"
+#  - SYS=21 ABI="default;armeabi-v7a" # good emulator
+  - SYS=20 ABI="default;armeabi-v7a"
 #  - SYS=19 ABI="default;armeabi-v7a"
 #  - SYS=18 ABI="default;armeabi-v7a"
 #  - SYS=17 ABI="default;armeabi-v7a"
@@ -89,7 +89,7 @@ before_install:
   - sdkmanager "emulator" "tools" "platform-tools" > /dev/null
   - sdkmanager --list | head -15
   # install older build tools (for emulator)
-  - sdkmanager "build-tools;25.0.2" "platforms;android-25" > /dev/null
+#  - sdkmanager "build-tools;25.0.2" "platforms;android-25" > /dev/null
 
 #  # Install latest canary of emulator
 #  - rm -rf $ANDROID_HOME/emulator
