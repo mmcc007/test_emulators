@@ -44,6 +44,10 @@ env:
 os:
   - linux
   - osx
+#language: java
+#jdk:
+#  - openjdk8
+#  - openjdk9
 
 matrix:
   allow_failures:
@@ -85,7 +89,8 @@ before_install:
     if [ $TRAVIS_OS_NAME == "osx" ]; then
       # skip brew update
       export HOMEBREW_NO_AUTO_UPDATE=1
-      brew cask uninstall java; brew tap caskroom/versions; brew cask install java8;
+#      brew cask uninstall java; brew tap caskroom/versions; brew cask install java8;
+      brew cask uninstall java; brew tap adoptopenjdk/openjdk; brew cask install adoptopenjdk8;
     fi
   # Accept licenses before installing components, no need to echo y for each component
   - yes | sdkmanager --licenses
@@ -159,7 +164,7 @@ before_install:
 
 before_script:
   # Wait for emulator to startup.
-  - ./scripts/android-wait-for-emulator.sh
+  - ./script/android-wait-for-emulator.sh
   # unlock screen
 #  - adb shell input keyevent 82
 
