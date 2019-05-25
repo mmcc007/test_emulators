@@ -7,39 +7,39 @@ dist: trusty
 #  - xvfb
 env:
 
-#  - SYS=21 ABI="google_apis;armeabi-v7a"
-#  - SYS=28 ABI="google_apis;x86"
-#  - SYS=25 ABI="google_apis;armeabi-v7a"
+  - SYS=21 ABI="google_apis;armeabi-v7a"
+  - SYS=28 ABI="google_apis;x86"
+  - SYS=25 ABI="google_apis;armeabi-v7a"
 
-#  - SYS=28 ABI="google_apis;x86_64" # doesn't start
-#  - SYS=28 ABI="google_apis;x86" # doesn't start
-#  - SYS=27 ABI="google_apis;x86_64" # doesn't exist
-#  - SYS=27 ABI="google_apis;x86" # doesn't start
-#  - SYS=26 ABI="google_apis;x86_64"
-#  - SYS=26 ABI="google_apis;x86"
-#
-#  - SYS=25 ABI="google_apis;arm64-v8a"
-#  - SYS=25 ABI="google_apis;armeabi-v7a"
-#  - SYS=24 ABI="google_apis;arm64-v8a" # doesn't start
-#  - SYS=24 ABI="google_apis;armeabi-v7a"
-#  - SYS=23 ABI="google_apis;armeabi-v7a" # doesn't start
+  - SYS=28 ABI="google_apis;x86_64" # doesn't start
+  - SYS=28 ABI="google_apis;x86" # doesn't start
+  - SYS=27 ABI="google_apis;x86_64" # doesn't exist
+  - SYS=27 ABI="google_apis;x86" # doesn't start
+  - SYS=26 ABI="google_apis;x86_64"
+  - SYS=26 ABI="google_apis;x86"
 
-#  - SYS=22 ABI="default;x86" # demo failure due to no accelerator on travis
-#  - SYS=22 ABI="default;x86_64" # demo failure due to no accelerator on travis
-#  - SYS=22 ABI="google_apis;x86" # demo failure due to no accelerator on travis
-#  - SYS=22 ABI="google_apis;x86_64" # demo failure due to no accelerator on travis
-#  - SYS=22 ABI="google_apis;armeabi-v7a" # bad emulator
+  - SYS=25 ABI="google_apis;arm64-v8a"
+  - SYS=25 ABI="google_apis;armeabi-v7a"
+  - SYS=24 ABI="google_apis;arm64-v8a" # doesn't start
+  - SYS=24 ABI="google_apis;armeabi-v7a"
+  - SYS=23 ABI="google_apis;armeabi-v7a" # doesn't start
+
+  - SYS=22 ABI="default;x86" # demo failure due to no accelerator on travis
+  - SYS=22 ABI="default;x86_64" # demo failure due to no accelerator on travis
+  - SYS=22 ABI="google_apis;x86" # demo failure due to no accelerator on travis
+  - SYS=22 ABI="google_apis;x86_64" # demo failure due to no accelerator on travis
+  - SYS=22 ABI="google_apis;armeabi-v7a" # bad emulator
   - SYS=22 ABI="default;armeabi-v7a" # good emulator
 
-#  - SYS=21 ABI="default;armeabi-v7a" # good emulator
-#  - SYS=20 ABI="default;armeabi-v7a" # doesn't exist
-#  - SYS=19 ABI="default;armeabi-v7a" # doesn't start
-#  - SYS=18 ABI="default;armeabi-v7a"
-#  - SYS=17 ABI="default;armeabi-v7a"
-#  - SYS=16 ABI="default;armeabi-v7a"
-#  - SYS=15 ABI="default;armeabi-v7a"
-#  - SYS=14 ABI="default;armeabi-v7a"
-#  - SYS=10 ABI="default;armeabi-v7a"
+  - SYS=21 ABI="default;armeabi-v7a" # good emulator
+  - SYS=20 ABI="default;armeabi-v7a" # doesn't exist
+  - SYS=19 ABI="default;armeabi-v7a" # doesn't start
+  - SYS=18 ABI="default;armeabi-v7a"
+  - SYS=17 ABI="default;armeabi-v7a"
+  - SYS=16 ABI="default;armeabi-v7a"
+  - SYS=15 ABI="default;armeabi-v7a"
+  - SYS=14 ABI="default;armeabi-v7a"
+  - SYS=10 ABI="default;armeabi-v7a"
 
 os:
   - linux
@@ -51,14 +51,14 @@ os:
 
 matrix:
   allow_failures:
-#    - env: SYS=25 ABI="google_apis;arm64-v8a"
-#    - env: SYS=24 ABI="google_apis;arm64-v8a"
-#    - env: SYS=22 ABI="default;x86"
-#    - env: SYS=22 ABI="default;x86_64"
-#    - env: SYS=22 ABI="google_apis;x86"
-#    - env: SYS=22 ABI="google_apis;x86_64"
-#    - env: SYS=20 ABI="default;armeabi-v7a"
-#    - env: SYS=14 ABI="default;armeabi-v7a"
+    - env: SYS=25 ABI="google_apis;arm64-v8a"
+    - env: SYS=24 ABI="google_apis;arm64-v8a"
+    - env: SYS=22 ABI="default;x86"
+    - env: SYS=22 ABI="default;x86_64"
+    - env: SYS=22 ABI="google_apis;x86"
+    - env: SYS=22 ABI="google_apis;x86_64"
+    - env: SYS=20 ABI="default;armeabi-v7a"
+    - env: SYS=14 ABI="default;armeabi-v7a"
 
 language: generic
 before_install:
@@ -97,8 +97,6 @@ before_install:
   # Platform tools
   - sdkmanager "emulator" "tools" "platform-tools" > /dev/null
   - sdkmanager --list | head -15
-#  # install older build tools (for emulator)
-#  - sdkmanager "build-tools;25.0.2" "platforms;android-25" > /dev/null
 
   # Install latest canary of emulator
 #  - rm -rf $ANDROID_HOME/emulator
@@ -117,7 +115,9 @@ before_install:
 
   # Download a pinned version of the emulator since upgrades can cause issues
   - ${ANDROID_HOME}/emulator/emulator -version
-  - emulator_version=5264690 #29.0.9.0 (build_id 5537588) ==> 28.0.23.0 (build_id 5264690)
+#    EMULATOR_VERSION=5329922 # canary
+#    EMULATOR_VERSION=5346014 # other canary
+  - emulator_version=5264690 # 29.0.9.0 (build_id 5537588) ==> 28.0.23.0 (build_id 5264690)
   - |
     if [ $TRAVIS_OS_NAME == "osx" ]; then
       curl -fo emulator.zip "https://dl.google.com/android/repository/emulator-darwin-$emulator_version.zip"
@@ -137,11 +137,6 @@ before_install:
   - sdkmanager --list | head -15
   - echo no | avdmanager create avd --force -n test -k "system-images;android-$SYS;$ABI"
   - $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window -gpu swiftshader &
-
-  # Create and start emulator.
-#  - sdkmanager "system-images;android-$SYS;$ABI" > /dev/null
-#  - sdkmanager --list | head -15
-#  - echo no | avdmanager create avd -n test -k "system-images;android-$SYS;$ABI" --force
 
   # fix timezone warning on osx
   - if [ $TRAVIS_OS_NAME == "osx" ]; then sudo ln -sf /usr/share/zoneinfo/US/Pacific /etc/localtime; fi
