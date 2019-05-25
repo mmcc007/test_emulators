@@ -8,8 +8,8 @@ dist: trusty
 env:
 
 #  - SYS=21 ABI="google_apis;armeabi-v7a"
-  - SYS=28 ABI="google_apis;x86"
-  - SYS=25 ABI="google_apis;armeabi-v7a"
+#  - SYS=28 ABI="google_apis;x86"
+#  - SYS=25 ABI="google_apis;armeabi-v7a"
 
 #  - SYS=28 ABI="google_apis;x86_64" # doesn't start
 #  - SYS=28 ABI="google_apis;x86" # doesn't start
@@ -29,7 +29,7 @@ env:
 #  - SYS=22 ABI="google_apis;x86" # demo failure due to no accelerator on travis
 #  - SYS=22 ABI="google_apis;x86_64" # demo failure due to no accelerator on travis
 #  - SYS=22 ABI="google_apis;armeabi-v7a" # bad emulator
-#  - SYS=22 ABI="default;armeabi-v7a" # good emulator
+  - SYS=22 ABI="default;armeabi-v7a" # good emulator
 
 #  - SYS=21 ABI="default;armeabi-v7a" # good emulator
 #  - SYS=20 ABI="default;armeabi-v7a" # doesn't exist
@@ -97,7 +97,7 @@ before_install:
   # Platform tools
   - sdkmanager "emulator" "tools" "platform-tools" > /dev/null
   - sdkmanager --list | head -15
-  # install older build tools (for emulator)
+#  # install older build tools (for emulator)
 #  - sdkmanager "build-tools;25.0.2" "platforms;android-25" > /dev/null
 
   # Install latest canary of emulator
@@ -115,10 +115,28 @@ before_install:
 #  - unzip -q emulator.zip
 #  - cd -
 
+  # Download a pinned version of the emulator since upgrades can cause issues
+  - ${ANDROID_HOME}/emulator/emulator -version
+  - emulator_version=5264690 #29.0.9.0 (build_id 5537588) ==> 28.0.23.0 (build_id 5264690)
+  - curl -fo emulator.zip "https://dl.google.com/android/repository/emulator-linux-$emulator_version.zip"
+  - rm -rf "${ANDROID_HOME}/emulator"
+  - unzip -q emulator.zip -d "${ANDROID_HOME}"
+  - rm -f emulator.zip
+  - ${ANDROID_HOME}/emulator/emulator -version
+
+  # install older packages (for emulator)
+  - sdkmanager "build-tools;25.0.2" "platforms;android-25" > /dev/null
   # Create and start emulator.
   - sdkmanager "system-images;android-$SYS;$ABI" > /dev/null
   - sdkmanager --list | head -15
-  - echo no | avdmanager create avd -n test -k "system-images;android-$SYS;$ABI" --force
+  - echo no | avdmanager create avd --force -n test -k "system-images;android-$SYS;$ABI"
+  - $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window -gpu swiftshader &
+
+  # Create and start emulator.
+#  - sdkmanager "system-images;android-$SYS;$ABI" > /dev/null
+#  - sdkmanager --list | head -15
+#  - echo no | avdmanager create avd -n test -k "system-images;android-$SYS;$ABI" --force
+
   # fix timezone warning on osx
   - if [ $TRAVIS_OS_NAME == "osx" ]; then sudo ln -sf /usr/share/zoneinfo/US/Pacific /etc/localtime; fi
   # emulator debug options
@@ -131,36 +149,36 @@ before_install:
 
 #+ ./emulator-headless -no-window -gpu swiftshader_indirect -no-audio -camera-back none -camera-front none @emulator-5554
 
-  - |
-    if [[ $ABI =~ "x86" ]]; then
-      # EMU_COMMAND="emulator-headless -no-accel"
-      EMU_COMMAND="emulator-headless"
-      $ANDROID_HOME/emulator/$EMU_COMMAND -no-window -gpu swiftshader_indirect -no-audio -camera-back none -camera-front none @test &
-    else
-      # EMU_PARAMS="-no-window -gpu swiftshader"
-      EMU_PARAMS="-no-window -gpu swiftshader_indirect"
-      #  - EMU_DEBUG="-debug all -logcat *:e -verbose -show-kernel"
-      #  - EMU_ADDITIONAL_OPTIONS="-camera-back none -camera-front none -memory 2048"
-      EMU_COMMAND="emulator"
-      $ANDROID_HOME/emulator/$EMU_COMMAND -avd test -no-audio $EMU_PARAMS $EMU_ADDITIONAL_OPTIONS ${EMU_DEBUG} &
-    fi
-    # use the absolute emulator path in case older version installed (on default path)
+#  - |
+#    if [[ $ABI =~ "x86" ]]; then
+#      # EMU_COMMAND="emulator-headless -no-accel"
+#      EMU_COMMAND="emulator-headless"
+#      $ANDROID_HOME/emulator/$EMU_COMMAND -no-window -gpu swiftshader_indirect -no-audio -camera-back none -camera-front none @test &
+#    else
+#      # EMU_PARAMS="-no-window -gpu swiftshader"
+#      EMU_PARAMS="-no-window -gpu swiftshader_indirect"
+#      #  - EMU_DEBUG="-debug all -logcat *:e -verbose -show-kernel"
+#      #  - EMU_ADDITIONAL_OPTIONS="-camera-back none -camera-front none -memory 2048"
+#      EMU_COMMAND="emulator"
+#      $ANDROID_HOME/emulator/$EMU_COMMAND -avd test -no-audio $EMU_PARAMS $EMU_ADDITIONAL_OPTIONS ${EMU_DEBUG} &
+#    fi
+#    # use the absolute emulator path in case older version installed (on default path)
 #    $ANDROID_HOME/emulator/$EMU_COMMAND -avd test -no-audio $EMU_PARAMS $EMU_ADDITIONAL_OPTIONS ${EMU_DEBUG} &
 
   # install pre-compiled flutter
-  - sdkmanager "platforms;android-28" "build-tools;28.0.3" > /dev/null # required by flutter
-  - FLUTTER_CHANNEL=stable
-  - FLUTTER_VERSION=1.2.1-${FLUTTER_CHANNEL}
-  - |
-    if [ $TRAVIS_OS_NAME == "osx" ]; then
-      wget --quiet --output-document=flutter.zip https://storage.googleapis.com/flutter_infra/releases/${FLUTTER_CHANNEL}/macos/flutter_macos_v${FLUTTER_VERSION}.zip && unzip -qq flutter.zip > /dev/null && rm flutter.zip
-    else
-      sudo apt-get install -y --no-install-recommends lib32stdc++6 libstdc++6 > /dev/null
-      wget --quiet --output-document=flutter.tar.xz https://storage.googleapis.com/flutter_infra/releases/${FLUTTER_CHANNEL}/linux/flutter_linux_v${FLUTTER_VERSION}.tar.xz && tar xf flutter.tar.xz > /dev/null && rm flutter.tar.xz
-    fi
-  - export PATH="$PATH":"$HOME/.pub-cache/bin"
-  - export PATH=$PWD/flutter/bin:$PWD/flutter/bin/cache/dart-sdk/bin:$PATH
-  - flutter doctor -v
+#  - sdkmanager "platforms;android-28" "build-tools;28.0.3" > /dev/null # required by flutter
+#  - FLUTTER_CHANNEL=stable
+#  - FLUTTER_VERSION=1.2.1-${FLUTTER_CHANNEL}
+#  - |
+#    if [ $TRAVIS_OS_NAME == "osx" ]; then
+#      wget --quiet --output-document=flutter.zip https://storage.googleapis.com/flutter_infra/releases/${FLUTTER_CHANNEL}/macos/flutter_macos_v${FLUTTER_VERSION}.zip && unzip -qq flutter.zip > /dev/null && rm flutter.zip
+#    else
+#      sudo apt-get install -y --no-install-recommends lib32stdc++6 libstdc++6 > /dev/null
+#      wget --quiet --output-document=flutter.tar.xz https://storage.googleapis.com/flutter_infra/releases/${FLUTTER_CHANNEL}/linux/flutter_linux_v${FLUTTER_VERSION}.tar.xz && tar xf flutter.tar.xz > /dev/null && rm flutter.tar.xz
+#    fi
+#  - export PATH="$PATH":"$HOME/.pub-cache/bin"
+#  - export PATH=$PWD/flutter/bin:$PWD/flutter/bin/cache/dart-sdk/bin:$PATH
+#  - flutter doctor -v
 
 before_script:
   # Wait for emulator to startup.
