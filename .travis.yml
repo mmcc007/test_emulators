@@ -14,8 +14,8 @@ dist: bionic
 # specify global envs and jobs
 env:
   global:
+    - ABI=x86_64
     - EMU_FLAVOR=default # ignore "google_apis" and other cases
-    - ADB_INSTALL_TIMEOUT=8
     - ANDROID_TOOLS=4333796 # android-28
     - ANDROID_HOME=${HOME}/android-sdk
     - EMU_FLAVOR=default # use google_apis flavor if no default flavor emulator
@@ -105,6 +105,8 @@ install:
   # Create an Android emulator
   - echo no | avdmanager create avd --force -n test -k "system-images;android-$API;$EMU_FLAVOR;$ABI" -c 10M
   - EMU_PARAMS="-verbose -no-snapshot -no-window -camera-back none -camera-front none -selinux permissive -qemu -m 2048"
+  # Disable acceleration for osx
+  - if [ $TRAVIS_OS_NAME == "osx" ]; then EMU_PARAMS="${EMU_PARAMS} -no-accel"; fi
   - EMU_COMMAND="emulator"
   - |
     if [[ $ABI =~ "x86" ]]; then
