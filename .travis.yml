@@ -3,7 +3,9 @@ language: shell
 
 os:
   - linux
-  - osx
+#  - osx # x86 emulators require HAXM accelerator so removing for now.
+         # see https://travis-ci.org/mmcc007/test_emulators/jobs/606234640#L899
+         # (Flutter tests can be run on the iOS simulator.)
 
 # ignored on osx
 dist: bionic
@@ -51,7 +53,13 @@ jobs:
   include:
     - env: API=24 JDK="1.11"
   allow_failures:
-    - env: API=24 JDK="1.11"
+    - env:
+      - API=16 ABI=x86 AUDIO=-no-audio # flutter test hangs
+      - API=17 ABI=x86 # flutter test hangs
+      - API=18 ABI=x86 # flakey: gradlew fails sometimes during test
+                       # "Could not load compiled classes for settings file"
+      - API=24 JDK="1.11"
+    - os: osx
   # (The test stage is implicit, add other stages here.)
 
 before_install:
@@ -63,7 +71,7 @@ before_install:
     if [ $TRAVIS_OS_NAME == "linux" ]; then
       # Install dependencies
       sudo apt-get -y --no-install-recommends install bridge-utils libpulse0 libvirt-bin qemu-kvm virtinst ubuntu-vm-builder
-      # add KVM users
+      # add travis user to groups
       sudo adduser $USER libvirt
       sudo adduser $USER kvm
     fi
@@ -89,7 +97,7 @@ before_install:
   - echo 'count=0' > ~/.android/repositories.cfg
 
   # Accept licenses before installing components, no need to echo y for each component
-  - yes | sdkmanager --licenses
+  - yes | sdkmanager --licenses >/dev/null
 
 install:
   # Download SDK tools
