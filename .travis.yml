@@ -1,191 +1,34 @@
-# sudo: false --> run dist image in docker container on shared host for faster startup (runs slower)
-# sudo: required --> run dist image in VM on Google Compute Engine for slower startup (runs faster)
-# sudo and dist are ignored on osx
-sudo: required
-dist: trusty
-#services:
-#  - xvfb
-env:
-
-  - SYS=21 ABI="google_apis;armeabi-v7a"
-  - SYS=28 ABI="google_apis;x86"
-  - SYS=25 ABI="google_apis;armeabi-v7a"
-
-  - SYS=28 ABI="google_apis;x86_64" # doesn't start
-  - SYS=28 ABI="google_apis;x86" # doesn't start
-  - SYS=27 ABI="google_apis;x86_64" # doesn't exist
-  - SYS=27 ABI="google_apis;x86" # doesn't start
-  - SYS=26 ABI="google_apis;x86_64"
-  - SYS=26 ABI="google_apis;x86"
-
-  - SYS=25 ABI="google_apis;arm64-v8a"
-  - SYS=25 ABI="google_apis;armeabi-v7a"
-  - SYS=24 ABI="google_apis;arm64-v8a" # doesn't start
-  - SYS=24 ABI="google_apis;armeabi-v7a"
-  - SYS=23 ABI="google_apis;armeabi-v7a" # doesn't start
-
-  - SYS=22 ABI="default;x86" # demo failure due to no accelerator on travis
-  - SYS=22 ABI="default;x86_64" # demo failure due to no accelerator on travis
-  - SYS=22 ABI="google_apis;x86" # demo failure due to no accelerator on travis
-  - SYS=22 ABI="google_apis;x86_64" # demo failure due to no accelerator on travis
-  - SYS=22 ABI="google_apis;armeabi-v7a" # bad emulator
-  - SYS=22 ABI="default;armeabi-v7a" # good emulator
-
-  - SYS=21 ABI="default;armeabi-v7a" # good emulator
-  - SYS=20 ABI="default;armeabi-v7a" # doesn't exist
-  - SYS=19 ABI="default;armeabi-v7a" # doesn't start
-  - SYS=18 ABI="default;armeabi-v7a"
-  - SYS=17 ABI="default;armeabi-v7a"
-  - SYS=16 ABI="default;armeabi-v7a"
-  - SYS=15 ABI="default;armeabi-v7a"
-  - SYS=14 ABI="default;armeabi-v7a"
-  - SYS=10 ABI="default;armeabi-v7a"
+# use generic language
+language: shell
 
 os:
   - linux
   - osx
-#language: java
-#jdk:
-#  - openjdk8
-#  - openjdk9
 
-matrix:
+# ignored on osx
+dist: bionic
+
+# ignored on linux
+osx_image: xcode9.4 # current default
+
+# specify global envs and jobs
+env:
+  global:
+    - EMU_FLAVOR=google_apis # ignore "default" case
+  # define full matrix of SYS x ABI and comment-out or exclude invalid entries
+  jobs:
+    - SYS=29 ABI=x86_64
+    - SYS=29 ABI=x86
+    - SYS=29 ABI=armeabi-v7a
+    # - SYS=28
+
+# config jobs
+jobs:
+  fast_finish: true
+  exclude:
+    - os: osx
+      env: SYS=29 ABI=armeabi-v7a
   allow_failures:
-    - env: SYS=25 ABI="google_apis;arm64-v8a"
-    - env: SYS=24 ABI="google_apis;arm64-v8a"
-    - env: SYS=22 ABI="default;x86"
-    - env: SYS=22 ABI="default;x86_64"
-    - env: SYS=22 ABI="google_apis;x86"
-    - env: SYS=22 ABI="google_apis;x86_64"
-    - env: SYS=20 ABI="default;armeabi-v7a"
-    - env: SYS=14 ABI="default;armeabi-v7a"
+    - env: SYS=29 ABI=x86
 
-language: generic
-before_install:
-#  - |
-#    if [ $TRAVIS_OS_NAME == "linux" ]; then
-#      export DISPLAY=:99.0
-#      sh -e /etc/init.d/xvfb start
-#      sleep 3 # give xvfb some time to start
-#    fi
-
-  # Install android tools
-  - ANDROID_TOOLS=4333796 # android-28
-  - export ANDROID_HOME=~/android-sdk
-  - |
-    if [ $TRAVIS_OS_NAME == "osx" ]; then
-      wget -q "https://dl.google.com/android/repository/sdk-tools-darwin-$ANDROID_TOOLS.zip" -O android-sdk-tools.zip
-    else
-      wget -q "https://dl.google.com/android/repository/sdk-tools-linux-$ANDROID_TOOLS.zip" -O android-sdk-tools.zip
-    fi
-  - unzip -q android-sdk-tools.zip -d ${ANDROID_HOME}
-  - rm android-sdk-tools.zip
-  - PATH=${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools
-  # Silence warning.
-  - mkdir -p ~/.android
-  - touch ~/.android/repositories.cfg
-  # configure version of java on osx (Oracle java 10)
-  - |
-    if [ $TRAVIS_OS_NAME == "osx" ]; then
-      # skip brew update
-      # export HOMEBREW_NO_AUTO_UPDATE=1
-      # brew cask uninstall java; brew tap adoptopenjdk/openjdk; brew cask install adoptopenjdk8;
-      export JAVA_OPTS='-XX:+IgnoreUnrecognizedVMOptions --add-modules java.se.ee'
-    fi
-  # Accept licenses before installing components, no need to echo y for each component
-  - yes | sdkmanager --licenses
-  # Platform tools
-  - sdkmanager "emulator" "tools" "platform-tools" > /dev/null
-  - sdkmanager --list | head -15
-
-  # Install latest canary of emulator
-#  - rm -rf $ANDROID_HOME/emulator
-#  - cd $ANDROID_HOME
-#  - |
-#    # EMULATOR_VERSION=5329922
-#    EMULATOR_VERSION=5346014
-#    if [ $TRAVIS_OS_NAME == "osx" ]; then
-#      wget -q "https://dl.google.com/android/repository/emulator-darwin-$EMULATOR_VERSION.zip" -O emulator.zip
-#    else
-#      sudo apt-get install -y libunwind8 libc++1
-#      wget -q "https://dl.google.com/android/repository/emulator-linux-$EMULATOR_VERSION.zip" -O emulator.zip
-#    fi
-#  - unzip -q emulator.zip
-#  - cd -
-
-  # Download a pinned version of the emulator since upgrades can cause issues
-  - ${ANDROID_HOME}/emulator/emulator -version
-#    EMULATOR_VERSION=5329922 # canary
-#    EMULATOR_VERSION=5346014 # other canary
-  - emulator_version=5264690 # 29.0.9.0 (build_id 5537588) ==> 28.0.23.0 (build_id 5264690)
-  - |
-    if [ $TRAVIS_OS_NAME == "osx" ]; then
-      curl -fo emulator.zip "https://dl.google.com/android/repository/emulator-darwin-$emulator_version.zip"
-    else
-      sudo apt-get install -y libunwind8 libc++1
-      curl -fo emulator.zip "https://dl.google.com/android/repository/emulator-linux-$emulator_version.zip"
-    fi
-  - rm -rf "${ANDROID_HOME}/emulator"
-  - unzip -q emulator.zip -d "${ANDROID_HOME}"
-  - rm -f emulator.zip
-  - ${ANDROID_HOME}/emulator/emulator -version
-
-  # install older packages (for emulator)
-  - sdkmanager "build-tools;25.0.2" "platforms;android-25" > /dev/null
-  # Create and start emulator.
-  - sdkmanager "system-images;android-$SYS;$ABI" > /dev/null
-  - sdkmanager --list | head -15
-  - echo no | avdmanager create avd --force -n test -k "system-images;android-$SYS;$ABI"
-  - $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window -gpu swiftshader &
-
-  # fix timezone warning on osx
-  - if [ $TRAVIS_OS_NAME == "osx" ]; then sudo ln -sf /usr/share/zoneinfo/US/Pacific /etc/localtime; fi
-  # emulator debug options
-
-#    if [[ "${SYS}${ABI}" == "25google_apis;armeabi-v7a" || "${SYS}${ABI}" == "24google_apis;armeabi-v7a" ]]; then
-#      EMU_PARAMS="-no-window -gpu swiftshader"
-#    else
-#      EMU_PARAMS="-no-boot-anim -gpu off"
-#    fi
-
-#+ ./emulator-headless -no-window -gpu swiftshader_indirect -no-audio -camera-back none -camera-front none @emulator-5554
-
-#  - |
-#    if [[ $ABI =~ "x86" ]]; then
-#      # EMU_COMMAND="emulator-headless -no-accel"
-#      EMU_COMMAND="emulator-headless"
-#      $ANDROID_HOME/emulator/$EMU_COMMAND -no-window -gpu swiftshader_indirect -no-audio -camera-back none -camera-front none @test &
-#    else
-#      # EMU_PARAMS="-no-window -gpu swiftshader"
-#      EMU_PARAMS="-no-window -gpu swiftshader_indirect"
-#      #  - EMU_DEBUG="-debug all -logcat *:e -verbose -show-kernel"
-#      #  - EMU_ADDITIONAL_OPTIONS="-camera-back none -camera-front none -memory 2048"
-#      EMU_COMMAND="emulator"
-#      $ANDROID_HOME/emulator/$EMU_COMMAND -avd test -no-audio $EMU_PARAMS $EMU_ADDITIONAL_OPTIONS ${EMU_DEBUG} &
-#    fi
-#    # use the absolute emulator path in case older version installed (on default path)
-#    $ANDROID_HOME/emulator/$EMU_COMMAND -avd test -no-audio $EMU_PARAMS $EMU_ADDITIONAL_OPTIONS ${EMU_DEBUG} &
-
-  # install pre-compiled flutter
-#  - sdkmanager "platforms;android-28" "build-tools;28.0.3" > /dev/null # required by flutter
-  - FLUTTER_CHANNEL=stable
-  - FLUTTER_VERSION=1.2.1-${FLUTTER_CHANNEL}
-  - |
-    if [ $TRAVIS_OS_NAME == "osx" ]; then
-      wget --quiet --output-document=flutter.zip https://storage.googleapis.com/flutter_infra/releases/${FLUTTER_CHANNEL}/macos/flutter_macos_v${FLUTTER_VERSION}.zip && unzip -qq flutter.zip > /dev/null && rm flutter.zip
-    else
-      sudo apt-get install -y --no-install-recommends lib32stdc++6 libstdc++6 > /dev/null
-      wget --quiet --output-document=flutter.tar.xz https://storage.googleapis.com/flutter_infra/releases/${FLUTTER_CHANNEL}/linux/flutter_linux_v${FLUTTER_VERSION}.tar.xz && tar xf flutter.tar.xz > /dev/null && rm flutter.tar.xz
-    fi
-  - export PATH="$PATH":"$HOME/.pub-cache/bin"
-  - export PATH=$PWD/flutter/bin:$PWD/flutter/bin/cache/dart-sdk/bin:$PATH
-  - flutter doctor -v
-
-before_script:
-  # Wait for emulator to startup.
-  - ./script/android-wait-for-emulator.sh
-  # unlock screen
-#  - adb shell input keyevent 82
-
-script:
-  - cd flutter_app; flutter driver lib/main.dart
+script: echo "Done"
