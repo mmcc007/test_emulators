@@ -55,44 +55,44 @@ env:
     - export PATH=${HOME}/.pub-cache/bin:${PATH}
     - export PATH=${FLUTTER_HOME}/bin:${FLUTTER_HOME}/bin/cache/dart-sdk/bin:${PATH}
 
-  # define full matrix of APIxABIxGOOGLE_APIS and comment-out invalid entries
+  # define full matrix of APIxABIxGOO and comment-out invalid entries
   # (see "sdkmanager --list --verbose| grep ^system-images" for full list)
   jobs:
-    - API=29 ABI=x86_64 GOOGLE_APIS=google_apis_playstore
-    - API=29 ABI=x86    GOOGLE_APIS=google_apis_playstore
-    - API=29 ABI=x86_64 GOOGLE_APIS=google_apis
-    - API=29 ABI=x86    GOOGLE_APIS=google_apis
+    - API=29 ABI=x86_64 GOO=google_apis_playstore
+    - API=29 ABI=x86    GOO=google_apis_playstore
+    - API=29 ABI=x86_64 GOO=google_apis
+    - API=29 ABI=x86    GOO=google_apis
 
-    - API=28 ABI=x86_64 GOOGLE_APIS=google_apis_playstore
-    - API=28 ABI=x86    GOOGLE_APIS=google_apis_playstore
-    - API=28 ABI=x86_64 GOOGLE_APIS=google_apis
-    - API=28 ABI=x86    GOOGLE_APIS=google_apis
+    - API=28 ABI=x86_64 GOO=google_apis_playstore
+    - API=28 ABI=x86    GOO=google_apis_playstore
+    - API=28 ABI=x86_64 GOO=google_apis
+    - API=28 ABI=x86    GOO=google_apis
 
-    - API=28 ABI=x86 GOOGLE_APIS=default
-    - API=27 ABI=x86_64 GOOGLE_APIS=default
-#    - API=26 ABI=x86_64 GOOGLE_APIS=default # Hanging: flutter doctor: Scanning for devices is taking a long time...
-    - API=26 ABI=x86 GOOGLE_APIS=default
-    - API=25 ABI=x86_64 GOOGLE_APIS=default
-    - API=24 ABI=x86_64 GOOGLE_APIS=default
-    - API=24 ABI=x86_64 GOOGLE_APIS=default JDK="1.11"
-    - API=23 ABI=x86_64 GOOGLE_APIS=default
-    - API=22 ABI=x86_64 GOOGLE_APIS=default
-    - API=21 ABI=x86_64 GOOGLE_APIS=default
+    - API=28 ABI=x86 GOO=default
+    - API=27 ABI=x86_64 GOO=default
+#    - API=26 ABI=x86_64 GOO=default # Hanging: flutter doctor: Scanning for devices is taking a long time...
+    - API=26 ABI=x86 GOO=default
+    - API=25 ABI=x86_64 GOO=default
+    - API=24 ABI=x86_64 GOO=default
+    - API=24 ABI=x86_64 GOO=default JDK="1.11"
+    - API=23 ABI=x86_64 GOO=default
+    - API=22 ABI=x86_64 GOO=default
+    - API=21 ABI=x86_64 GOO=default
     # API=20  -- not released
-    - API=19 ABI=x86_64 GOOGLE_APIS=default # sdkmanager: Failed to find system-images
-#    - API=19 ABI=armeabi-v7a GOOGLE_APIS=default # Emulator does not start
-    - API=18 ABI=x86_64 GOOGLE_APIS=default
+    - API=19 ABI=x86_64 GOO=default # sdkmanager: Failed to find system-images
+#    - API=19 ABI=armeabi-v7a GOO=default # Emulator does not start
+    - API=18 ABI=x86_64 GOO=default
     - API=18 ABI=x86
-    - API=17 ABI=x86_64 GOOGLE_APIS=default
+    - API=17 ABI=x86_64 GOO=default
 #    - API=17 ABI=x86 # flutter test hangs
-    - API=16 ABI=x86_64 GOOGLE_APIS=default
+    - API=16 ABI=x86_64 GOO=default
 #    - API=16 ABI=x86 AUDIO=-no-audio # flutter test hangs
-#    - API=15 ABI=x86_64 GOOGLE_APIS=default # sdkmanager: Failed to find system-images
+#    - API=15 ABI=x86_64 GOO=default # sdkmanager: Failed to find system-images
     # API=14 -- not released
     # API=13 -- not released
     # API=12 -- not released
     # API=11 -- not released
-#    - API=10 ABI=x86_64 GOOGLE_APIS=default # sdkmanager: Failed to find system-images
+#    - API=10 ABI=x86_64 GOO=default # sdkmanager: Failed to find system-images
 
 #jobs:
 #  fast_finish: true  # We can report success without waiting for jobs that we
@@ -155,10 +155,10 @@ install:
   - sdkmanager "platforms;android-28" >/dev/null # We need the API of the current compileSdkVersion from gradle.properties
   - sdkmanager "emulator" >/dev/null
   - sdkmanager "extras;android;m2repository" >/dev/null
-  - sdkmanager "system-images;android-$API;$GOOGLE_APIS;$ABI" >/dev/null # install our emulator
+  - sdkmanager "system-images;android-$API;$GOO;$ABI" >/dev/null # install our emulator
 
   # Create an Android emulator
-  - echo no | avdmanager create avd --force -n test -k "system-images;android-$API;$GOOGLE_APIS;$ABI" -c 10M --device "Nexus 6P"
+  - echo no | avdmanager create avd --force -n test -k "system-images;android-$API;$GOO;$ABI" -c 10M --device "Nexus 6P"
   - EMU_PARAMS="-verbose -no-snapshot -no-window -camera-back none -camera-front none -selinux permissive -qemu -m 2048"
   # Disable acceleration for osx
 #  - if [ $TRAVIS_OS_NAME == "osx" ]; then EMU_PARAMS="${EMU_PARAMS} -no-accel"; fi
