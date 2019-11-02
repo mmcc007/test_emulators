@@ -1,3 +1,29 @@
+#    +-----------+--------------------+--------------------+
+#    | API Level |     Code Name      | Android OS version |
+#    +-----------+--------------------+--------------------+
+#    |        29 | 10                 |                 10 |
+#    |        28 | Pie                |                  9 |
+#    |        27 | Oreo               |                8.1 |
+#    |        26 | Oreo               |  (dropped arm) 8.0 |
+#    |        25 | Nougat             |                7.1 |
+#    |        24 | Nougat             |                7.0 |
+#    |        23 | Marshmallow        |                6.0 |
+#    |        22 | Lollipop           |                5.1 |
+#    |        21 | Lollipop           |                5.0 |
+#    |        20 | Not released       |                    |
+#    |        19 | Kitkat             |                4.4 |
+#    |        18 | Jellybean          |                4.3 |
+#    |        17 | Jellybean          |                4.2 |
+#    |        16 | Jellybean          |                4.1 |
+#    |        15 | Ice Cream Sandwich |                4.0 |
+#    |        14 | Not Released       |                    |
+#    |        13 | Not Released       |                    |
+#    |        12 | Not Released       |                    |
+#    |        11 | Not Released       |                    |
+#    |        10 | Gingerbread        |                2.3 |
+#    +-----------+--------------------+--------------------+
+# "https://en.wikipedia.org/wiki/Android_(operating_system)#Platform_information"
+
 # use generic language
 language: shell
 
@@ -16,12 +42,10 @@ dist: bionic
 # specify global envs and jobs
 env:
   global:
-    - ABI=x86_64
     - ANDROID_TOOLS=4333796 # android-28
     - ANDROID_HOME=${HOME}/android-sdk
-    - EMU_FLAVOR=default # use google_apis flavor if no default flavor emulator
     - GRAVIS="https://raw.githubusercontent.com/DanySK/Gravis-CI/master/"
-    - JDK="1.8"
+    - JDK="1.8" # used while running sdkmanager, otherwise uses default JDK
     - TOOLS=${ANDROID_HOME}/tools
     # PATH order is incredibly important. e.g. the 'emulator' script exists in more than one place!
     - PATH=${ANDROID_HOME}:${ANDROID_HOME}/emulator:${TOOLS}:${TOOLS}/bin:${ANDROID_HOME}/platform-tools:${PATH}
@@ -31,37 +55,48 @@ env:
     - export PATH=${HOME}/.pub-cache/bin:${PATH}
     - export PATH=${FLUTTER_HOME}/bin:${FLUTTER_HOME}/bin/cache/dart-sdk/bin:${PATH}
 
-  # define full matrix of os x API and comment-out invalid entries
+  # define full matrix of APIxABIxGOOGLE_APIS and comment-out invalid entries
+  # (see "sdkmanager --list --verbose| grep ^system-images" for full list)
   jobs:
-    - API=29
-    - API=28
-    - API=27
-    - API=26 # Hanging: flutter doctor: Scanning for devices is taking a long time...
-    - API=25
-    - API=24
-    - API=24 JDK="1.11"
-    - API=23
-    - API=22
-    - API=21
-#    - API=20 # sdkmanager: Warning: Failed to find package system-images;android-20;default;x86_64
-    - API=19
-    - API=19 ABI=armeabi-v7a # Fails: kernel/emulator mismatch, and emulator-29+ doesn't support "-engine classic" to fix
-    - API=18
-    - API=18 ABI=x86 # API18 has started being flaky
-    - API=17
-#    - API=17 ABI=x86 # flutter test hangs
-    - API=16
-#    - API=16 ABI=x86 AUDIO=-no-audio # flutter test hangs
-#    - API=15 # sdkmanager: Warning: Warning: Failed to find package system-images;android-15;default;x86_64
-#    - API=14 # sdkmanager: Warning: Warning: Failed to find package system-images;android-14;default;x86_64
-#    - API=13 # sdkmanager: Warning: Warning: Failed to find package system-images;android-13;default;x86_64
-#    - API=12 # sdkmanager: Warning: Warning: Failed to find package system-images;android-12;default;x86_64
-#    - API=11 # sdkmanager: Warning: Warning: Failed to find package system-images;android-11;default;x86_64
-#    - API=10 # sdkmanager: Warning: Warning: Failed to find package system-images;android-10;default;x86_64
+    - API=29 ABI=x86_64 GOOGLE_APIS=google_apis_playstore
+    - API=29 ABI=x86    GOOGLE_APIS=google_apis_playstore
+    - API=29 ABI=x86_64 GOOGLE_APIS=google_apis
+    - API=29 ABI=x86    GOOGLE_APIS=google_apis
 
-jobs:
-  fast_finish: true  # We can report success without waiting for jobs that we
-                     # allow / expect to fail.
+    - API=28 ABI=x86_64 GOOGLE_APIS=google_apis_playstore
+    - API=28 ABI=x86    GOOGLE_APIS=google_apis_playstore
+    - API=28 ABI=x86_64 GOOGLE_APIS=google_apis
+    - API=28 ABI=x86    GOOGLE_APIS=google_apis
+
+    - API=28 ABI=x86 GOOGLE_APIS=default
+    - API=27 ABI=x86_64 GOOGLE_APIS=default
+#    - API=26 ABI=x86_64 GOOGLE_APIS=default # Hanging: flutter doctor: Scanning for devices is taking a long time...
+    - API=26 ABI=x86 GOOGLE_APIS=default
+    - API=25 ABI=x86_64 GOOGLE_APIS=default
+    - API=24 ABI=x86_64 GOOGLE_APIS=default
+    - API=24 ABI=x86_64 GOOGLE_APIS=default JDK="1.11"
+    - API=23 ABI=x86_64 GOOGLE_APIS=default
+    - API=22 ABI=x86_64 GOOGLE_APIS=default
+    - API=21 ABI=x86_64 GOOGLE_APIS=default
+    # API=20  -- not released
+    - API=19 ABI=x86_64 GOOGLE_APIS=default # sdkmanager: Failed to find system-images
+#    - API=19 ABI=armeabi-v7a GOOGLE_APIS=default # Emulator does not start
+    - API=18 ABI=x86_64 GOOGLE_APIS=default
+    - API=18 ABI=x86
+    - API=17 ABI=x86_64 GOOGLE_APIS=default
+#    - API=17 ABI=x86 # flutter test hangs
+    - API=16 ABI=x86_64 GOOGLE_APIS=default
+#    - API=16 ABI=x86 AUDIO=-no-audio # flutter test hangs
+#    - API=15 ABI=x86_64 GOOGLE_APIS=default # sdkmanager: Failed to find system-images
+    # API=14 -- not released
+    # API=13 -- not released
+    # API=12 -- not released
+    # API=11 -- not released
+#    - API=10 ABI=x86_64 GOOGLE_APIS=default # sdkmanager: Failed to find system-images
+
+#jobs:
+#  fast_finish: true  # We can report success without waiting for jobs that we
+#                     # allow / expect to fail.
 #  include:
 #    - env: API=24 JDK="1.11"
 #  allow_failures:
@@ -75,7 +110,7 @@ jobs:
 
 before_install:
   # fix timezone warning on osx
-  - if [ $TRAVIS_OS_NAME == "osx" ]; then sudo ln -sf /usr/share/zoneinfo/US/Pacific /etc/localtime; fi
+#  - if [ $TRAVIS_OS_NAME == "osx" ]; then sudo ln -sf /usr/share/zoneinfo/US/Pacific /etc/localtime; fi
 
   # Set up KVM
   - |
@@ -96,7 +131,7 @@ before_install:
   # Set up Android SDK
   - |
     if [ $TRAVIS_OS_NAME == "osx" ]; then
-      wget -q "https://dl.google.com/android/repository/sdk-tools-darwin-$ANDROID_TOOLS.zip" -O android-sdk-tools.zip
+#      wget -q "https://dl.google.com/android/repository/sdk-tools-darwin-$ANDROID_TOOLS.zip" -O android-sdk-tools.zip
     else
       wget -q "https://dl.google.com/android/repository/sdk-tools-linux-$ANDROID_TOOLS.zip" -O android-sdk-tools.zip
     fi
@@ -119,13 +154,13 @@ install:
   - sdkmanager "platforms;android-28" >/dev/null # We need the API of the current compileSdkVersion from gradle.properties
   - sdkmanager "emulator" >/dev/null
   - sdkmanager "extras;android;m2repository" >/dev/null
-  - sdkmanager "system-images;android-$API;$EMU_FLAVOR;$ABI" >/dev/null # install our emulator
+  - sdkmanager "system-images;android-$API;$GOOGLE_APIS;$ABI" >/dev/null # install our emulator
 
   # Create an Android emulator
-  - echo no | avdmanager create avd --force -n test -k "system-images;android-$API;$EMU_FLAVOR;$ABI" -c 10M
+  - echo no | avdmanager create avd --force -n test -k "system-images;android-$API;$GOOGLE_APIS;$ABI" -c 10M --device "Nexus 6P"
   - EMU_PARAMS="-verbose -no-snapshot -no-window -camera-back none -camera-front none -selinux permissive -qemu -m 2048"
   # Disable acceleration for osx
-  - if [ $TRAVIS_OS_NAME == "osx" ]; then EMU_PARAMS="${EMU_PARAMS} -no-accel"; fi
+#  - if [ $TRAVIS_OS_NAME == "osx" ]; then EMU_PARAMS="${EMU_PARAMS} -no-accel"; fi
   - EMU_COMMAND="emulator"
   - |
     if [[ $ABI =~ "x86" ]]; then
@@ -139,7 +174,7 @@ install:
   # install flutter (while emulator is starting)
   - |
     if [ $TRAVIS_OS_NAME == "osx" ]; then
-      wget --quiet --output-document=flutter.zip https://storage.googleapis.com/flutter_infra/releases/${FLUTTER_CHANNEL}/macos/flutter_macos_v${FLUTTER_VERSION}.zip && unzip -qq flutter.zip -d $(dirname ${FLUTTER_HOME}) && rm flutter.zip
+#      wget --quiet --output-document=flutter.zip https://storage.googleapis.com/flutter_infra/releases/${FLUTTER_CHANNEL}/macos/flutter_macos_v${FLUTTER_VERSION}.zip && unzip -qq flutter.zip -d $(dirname ${FLUTTER_HOME}) && rm flutter.zip
     else
       sudo apt-get install -y --no-install-recommends lib32stdc++6 libstdc++6 > /dev/null
       wget --quiet --output-document=flutter.tar.xz https://storage.googleapis.com/flutter_infra/releases/${FLUTTER_CHANNEL}/linux/flutter_linux_v${FLUTTER_VERSION}.tar.xz && tar xf flutter.tar.xz -C $(dirname ${FLUTTER_HOME}) && rm flutter.tar.xz
