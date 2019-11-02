@@ -56,8 +56,8 @@ jobs:
     - env: API=16 ABI=x86 AUDIO=-no-audio # flutter test hangs
     - env: API=17 ABI=x86 # flutter test hangs
     - env: API=18 ABI=x86 # flakey: gradlew fails sometimes during test
-                       # "Could not load compiled classes for settings file"
-      - API=24 JDK="1.11"
+                          # "Could not load compiled classes for settings file"
+    - env: API=24 JDK="1.11"
     - os: osx
   # (The test stage is implicit, add other stages here.)
 
@@ -147,12 +147,12 @@ install:
 script:
   - cd flutter_app; flutter driver lib/main.dart
 
-#before_cache:
-#  - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+before_cache:
+  - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
 #  - curl "${GRAVIS}.clean_gradle_cache.sh" --output ~/.clean_gradle_cache.sh
 #  - bash ~/.clean_gradle_cache.sh
-#
-#cache:
-#  directories:
-#    - $HOME/.gradle/caches/
-#    - $HOME/.gradle/wrapper/
+
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
