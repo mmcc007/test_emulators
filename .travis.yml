@@ -31,37 +31,42 @@ env:
     - export PATH=${HOME}/.pub-cache/bin:${PATH}
     - export PATH=${FLUTTER_HOME}/bin:${FLUTTER_HOME}/bin/cache/dart-sdk/bin:${PATH}
 
-  # define full matrix of os x ABI and comment-out or exclude invalid entries
+  # define full matrix of os x API and comment-out invalid entries
   jobs:
     - API=29
     - API=28
     - API=27
-    - API=26 # Fails with unrecognized tests? orchestrator change or something?
+    - API=26 # Hanging: flutter doctor: Scanning for devices is taking a long time...
     - API=25
     - API=24
+    - API=24 JDK="1.11"
     - API=23
     - API=22
     - API=21
-    - API=20
+#    - API=20 # sdkmanager: Warning: Failed to find package system-images;android-20;default;x86_64
+    - API=19
     - API=19 ABI=armeabi-v7a # Fails: kernel/emulator mismatch, and emulator-29+ doesn't support "-engine classic" to fix
+    - API=18
     - API=18 ABI=x86 # API18 has started being flaky
-    - API=17 ABI=x86
-    - API=16 ABI=x86 AUDIO=-no-audio
-    - API=15 # only runs locally. Create+Start once from AndroidStudio to init sdcard. Then only from command-line w/-engine classic
-    - API=14
-    - API=13
-    - API=12
-    - API=11
-    - API=10
+    - API=17
+#    - API=17 ABI=x86 # flutter test hangs
+    - API=16
+#    - API=16 ABI=x86 AUDIO=-no-audio # flutter test hangs
+#    - API=15 # sdkmanager: Warning: Warning: Failed to find package system-images;android-15;default;x86_64
+#    - API=14 # sdkmanager: Warning: Warning: Failed to find package system-images;android-14;default;x86_64
+#    - API=13 # sdkmanager: Warning: Warning: Failed to find package system-images;android-13;default;x86_64
+#    - API=12 # sdkmanager: Warning: Warning: Failed to find package system-images;android-12;default;x86_64
+#    - API=11 # sdkmanager: Warning: Warning: Failed to find package system-images;android-11;default;x86_64
+#    - API=10 # sdkmanager: Warning: Warning: Failed to find package system-images;android-10;default;x86_64
 
 jobs:
   fast_finish: true  # We can report success without waiting for jobs that we
                      # allow / expect to fail.
-  include:
-    - env: API=24 JDK="1.11"
-  allow_failures:
-    - env: API=16 ABI=x86 AUDIO=-no-audio # flutter test hangs
-    - env: API=17 ABI=x86 # flutter test hangs
+#  include:
+#    - env: API=24 JDK="1.11"
+#  allow_failures:
+#    - env: API=16 ABI=x86 AUDIO=-no-audio # flutter test hangs
+#    - env: API=17 ABI=x86 # flutter test hangs
 #    - env: API=18 ABI=x86 # flakey: gradlew fails sometimes during test
                           # "Could not load compiled classes for settings file"
 #    - env: API=24 JDK="1.11"
@@ -139,7 +144,6 @@ install:
       sudo apt-get install -y --no-install-recommends lib32stdc++6 libstdc++6 > /dev/null
       wget --quiet --output-document=flutter.tar.xz https://storage.googleapis.com/flutter_infra/releases/${FLUTTER_CHANNEL}/linux/flutter_linux_v${FLUTTER_VERSION}.tar.xz && tar xf flutter.tar.xz -C $(dirname ${FLUTTER_HOME}) && rm flutter.tar.xz
     fi
-  - flutter doctor -v
 
   # Wait for emulator to be ready
   - ./script/android-wait-for-emulator.sh
@@ -148,6 +152,8 @@ install:
   # Switch back to our target JDK version to build and run tests
   - JDK="${TARGET_JDK}"
   - source ~/.install-jdk-travis.sh
+
+  - flutter doctor -v
 
 script:
   - cd flutter_app; flutter driver lib/main.dart
