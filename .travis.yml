@@ -27,24 +27,32 @@ env:
     - PATH=${ANDROID_HOME}:${ANDROID_HOME}/emulator:${TOOLS}:${TOOLS}/bin:${ANDROID_HOME}/platform-tools:${PATH}
     - FLUTTER_CHANNEL=stable
     - FLUTTER_VERSION=1.9.1+hotfix.6-${FLUTTER_CHANNEL}
+    - FLUTTER_HOME=${HOME/flutter}
+    - export PATH=${HOME}/.pub-cache/bin:${PATH}
+    - export PATH=${FLUTTER_HOME}/bin:${FLUTTER_HOME}/bin/cache/dart-sdk/bin:${PATH}
 
   # define full matrix of os x ABI and comment-out or exclude invalid entries
   jobs:
-    #- API=15 # only runs locally. Create+Start once from AndroidStudio to init sdcard. Then only from command-line w/-engine classic
-    - API=16 ABI=x86 AUDIO=-no-audio
-    - API=17 ABI=x86
-    - API=18 ABI=x86 # API18 has started being flaky
-    #- API=19 ABI=armeabi-v7a # Fails: kernel/emulator mismatch, and emulator-29+ doesn't support "-engine classic" to fix
-    # API 20 was Android Wear only
-    - API=21
-    - API=22
-    - API=23
-    - API=24
-    - API=25
-    #- API=26 # Fails with unrecognized tests? orchestrator change or something?
-    - API=27
-    - API=28
     - API=29
+    - API=28
+    - API=27
+    - API=26 # Fails with unrecognized tests? orchestrator change or something?
+    - API=25
+    - API=24
+    - API=23
+    - API=22
+    - API=21
+    - API=20
+    - API=19 ABI=armeabi-v7a # Fails: kernel/emulator mismatch, and emulator-29+ doesn't support "-engine classic" to fix
+    - API=18 ABI=x86 # API18 has started being flaky
+    - API=17 ABI=x86
+    - API=16 ABI=x86 AUDIO=-no-audio
+    - API=15 # only runs locally. Create+Start once from AndroidStudio to init sdcard. Then only from command-line w/-engine classic
+    - API=14
+    - API=13
+    - API=12
+    - API=11
+    - API=10
 
 jobs:
   fast_finish: true  # We can report success without waiting for jobs that we
@@ -54,10 +62,10 @@ jobs:
   allow_failures:
     - env: API=16 ABI=x86 AUDIO=-no-audio # flutter test hangs
     - env: API=17 ABI=x86 # flutter test hangs
-    - env: API=18 ABI=x86 # flakey: gradlew fails sometimes during test
+#    - env: API=18 ABI=x86 # flakey: gradlew fails sometimes during test
                           # "Could not load compiled classes for settings file"
-    - env: API=24 JDK="1.11"
-    - os: osx
+#    - env: API=24 JDK="1.11"
+#    - os: osx
   # (The test stage is implicit, add other stages here.)
 
 before_install:
@@ -126,13 +134,11 @@ install:
   # install flutter (while emulator is starting)
   - |
     if [ $TRAVIS_OS_NAME == "osx" ]; then
-      wget --quiet --output-document=flutter.zip https://storage.googleapis.com/flutter_infra/releases/${FLUTTER_CHANNEL}/macos/flutter_macos_v${FLUTTER_VERSION}.zip && unzip -qq flutter.zip > /dev/null && rm flutter.zip
+      wget --quiet --output-document=flutter.zip https://storage.googleapis.com/flutter_infra/releases/${FLUTTER_CHANNEL}/macos/flutter_macos_v${FLUTTER_VERSION}.zip && unzip -qq flutter.zip -d $(dirname ${FLUTTER_HOME}) && rm flutter.zip
     else
       sudo apt-get install -y --no-install-recommends lib32stdc++6 libstdc++6 > /dev/null
-      wget --quiet --output-document=flutter.tar.xz https://storage.googleapis.com/flutter_infra/releases/${FLUTTER_CHANNEL}/linux/flutter_linux_v${FLUTTER_VERSION}.tar.xz && tar xf flutter.tar.xz > /dev/null && rm flutter.tar.xz
+      wget --quiet --output-document=flutter.tar.xz https://storage.googleapis.com/flutter_infra/releases/${FLUTTER_CHANNEL}/linux/flutter_linux_v${FLUTTER_VERSION}.tar.xz && tar xf flutter.tar.xz -C $(dirname ${FLUTTER_HOME}) && rm flutter.tar.xz
     fi
-  - export PATH="$PATH":"$HOME/.pub-cache/bin"
-  - export PATH=$PWD/flutter/bin:$PWD/flutter/bin/cache/dart-sdk/bin:$PATH
   - flutter doctor -v
 
   # Wait for emulator to be ready
