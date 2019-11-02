@@ -53,10 +53,9 @@ jobs:
   include:
     - env: API=24 JDK="1.11"
   allow_failures:
-    - env:
-      - API=16 ABI=x86 AUDIO=-no-audio # flutter test hangs
-      - API=17 ABI=x86 # flutter test hangs
-      - API=18 ABI=x86 # flakey: gradlew fails sometimes during test
+    - env: API=16 ABI=x86 AUDIO=-no-audio # flutter test hangs
+    - env: API=17 ABI=x86 # flutter test hangs
+    - env: API=18 ABI=x86 # flakey: gradlew fails sometimes during test
                        # "Could not load compiled classes for settings file"
       - API=24 JDK="1.11"
     - os: osx
