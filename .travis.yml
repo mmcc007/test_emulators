@@ -131,7 +131,7 @@ before_install:
   # Set up Android SDK
   - |
     if [ $TRAVIS_OS_NAME == "osx" ]; then
-#      wget -q "https://dl.google.com/android/repository/sdk-tools-darwin-$ANDROID_TOOLS.zip" -O android-sdk-tools.zip
+      # wget -q "https://dl.google.com/android/repository/sdk-tools-darwin-$ANDROID_TOOLS.zip" -O android-sdk-tools.zip
     else
       wget -q "https://dl.google.com/android/repository/sdk-tools-linux-$ANDROID_TOOLS.zip" -O android-sdk-tools.zip
     fi
@@ -174,7 +174,7 @@ install:
   # install flutter (while emulator is starting)
   - |
     if [ $TRAVIS_OS_NAME == "osx" ]; then
-#      wget --quiet --output-document=flutter.zip https://storage.googleapis.com/flutter_infra/releases/${FLUTTER_CHANNEL}/macos/flutter_macos_v${FLUTTER_VERSION}.zip && unzip -qq flutter.zip -d $(dirname ${FLUTTER_HOME}) && rm flutter.zip
+      # wget --quiet --output-document=flutter.zip https://storage.googleapis.com/flutter_infra/releases/${FLUTTER_CHANNEL}/macos/flutter_macos_v${FLUTTER_VERSION}.zip && unzip -qq flutter.zip -d $(dirname ${FLUTTER_HOME}) && rm flutter.zip
     else
       sudo apt-get install -y --no-install-recommends lib32stdc++6 libstdc++6 > /dev/null
       wget --quiet --output-document=flutter.tar.xz https://storage.googleapis.com/flutter_infra/releases/${FLUTTER_CHANNEL}/linux/flutter_linux_v${FLUTTER_VERSION}.tar.xz && tar xf flutter.tar.xz -C $(dirname ${FLUTTER_HOME}) && rm flutter.tar.xz
