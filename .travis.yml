@@ -17,7 +17,6 @@ dist: bionic
 env:
   global:
     - ABI=x86_64
-    - EMU_FLAVOR=default # ignore "google_apis" and other cases
     - ANDROID_TOOLS=4333796 # android-28
     - ANDROID_HOME=${HOME}/android-sdk
     - EMU_FLAVOR=default # use google_apis flavor if no default flavor emulator
@@ -29,7 +28,7 @@ env:
     - FLUTTER_CHANNEL=stable
     - FLUTTER_VERSION=1.9.1+hotfix.6-${FLUTTER_CHANNEL}
 
-  # define full matrix of SYS x ABI and comment-out or exclude invalid entries
+  # define full matrix of os x ABI and comment-out or exclude invalid entries
   jobs:
     #- API=15 # only runs locally. Create+Start once from AndroidStudio to init sdcard. Then only from command-line w/-engine classic
     - API=16 ABI=x86 AUDIO=-no-audio
