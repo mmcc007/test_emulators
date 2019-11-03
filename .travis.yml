@@ -23,6 +23,7 @@
 #    |        10 | Gingerbread        |                2.3 |
 #    +-----------+--------------------+--------------------+
 # "https://en.wikipedia.org/wiki/Android_(operating_system)#Platform_information"
+# Note: Flutter supports down to API 16
 
 # use generic language
 language: shell
@@ -59,108 +60,97 @@ env:
   # define full matrix of APIxABIxGOO and comment-out invalid entries
   # (see "sdkmanager --list --verbose| grep ^system-images" for full list)
   jobs:
-#    - API=29 ABI=x86_64 GOO=google_apis_playstore # DriverError: Failed to fulfill GetHealth due to remote error
-#    - API=29 ABI=x86    GOO=google_apis_playstore # flutter doctor reports emulator is offline
-#    - API=29 ABI=x86_64 GOO=google_apis # flutter drive reports "Bad state: No element"
-#    - API=29 ABI=x86    GOO=google_apis # DriverError: Failed to fulfill GetHealth due to remote error
-#    - API=29 ABI=x86_64 GOO=default
-#    - API=29 ABI=x86    GOO=default
+#    - API=29 ABI=x86_64      GOO=google_apis_playstore # DriverError: Failed to fulfill GetHealth due to remote error
+#    - API=29 ABI=x86         GOO=google_apis_playstore # flutter doctor reports emulator is offline
+#    - API=29 ABI=x86_64      GOO=google_apis # flutter drive reports "Bad state: No element"
+#    - API=29 ABI=x86         GOO=google_apis # DriverError: Failed to fulfill GetHealth due to remote error
+#    - API=29 ABI=x86_64      GOO=default
+#    - API=29 ABI=x86         GOO=default
 #
-#    - API=28 ABI=x86_64 GOO=google_apis_playstore
-#    - API=28 ABI=x86    GOO=google_apis_playstore
-#    - API=28 ABI=x86_64 GOO=google_apis
-#    - API=28 ABI=x86    GOO=google_apis
-#    - API=28 ABI=x86_64 GOO=default
-#    - API=28 ABI=x86    GOO=default
-
-    - API=27 ABI=x86_64 GOO=google_apis_playstore #??
-    - API=27 ABI=x86    GOO=google_apis_playstore
-    - API=27 ABI=x86_64 GOO=google_apis # ??
-    - API=27 ABI=x86    GOO=google_apis
-    - API=27 ABI=x86_64 GOO=default
-    - API=27 ABI=x86    GOO=default
-
-    - API=26 ABI=x86    GOO=google_apis_playstore
-    - API=26 ABI=x86_64 GOO=google_apis
-    - API=26 ABI=x86    GOO=google_apis
-    - API=26 ABI=x86_64 GOO=default
-    - API=26 ABI=x86    GOO=default
-
-    - API=25 ABI=x86         GOO=google_apis_playstore
-    - API=25 ABI=x86_64      GOO=google_apis
-    - API=25 ABI=x86         GOO=google_apis
-    - API=25 ABI=x86_64      GOO=default
-    - API=25 ABI=x86         GOO=default
+#    - API=28 ABI=x86_64      GOO=google_apis_playstore
+#    - API=28 ABI=x86         GOO=google_apis_playstore
+#    - API=28 ABI=x86_64      GOO=google_apis
+#    - API=28 ABI=x86         GOO=google_apis
+#    - API=28 ABI=x86_64      GOO=default
+#    - API=28 ABI=x86         GOO=default
+#
+#    - API=27 ABI=x86         GOO=google_apis_playstore
+#    - API=27 ABI=x86         GOO=google_apis
+#    - API=27 ABI=x86_64      GOO=default
+#    - API=27 ABI=x86         GOO=default
+#
+#    - API=26 ABI=x86         GOO=google_apis_playstore
+#    - API=26 ABI=x86_64      GOO=google_apis
+#    - API=26 ABI=x86         GOO=google_apis
+#    - API=26 ABI=x86_64      GOO=default
+#    - API=26 ABI=x86         GOO=default
+#
+#    - API=25 ABI=x86         GOO=google_apis_playstore
+#    - API=25 ABI=x86_64      GOO=google_apis
+#    - API=25 ABI=x86         GOO=google_apis
+#    - API=25 ABI=x86_64      GOO=default
+#    - API=25 ABI=x86         GOO=default
     - API=25 ABI=armeabi-v7a GOO=google_apis
     - API=25 ABI=arm64-v8a   GOO=google_apis
 
-    - API=24 ABI=x86_64      GOO=google_apis
-    - API=24 ABI=x86         GOO=google_apis
+#    - API=24 ABI=x86_64      GOO=google_apis
+#    - API=24 ABI=x86         GOO=google_apis
     - API=24 ABI=armeabi-v7a GOO=google_apis
     - API=24 ABI=arm64-v8a   GOO=google_apis
-    - API=24 ABI=x86_64      GOO=default
-    - API=24 ABI=x86         GOO=default
+#    - API=24 ABI=x86_64      GOO=default
+#    - API=24 ABI=x86         GOO=default
     - API=24 ABI=armeabi-v7a GOO=default
     - API=24 ABI=arm64-v8a   GOO=default
 
-    - API=23 ABI=x86_64      GOO=google_apis
-    - API=23 ABI=x86         GOO=google_apis
-    - API=23 ABI=armeabi-v7  GOO=google_apis
-    - API=23 ABI=x86_64      GOO=default
-    - API=23 ABI=x86         GOO=default
+#    - API=23 ABI=x86_64      GOO=google_apis
+#    - API=23 ABI=x86         GOO=google_apis
+    - API=23 ABI=armeabi-v7  GOO=google_apis # system image listed but not found ??
+#    - API=23 ABI=x86_64      GOO=default
+#    - API=23 ABI=x86         GOO=default
     - API=23 ABI=armeabi-v7a GOO=default
 
-    - API=22 ABI=x86_64      GOO=google_apis
+#    - API=22 ABI=x86_64      GOO=google_apis # emulator does not start ??
     - API=22 ABI=x86         GOO=google_apis
-    - API=22 ABI=armeabi-v7  GOO=google_apis
+    - API=22 ABI=armeabi-v7  GOO=google_apis  # system image listed but not found ??
     - API=22 ABI=x86_64      GOO=default
     - API=22 ABI=x86         GOO=default
     - API=22 ABI=armeabi-v7a GOO=default
 
     - API=21 ABI=x86_64      GOO=google_apis
     - API=21 ABI=x86         GOO=google_apis
-    - API=21 ABI=armeabi-v7  GOO=google_apis
+    - API=21 ABI=armeabi-v7  GOO=google_apis  # system image listed but not found ??
     - API=21 ABI=x86_64      GOO=default
     - API=21 ABI=x86         GOO=default
     - API=21 ABI=armeabi-v7a GOO=default
 
     # API=20  -- not released
 
-    - API=19 ABI=x86 GOO=google_apis
-    - API=19 ABI=x86 GOO=default
+    - API=19 ABI=x86         GOO=google_apis
+    - API=19 ABI=x86         GOO=default
     - API=19 ABI=armeabi-v7a GOO=google_apis
     - API=19 ABI=armeabi-v7a GOO=default
 
-    - API=18 ABI=x86 GOO=google_apis
-    - API=18 ABI=x86 GOO=default
+    - API=18 ABI=x86         GOO=google_apis
+    - API=18 ABI=x86         GOO=default
     - API=18 ABI=armeabi-v7a GOO=google_apis
     - API=18 ABI=armeabi-v7a GOO=default
 
-    - API=17 ABI=x86 GOO=google_apis
-    - API=17 ABI=x86 GOO=default
+#    - API=17 ABI=x86         GOO=google_apis # FlutterDriver: It is taking an unusually long time to connect to the VM...
+#    - API=17 ABI=x86         GOO=default     # FlutterDriver: It is taking an unusually long time to connect to the VM...
     - API=17 ABI=armeabi-v7a GOO=google_apis
     - API=17 ABI=armeabi-v7a GOO=default
 
-    - API=16 ABI=x86 GOO=google_apis
-    - API=16 ABI=x86 GOO=default
+#    - API=16 ABI=x86         GOO=google_apis # FlutterDriver: It is taking an unusually long time to connect to the VM...
+#    - API=16 ABI=x86         GOO=default     # FlutterDriver: It is taking an unusually long time to connect to the VM...
     - API=16 ABI=armeabi-v7a GOO=google_apis
     - API=16 ABI=armeabi-v7a GOO=default
 
-    - API=15 ABI=x86 GOO=google_apis
-    - API=15 ABI=x86 GOO=default
-    - API=15 ABI=armeabi-v7a GOO=google_apis
-    - API=15 ABI=armeabi-v7a GOO=default
-
+    # API=15 -- not supported by flutter
     # API=14 -- not released
     # API=13 -- not released
     # API=12 -- not released
     # API=11 -- not released
-
-    - API=10 ABI=x86 GOO=google_apis
-    - API=10 ABI=x86 GOO=default
-    - API=10 ABI=armeabi-v7a GOO=google_apis
-    - API=10 ABI=armeabi-v7a GOO=default
-
+    # API=10 -- not supported by flutter
 
 jobs:
   fast_finish: true  # We can report success without waiting for jobs that we
@@ -229,6 +219,7 @@ install:
   - sdkmanager "emulator" >/dev/null
   - sdkmanager "extras;android;m2repository" >/dev/null
   - sdkmanager "system-images;android-$API;$GOO;$ABI" >/dev/null # install our emulator
+  - sdkmanager "build-tools;25.0.2" "platforms;android-25" > /dev/null # install build tools and platforms for arm (to allow emulator to run)
 
   # Create an Android emulator
   - echo no | avdmanager create avd --force -n test -k "system-images;android-$API;$GOO;$ABI" -c 10M
