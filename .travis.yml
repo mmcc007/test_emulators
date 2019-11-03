@@ -52,8 +52,8 @@ env:
     - FLUTTER_CHANNEL=stable
     - FLUTTER_VERSION=1.9.1+hotfix.6-${FLUTTER_CHANNEL}
     - FLUTTER_HOME=${HOME}/flutter
-    - export PATH=${HOME}/.pub-cache/bin:${PATH}
-    - export PATH=${FLUTTER_HOME}/bin:${FLUTTER_HOME}/bin/cache/dart-sdk/bin:${PATH}
+    - PATH=${HOME}/.pub-cache/bin:${PATH}
+    - PATH=${FLUTTER_HOME}/bin:${FLUTTER_HOME}/bin/cache/dart-sdk/bin:${PATH}
 
   # define full matrix of APIxABIxGOO and comment-out invalid entries
   # (see "sdkmanager --list --verbose| grep ^system-images" for full list)
@@ -61,14 +61,17 @@ env:
     - API=29 ABI=x86_64 GOO=google_apis_playstore
     - API=29 ABI=x86    GOO=google_apis_playstore
     - API=29 ABI=x86_64 GOO=google_apis
-    - API=29 ABI=x86    GOO=google_apis
+    - API=29 ABI=x86    GOO=google_apis # DriverError: Failed to fulfill GetHealth due to remote error
+    - API=29 ABI=x86_64 GOO=default
+    - API=29 ABI=x86    GOO=default
 
     - API=28 ABI=x86_64 GOO=google_apis_playstore
     - API=28 ABI=x86    GOO=google_apis_playstore
     - API=28 ABI=x86_64 GOO=google_apis
     - API=28 ABI=x86    GOO=google_apis
+    - API=28 ABI=x86_64 GOO=default
+    - API=28 ABI=x86    GOO=default
 
-    - API=28 ABI=x86 GOO=default
     - API=27 ABI=x86_64 GOO=default
 #    - API=26 ABI=x86_64 GOO=default # Hanging: flutter doctor: Scanning for devices is taking a long time...
     - API=26 ABI=x86 GOO=default
@@ -158,7 +161,7 @@ install:
   - sdkmanager "system-images;android-$API;$GOO;$ABI" >/dev/null # install our emulator
 
   # Create an Android emulator
-  - echo no | avdmanager create avd --force -n test -k "system-images;android-$API;$GOO;$ABI" -c 10M --device "Nexus 6P"
+  - echo no | avdmanager create avd --force -n test -k "system-images;android-$API;$GOO;$ABI" -c 10M
   - EMU_PARAMS="-verbose -no-snapshot -no-window -camera-back none -camera-front none -selinux permissive -qemu -m 2048"
   # Disable acceleration for osx
 #  - if [ $TRAVIS_OS_NAME == "osx" ]; then EMU_PARAMS="${EMU_PARAMS} -no-accel"; fi
