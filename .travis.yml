@@ -59,44 +59,108 @@ env:
   # define full matrix of APIxABIxGOO and comment-out invalid entries
   # (see "sdkmanager --list --verbose| grep ^system-images" for full list)
   jobs:
-    - API=29 ABI=x86_64 GOO=google_apis_playstore # DriverError: Failed to fulfill GetHealth due to remote error
-    - API=29 ABI=x86    GOO=google_apis_playstore
-    - API=29 ABI=x86_64 GOO=google_apis
-    - API=29 ABI=x86    GOO=google_apis # DriverError: Failed to fulfill GetHealth due to remote error
-    - API=29 ABI=x86_64 GOO=default
-    - API=29 ABI=x86    GOO=default
+#    - API=29 ABI=x86_64 GOO=google_apis_playstore # DriverError: Failed to fulfill GetHealth due to remote error
+#    - API=29 ABI=x86    GOO=google_apis_playstore # flutter doctor reports emulator is offline
+#    - API=29 ABI=x86_64 GOO=google_apis # flutter drive reports "Bad state: No element"
+#    - API=29 ABI=x86    GOO=google_apis # DriverError: Failed to fulfill GetHealth due to remote error
+#    - API=29 ABI=x86_64 GOO=default
+#    - API=29 ABI=x86    GOO=default
+#
+#    - API=28 ABI=x86_64 GOO=google_apis_playstore
+#    - API=28 ABI=x86    GOO=google_apis_playstore
+#    - API=28 ABI=x86_64 GOO=google_apis
+#    - API=28 ABI=x86    GOO=google_apis
+#    - API=28 ABI=x86_64 GOO=default
+#    - API=28 ABI=x86    GOO=default
 
-    - API=28 ABI=x86_64 GOO=google_apis_playstore
-    - API=28 ABI=x86    GOO=google_apis_playstore
-    - API=28 ABI=x86_64 GOO=google_apis
-    - API=28 ABI=x86    GOO=google_apis
-    - API=28 ABI=x86_64 GOO=default
-    - API=28 ABI=x86    GOO=default
-
+    - API=27 ABI=x86_64 GOO=google_apis_playstore #??
+    - API=27 ABI=x86    GOO=google_apis_playstore
+    - API=27 ABI=x86_64 GOO=google_apis # ??
+    - API=27 ABI=x86    GOO=google_apis
     - API=27 ABI=x86_64 GOO=default
-#    - API=26 ABI=x86_64 GOO=default # Hanging: flutter doctor: Scanning for devices is taking a long time...
+    - API=27 ABI=x86    GOO=default
+
+    - API=26 ABI=x86    GOO=google_apis_playstore
+    - API=26 ABI=x86_64 GOO=google_apis
+    - API=26 ABI=x86    GOO=google_apis
+    - API=26 ABI=x86_64 GOO=default
     - API=26 ABI=x86    GOO=default
-    - API=25 ABI=x86_64 GOO=default
-    - API=24 ABI=x86_64 GOO=default
-    - API=24 ABI=x86_64 GOO=default JDK="1.11"
-    - API=23 ABI=x86_64 GOO=default
-    - API=22 ABI=x86_64 GOO=default
-    - API=21 ABI=x86_64 GOO=default
+
+    - API=25 ABI=x86         GOO=google_apis_playstore
+    - API=25 ABI=x86_64      GOO=google_apis
+    - API=25 ABI=x86         GOO=google_apis
+    - API=25 ABI=x86_64      GOO=default
+    - API=25 ABI=x86         GOO=default
+    - API=25 ABI=armeabi-v7a GOO=google_apis
+    - API=25 ABI=arm64-v8a   GOO=google_apis
+
+    - API=24 ABI=x86_64      GOO=google_apis
+    - API=24 ABI=x86         GOO=google_apis
+    - API=24 ABI=armeabi-v7a GOO=google_apis
+    - API=24 ABI=arm64-v8a   GOO=google_apis
+    - API=24 ABI=x86_64      GOO=default
+    - API=24 ABI=x86         GOO=default
+    - API=24 ABI=armeabi-v7a GOO=default
+    - API=24 ABI=arm64-v8a   GOO=default
+
+    - API=23 ABI=x86_64      GOO=google_apis
+    - API=23 ABI=x86         GOO=google_apis
+    - API=23 ABI=armeabi-v7  GOO=google_apis
+    - API=23 ABI=x86_64      GOO=default
+    - API=23 ABI=x86         GOO=default
+    - API=23 ABI=armeabi-v7a GOO=default
+
+    - API=22 ABI=x86_64      GOO=google_apis
+    - API=22 ABI=x86         GOO=google_apis
+    - API=22 ABI=armeabi-v7  GOO=google_apis
+    - API=22 ABI=x86_64      GOO=default
+    - API=22 ABI=x86         GOO=default
+    - API=22 ABI=armeabi-v7a GOO=default
+
+    - API=21 ABI=x86_64      GOO=google_apis
+    - API=21 ABI=x86         GOO=google_apis
+    - API=21 ABI=armeabi-v7  GOO=google_apis
+    - API=21 ABI=x86_64      GOO=default
+    - API=21 ABI=x86         GOO=default
+    - API=21 ABI=armeabi-v7a GOO=default
+
     # API=20  -- not released
-    - API=19 ABI=x86_64 GOO=default # sdkmanager: Failed to find system-images
-#    - API=19 ABI=armeabi-v7a GOO=default # Emulator does not start
-    - API=18 ABI=x86    GOO=default
-    - API=18 ABI=x86
-    - API=17 ABI=x86    GOO=default
-#    - API=17 ABI=x86 # flutter test hangs
-    - API=16 ABI=x86    GOO=default
-#    - API=16 ABI=x86 AUDIO=-no-audio # flutter test hangs
-#    - API=15 ABI=x86_64 GOO=default # sdkmanager: Failed to find system-images
+
+    - API=19 ABI=x86 GOO=google_apis
+    - API=19 ABI=x86 GOO=default
+    - API=19 ABI=armeabi-v7a GOO=google_apis
+    - API=19 ABI=armeabi-v7a GOO=default
+
+    - API=18 ABI=x86 GOO=google_apis
+    - API=18 ABI=x86 GOO=default
+    - API=18 ABI=armeabi-v7a GOO=google_apis
+    - API=18 ABI=armeabi-v7a GOO=default
+
+    - API=17 ABI=x86 GOO=google_apis
+    - API=17 ABI=x86 GOO=default
+    - API=17 ABI=armeabi-v7a GOO=google_apis
+    - API=17 ABI=armeabi-v7a GOO=default
+
+    - API=16 ABI=x86 GOO=google_apis
+    - API=16 ABI=x86 GOO=default
+    - API=16 ABI=armeabi-v7a GOO=google_apis
+    - API=16 ABI=armeabi-v7a GOO=default
+
+    - API=15 ABI=x86 GOO=google_apis
+    - API=15 ABI=x86 GOO=default
+    - API=15 ABI=armeabi-v7a GOO=google_apis
+    - API=15 ABI=armeabi-v7a GOO=default
+
     # API=14 -- not released
     # API=13 -- not released
     # API=12 -- not released
     # API=11 -- not released
-    - API=10 ABI=x86    GOO=default
+
+    - API=10 ABI=x86 GOO=google_apis
+    - API=10 ABI=x86 GOO=default
+    - API=10 ABI=armeabi-v7a GOO=google_apis
+    - API=10 ABI=armeabi-v7a GOO=default
+
 
 jobs:
   fast_finish: true  # We can report success without waiting for jobs that we
@@ -105,6 +169,8 @@ jobs:
 #    - env: API=24 JDK="1.11"
   allow_failures:
     - env: API=29 ABI=x86_64 GOO=google_apis_playstore
+    - env: API=29 ABI=x86    GOO=google_apis_playstore
+    - env: API=29 ABI=x86_64 GOO=google_apis
     - env: API=29 ABI=x86    GOO=google_apis
 
 #    - env: API=16 ABI=x86 AUDIO=-no-audio # flutter test hangs
@@ -200,7 +266,7 @@ install:
   - flutter doctor -v
 
 script:
-  - cd flutter_app; flutter driver lib/main.dart
+  - cd flutter_app; flutter driver
 
 #before_cache:
 #  - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
