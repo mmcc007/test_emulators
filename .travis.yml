@@ -240,7 +240,7 @@ install:
       EMU_COMMAND="emulator-headless"
     else
       # emulate graphics if running on ARM
-      EMU_PARAMS=${EMU_PARAMS} -gpu swiftshader
+      EMU_PARAMS="${EMU_PARAMS} -gpu swiftshader"
     fi
   # This double "sudo" monstrosity is used to have Travis execute the
   # emulator with its new group permissions and help preserve the rule
