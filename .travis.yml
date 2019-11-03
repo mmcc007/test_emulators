@@ -1,8 +1,8 @@
 # sudo: false --> run dist image in docker container on shared host for faster startup (runs slower)
 # sudo: required --> run dist image in VM on Google Compute Engine for slower startup (runs faster)
 # sudo and dist are ignored on osx
-sudo: required
-dist: trusty
+#sudo: required
+dist: bionic
 os:
   - linux
 #  - osx
@@ -43,7 +43,7 @@ matrix:
 #    - env: SYS=20 ABI="default;armeabi-v7a"
 #    - env: SYS=14 ABI="default;armeabi-v7a"
 
-language: generic
+language: shell
 before_install:
 #  - |
 #    if [ $TRAVIS_OS_NAME == "linux" ]; then
@@ -76,7 +76,7 @@ before_install:
 #      brew cask uninstall java; brew tap caskroom/versions; brew cask install java8;
 #    fi
   # Accept licenses before installing components, no need to echo y for each component
-  - yes | sdkmanager --licenses
+  - yes | sdkmanager --licenses > /dev/null
   # Platform tools
   - sdkmanager "emulator" "tools" "platform-tools" > /dev/null
   - sdkmanager --list | head -15
