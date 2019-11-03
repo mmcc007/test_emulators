@@ -54,11 +54,12 @@ env:
     - FLUTTER_HOME=${HOME}/flutter
     - PATH=${HOME}/.pub-cache/bin:${PATH}
     - PATH=${FLUTTER_HOME}/bin:${FLUTTER_HOME}/bin/cache/dart-sdk/bin:${PATH}
+    - AUDIO=-no-audio # disable emulator audio
 
   # define full matrix of APIxABIxGOO and comment-out invalid entries
   # (see "sdkmanager --list --verbose| grep ^system-images" for full list)
   jobs:
-    - API=29 ABI=x86_64 GOO=google_apis_playstore
+    - API=29 ABI=x86_64 GOO=google_apis_playstore # DriverError: Failed to fulfill GetHealth due to remote error
     - API=29 ABI=x86    GOO=google_apis_playstore
     - API=29 ABI=x86_64 GOO=google_apis
     - API=29 ABI=x86    GOO=google_apis # DriverError: Failed to fulfill GetHealth due to remote error
@@ -74,7 +75,7 @@ env:
 
     - API=27 ABI=x86_64 GOO=default
 #    - API=26 ABI=x86_64 GOO=default # Hanging: flutter doctor: Scanning for devices is taking a long time...
-    - API=26 ABI=x86 GOO=default
+    - API=26 ABI=x86    GOO=default
     - API=25 ABI=x86_64 GOO=default
     - API=24 ABI=x86_64 GOO=default
     - API=24 ABI=x86_64 GOO=default JDK="1.11"
@@ -84,25 +85,28 @@ env:
     # API=20  -- not released
     - API=19 ABI=x86_64 GOO=default # sdkmanager: Failed to find system-images
 #    - API=19 ABI=armeabi-v7a GOO=default # Emulator does not start
-    - API=18 ABI=x86_64 GOO=default
+    - API=18 ABI=x86    GOO=default
     - API=18 ABI=x86
-    - API=17 ABI=x86_64 GOO=default
+    - API=17 ABI=x86    GOO=default
 #    - API=17 ABI=x86 # flutter test hangs
-    - API=16 ABI=x86_64 GOO=default
+    - API=16 ABI=x86    GOO=default
 #    - API=16 ABI=x86 AUDIO=-no-audio # flutter test hangs
 #    - API=15 ABI=x86_64 GOO=default # sdkmanager: Failed to find system-images
     # API=14 -- not released
     # API=13 -- not released
     # API=12 -- not released
     # API=11 -- not released
-#    - API=10 ABI=x86_64 GOO=default # sdkmanager: Failed to find system-images
+    - API=10 ABI=x86    GOO=default
 
-#jobs:
-#  fast_finish: true  # We can report success without waiting for jobs that we
-#                     # allow / expect to fail.
+jobs:
+  fast_finish: true  # We can report success without waiting for jobs that we
+                     # allow / expect to fail.
 #  include:
 #    - env: API=24 JDK="1.11"
-#  allow_failures:
+  allow_failures:
+    - env: API=29 ABI=x86_64 GOO=google_apis_playstore
+    - env: API=29 ABI=x86    GOO=google_apis
+
 #    - env: API=16 ABI=x86 AUDIO=-no-audio # flutter test hangs
 #    - env: API=17 ABI=x86 # flutter test hangs
 #    - env: API=18 ABI=x86 # flakey: gradlew fails sometimes during test
