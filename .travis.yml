@@ -215,9 +215,13 @@ install:
 #      -qemu -m 2048"
   - EMU_PARAMS="
     -avd test
+    -no-snapshot
     -verbose
     -no-window
     -no-audio
+    -camera-back none
+    -camera-front none
+    -qemu -m 2048
     "
   - EMU_COMMAND="emulator"
   - |
@@ -233,14 +237,14 @@ install:
   - sudo -E sudo -u $USER -E bash -c "${ANDROID_HOME}/emulator/${EMU_COMMAND} ${EMU_PARAMS} &"
 
   # install flutter (while emulator is starting)
-#  - |
-#    if [ $TRAVIS_OS_NAME == "osx" ]; then
-#      : # noop
-#      # wget --quiet --output-document=flutter.zip https://storage.googleapis.com/flutter_infra/releases/${FLUTTER_CHANNEL}/macos/flutter_macos_v${FLUTTER_VERSION}.zip && unzip -qq flutter.zip -d $(dirname ${FLUTTER_HOME}) && rm flutter.zip
-#    else
-#      sudo apt-get install -y --no-install-recommends lib32stdc++6 libstdc++6 > /dev/null
-#      wget --quiet --output-document=flutter.tar.xz https://storage.googleapis.com/flutter_infra/releases/${FLUTTER_CHANNEL}/linux/flutter_linux_v${FLUTTER_VERSION}.tar.xz && tar xf flutter.tar.xz -C $(dirname ${FLUTTER_HOME}) && rm flutter.tar.xz
-#    fi
+  - |
+    if [ $TRAVIS_OS_NAME == "osx" ]; then
+      : # noop
+      # wget --quiet --output-document=flutter.zip https://storage.googleapis.com/flutter_infra/releases/${FLUTTER_CHANNEL}/macos/flutter_macos_v${FLUTTER_VERSION}.zip && unzip -qq flutter.zip -d $(dirname ${FLUTTER_HOME}) && rm flutter.zip
+    else
+      sudo apt-get install -y --no-install-recommends lib32stdc++6 libstdc++6 > /dev/null
+      wget --quiet --output-document=flutter.tar.xz https://storage.googleapis.com/flutter_infra/releases/${FLUTTER_CHANNEL}/linux/flutter_linux_v${FLUTTER_VERSION}.tar.xz && tar xf flutter.tar.xz -C $(dirname ${FLUTTER_HOME}) && rm flutter.tar.xz
+    fi
 
   # Wait for emulator to be ready
   - ./script/android-wait-for-emulator.sh
@@ -250,11 +254,11 @@ install:
   - JDK="${TARGET_JDK}"
   - source ~/.install-jdk-travis.sh
 
-#  - flutter doctor -v
+  - flutter doctor -v
 
 script:
-  - echo "Done."
-#  - cd flutter_app; flutter driver
+#  - echo "Done."
+  - cd flutter_app; flutter driver
 
 #before_cache:
 #  - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
