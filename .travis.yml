@@ -72,16 +72,22 @@ before_install:
   # Create and start emulator.
   - sdkmanager "system-images;android-$SYS;$ABI" > /dev/null
   - echo no | avdmanager create avd -n test -k "system-images;android-$SYS;$ABI"
+#  - EMU_PARAMS="
+#    -verbose
+#    -no-snapshot
+#    -no-window
+#    -no-audio
+#    -no-boot-anim
+#    -camera-back none
+#    -camera-front none
+#    -selinux permissive
+#    -qemu -m 2048"
   - EMU_PARAMS="
+    -avd test
     -verbose
-    -no-snapshot
     -no-window
     -no-audio
-    -no-boot-anim
-    -camera-back none
-    -camera-front none
-    -selinux permissive
-    -qemu -m 2048"
+    "
   - |
     if [[ "${SYS}${ABI}" == "25google_apis;armeabi-v7a" || "${SYS}${ABI}" == "24google_apis;armeabi-v7a" ]]; then
       EMU_PARAMS="${EMU_PARAMS} -gpu swiftshader"
@@ -89,9 +95,10 @@ before_install:
       EMU_PARAMS="${EMU_PARAMS} -gpu off"
     fi
     # use the absolute emulator path in case older version installed (on default path)
-    $ANDROID_HOME/emulator/emulator -verbose -avd test -no-audio ${EMU_PARAMS} &
+    $ANDROID_HOME/emulator/emulator ${EMU_PARAMS} &
 
   # Switch back to our target JDK version to build and run tests
+  - echo "Running test on JDK ${TARGET_JDK}"
   - JDK="${TARGET_JDK}"
   - source ~/.install-jdk-travis.sh
 
