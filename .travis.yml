@@ -68,6 +68,7 @@ before_install:
   -
   # Install android tools
   - sudo apt-get -y --no-install-recommends install libpulse0 # required by emulator
+  - sudo apt-get -y --no-install-recommends install libxcursor1 # required by emulator
   - ANDROID_TOOLS=4333796 # android-28
   - export ANDROID_HOME=~/android-sdk
   - |
