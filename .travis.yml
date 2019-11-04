@@ -50,10 +50,10 @@ env:
   # define full matrix of APIxABIxGOO and comment-out invalid entries
   # (see "sdkmanager --list --verbose| grep ^system-images" for full list)
   jobs:
-#    - API=29 ABI=x86_64      GOO=google_apis_playstore # DriverError: Failed to fulfill GetHealth due to remote error
-#    - API=29 ABI=x86         GOO=google_apis_playstore # flutter doctor reports emulator is offline
-#    - API=29 ABI=x86_64      GOO=google_apis # flutter drive reports "Bad state: No element"
-#    - API=29 ABI=x86         GOO=google_apis # DriverError: Failed to fulfill GetHealth due to remote error
+##    - API=29 ABI=x86_64      GOO=google_apis_playstore # DriverError: Failed to fulfill GetHealth due to remote error
+##    - API=29 ABI=x86         GOO=google_apis_playstore # flutter doctor reports emulator is offline
+##    - API=29 ABI=x86_64      GOO=google_apis # flutter drive reports "Bad state: No element"
+##    - API=29 ABI=x86         GOO=google_apis # DriverError: Failed to fulfill GetHealth due to remote error
 #    - API=29 ABI=x86_64      GOO=default
 #    - API=29 ABI=x86         GOO=default
 #
@@ -80,38 +80,38 @@ env:
 #    - API=25 ABI=x86         GOO=google_apis
 #    - API=25 ABI=x86_64      GOO=default
 #    - API=25 ABI=x86         GOO=default
-#    - API=25 ABI=armeabi-v7a GOO=google_apis # android.util.AndroidException: Can't connect to activity manager; is the system running?
-    - API=25 ABI=arm64-v8a   GOO=google_apis
+##    - API=25 ABI=armeabi-v7a GOO=google_apis # android.util.AndroidException: Can't connect to activity manager; is the system running?
+##    - API=25 ABI=arm64-v8a   GOO=google_apis # emulator takes over 5 minutes to start
 
 #    - API=24 ABI=x86_64      GOO=google_apis
 #    - API=24 ABI=x86         GOO=google_apis
 #    - API=24 ABI=armeabi-v7a GOO=google_apis
 #    - API=24 ABI=arm64-v8a   GOO=google_apis
-    - API=24 ABI=x86_64      GOO=default
+#    - API=24 ABI=x86_64      GOO=default
 #    - API=24 ABI=x86         GOO=default
-    - API=24 ABI=armeabi-v7a GOO=default
+##    - API=24 ABI=armeabi-v7a GOO=default # hangs after installing apk
 #    - API=24 ABI=arm64-v8a   GOO=default
 
 #    - API=23 ABI=x86_64      GOO=google_apis
 #    - API=23 ABI=x86         GOO=google_apis
-#    - API=23 ABI=armeabi-v7  GOO=google_apis # system image listed but not found ??
+    - API=23 ABI=armeabi-v7a GOO=google_apis
 #    - API=23 ABI=x86_64      GOO=default
 #    - API=23 ABI=x86         GOO=default
-#    - API=23 ABI=armeabi-v7a GOO=default
+    - API=23 ABI=armeabi-v7a GOO=default
 
-#    - API=22 ABI=x86_64      GOO=google_apis # emulator does not start ??
+##    - API=22 ABI=x86_64      GOO=google_apis # emulator does not start ??
 #    - API=22 ABI=x86         GOO=google_apis
-#    - API=22 ABI=armeabi-v7  GOO=google_apis  # system image listed but not found ??
+    - API=22 ABI=armeabi-v7a GOO=google_apis
 #    - API=22 ABI=x86_64      GOO=default
 #    - API=22 ABI=x86         GOO=default
-#    - API=22 ABI=armeabi-v7a GOO=default
+    - API=22 ABI=armeabi-v7a GOO=default
 
 #    - API=21 ABI=x86_64      GOO=google_apis
 #    - API=21 ABI=x86         GOO=google_apis
-#    - API=21 ABI=armeabi-v7  GOO=google_apis  # system image listed but not found ??
+    - API=21 ABI=armeabi-v7a GOO=google_apis
 #    - API=21 ABI=x86_64      GOO=default
 #    - API=21 ABI=x86         GOO=default
-#    - API=21 ABI=armeabi-v7a GOO=default
+    - API=21 ABI=armeabi-v7a GOO=default
 
     # API=20  -- not released
 
@@ -125,13 +125,13 @@ env:
 #    - API=18 ABI=armeabi-v7a GOO=google_apis
 #    - API=18 ABI=armeabi-v7a GOO=default
 
-#    - API=17 ABI=x86         GOO=google_apis # FlutterDriver: It is taking an unusually long time to connect to the VM...
-#    - API=17 ABI=x86         GOO=default     # FlutterDriver: It is taking an unusually long time to connect to the VM...
+##    - API=17 ABI=x86         GOO=google_apis # FlutterDriver: It is taking an unusually long time to connect to the VM...
+##    - API=17 ABI=x86         GOO=default     # FlutterDriver: It is taking an unusually long time to connect to the VM...
 #    - API=17 ABI=armeabi-v7a GOO=google_apis
 #    - API=17 ABI=armeabi-v7a GOO=default
 
-#    - API=16 ABI=x86         GOO=google_apis # FlutterDriver: It is taking an unusually long time to connect to the VM...
-#    - API=16 ABI=x86         GOO=default     # FlutterDriver: It is taking an unusually long time to connect to the VM...
+##    - API=16 ABI=x86         GOO=google_apis # FlutterDriver: It is taking an unusually long time to connect to the VM...
+##    - API=16 ABI=x86         GOO=default     # FlutterDriver: It is taking an unusually long time to connect to the VM...
 #    - API=16 ABI=armeabi-v7a GOO=google_apis
 #    - API=16 ABI=armeabi-v7a GOO=default
 
@@ -234,14 +234,10 @@ install:
   - sudo -E sudo -u $USER -E bash -c "${ANDROID_HOME}/emulator/${EMU_COMMAND} ${EMU_PARAMS} &"
 
   # install flutter (while emulator is starting)
-  - |
-    if [ $TRAVIS_OS_NAME == "osx" ]; then
-      : # noop
-      # wget --quiet --output-document=flutter.zip https://storage.googleapis.com/flutter_infra/releases/${FLUTTER_CHANNEL}/macos/flutter_macos_v${FLUTTER_VERSION}.zip && unzip -qq flutter.zip -d $(dirname ${FLUTTER_HOME}) && rm flutter.zip
-    else
-      sudo apt-get install -y --no-install-recommends lib32stdc++6 libstdc++6 > /dev/null
-      wget --quiet --output-document=flutter.tar.xz https://storage.googleapis.com/flutter_infra/releases/${FLUTTER_CHANNEL}/linux/flutter_linux_v${FLUTTER_VERSION}.tar.xz && tar xf flutter.tar.xz -C $(dirname ${FLUTTER_HOME}) && rm flutter.tar.xz
-    fi
+  - sudo apt-get install -y --no-install-recommends lib32stdc++6 libstdc++6 > /dev/null
+  - wget --quiet --output-document=flutter.tar.xz https://storage.googleapis.com/flutter_infra/releases/${FLUTTER_CHANNEL}/linux/flutter_linux_v${FLUTTER_VERSION}.tar.xz
+  - tar xf flutter.tar.xz -C $(dirname ${FLUTTER_HOME})
+  - rm flutter.tar.xz
 
   # Wait for emulator to be ready
   - ./script/android-wait-for-emulator.sh
