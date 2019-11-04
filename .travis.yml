@@ -113,7 +113,7 @@ before_install:
     else
       EMU_PARAMS="-no-boot-anim -gpu off"
     fi
-  - EMU_PARAMS="-no-window -no-boot-anim -gpu off"
+#  - EMU_PARAMS="-no-window -no-boot-anim -gpu off"
     # use the absolute emulator path in case older version installed (on default path)
   - $ANDROID_HOME/emulator/emulator -avd test -no-audio $EMU_PARAMS $EMU_ADDITIONAL_OPTIONS ${EMU_DEBUG} &
 
