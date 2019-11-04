@@ -25,16 +25,7 @@
 # "https://en.wikipedia.org/wiki/Android_(operating_system)#Platform_information"
 # Note: Flutter supports down to API 16
 
-# use generic language
-language: shell
-
-os:
-  - linux
-#  - osx # x86 emulators require HAXM accelerator so removing for now.
-         # see https://travis-ci.org/mmcc007/test_emulators/jobs/606234640#L899
-         # (Flutter tests can be run on the iOS simulator.)
-
-# ignored on osx
+language: generic
 dist: bionic
 
 # ignored on linux
@@ -46,7 +37,7 @@ env:
     - ANDROID_TOOLS=4333796 # android-28
     - ANDROID_HOME=${HOME}/android-sdk
     - GRAVIS="https://raw.githubusercontent.com/DanySK/Gravis-CI/master/"
-    - JDK="1.8" # used while running sdkmanager, otherwise uses default JDK
+    - JDK="1.8" # the JDK used for running tests
     - TOOLS=${ANDROID_HOME}/tools
     # PATH order is incredibly important. e.g. the 'emulator' script exists in more than one place!
     - PATH=${ANDROID_HOME}:${ANDROID_HOME}/emulator:${TOOLS}:${TOOLS}/bin:${ANDROID_HOME}/platform-tools:${PATH}
@@ -55,7 +46,6 @@ env:
     - FLUTTER_HOME=${HOME}/flutter
     - PATH=${HOME}/.pub-cache/bin:${PATH}
     - PATH=${FLUTTER_HOME}/bin:${FLUTTER_HOME}/bin/cache/dart-sdk/bin:${PATH}
-#    - MAX_ARM_API=25 # max API supported by ARM CPU architecture
 
   # define full matrix of APIxABIxGOO and comment-out invalid entries
   # (see "sdkmanager --list --verbose| grep ^system-images" for full list)
@@ -91,59 +81,59 @@ env:
 #    - API=25 ABI=x86_64      GOO=default
 #    - API=25 ABI=x86         GOO=default
     - API=25 ABI=armeabi-v7a GOO=google_apis
-    - API=25 ABI=arm64-v8a   GOO=google_apis
+#    - API=25 ABI=arm64-v8a   GOO=google_apis
 
 #    - API=24 ABI=x86_64      GOO=google_apis
 #    - API=24 ABI=x86         GOO=google_apis
-    - API=24 ABI=armeabi-v7a GOO=google_apis
-    - API=24 ABI=arm64-v8a   GOO=google_apis
+#    - API=24 ABI=armeabi-v7a GOO=google_apis
+#    - API=24 ABI=arm64-v8a   GOO=google_apis
 #    - API=24 ABI=x86_64      GOO=default
 #    - API=24 ABI=x86         GOO=default
-    - API=24 ABI=armeabi-v7a GOO=default
-    - API=24 ABI=arm64-v8a   GOO=default
+#    - API=24 ABI=armeabi-v7a GOO=default
+#    - API=24 ABI=arm64-v8a   GOO=default
 
 #    - API=23 ABI=x86_64      GOO=google_apis
 #    - API=23 ABI=x86         GOO=google_apis
-    - API=23 ABI=armeabi-v7  GOO=google_apis # system image listed but not found ??
+#    - API=23 ABI=armeabi-v7  GOO=google_apis # system image listed but not found ??
 #    - API=23 ABI=x86_64      GOO=default
 #    - API=23 ABI=x86         GOO=default
-    - API=23 ABI=armeabi-v7a GOO=default
+#    - API=23 ABI=armeabi-v7a GOO=default
 
 #    - API=22 ABI=x86_64      GOO=google_apis # emulator does not start ??
-    - API=22 ABI=x86         GOO=google_apis
-    - API=22 ABI=armeabi-v7  GOO=google_apis  # system image listed but not found ??
-    - API=22 ABI=x86_64      GOO=default
-    - API=22 ABI=x86         GOO=default
-    - API=22 ABI=armeabi-v7a GOO=default
+#    - API=22 ABI=x86         GOO=google_apis
+#    - API=22 ABI=armeabi-v7  GOO=google_apis  # system image listed but not found ??
+#    - API=22 ABI=x86_64      GOO=default
+#    - API=22 ABI=x86         GOO=default
+#    - API=22 ABI=armeabi-v7a GOO=default
 
-    - API=21 ABI=x86_64      GOO=google_apis
-    - API=21 ABI=x86         GOO=google_apis
-    - API=21 ABI=armeabi-v7  GOO=google_apis  # system image listed but not found ??
-    - API=21 ABI=x86_64      GOO=default
-    - API=21 ABI=x86         GOO=default
-    - API=21 ABI=armeabi-v7a GOO=default
+#    - API=21 ABI=x86_64      GOO=google_apis
+#    - API=21 ABI=x86         GOO=google_apis
+#    - API=21 ABI=armeabi-v7  GOO=google_apis  # system image listed but not found ??
+#    - API=21 ABI=x86_64      GOO=default
+#    - API=21 ABI=x86         GOO=default
+#    - API=21 ABI=armeabi-v7a GOO=default
 
     # API=20  -- not released
 
-    - API=19 ABI=x86         GOO=google_apis
-    - API=19 ABI=x86         GOO=default
-    - API=19 ABI=armeabi-v7a GOO=google_apis
-    - API=19 ABI=armeabi-v7a GOO=default
-
-    - API=18 ABI=x86         GOO=google_apis
-    - API=18 ABI=x86         GOO=default
-    - API=18 ABI=armeabi-v7a GOO=google_apis
-    - API=18 ABI=armeabi-v7a GOO=default
+#    - API=19 ABI=x86         GOO=google_apis
+#    - API=19 ABI=x86         GOO=default
+#    - API=19 ABI=armeabi-v7a GOO=google_apis
+#    - API=19 ABI=armeabi-v7a GOO=default
+#
+#    - API=18 ABI=x86         GOO=google_apis
+#    - API=18 ABI=x86         GOO=default
+#    - API=18 ABI=armeabi-v7a GOO=google_apis
+#    - API=18 ABI=armeabi-v7a GOO=default
 
 #    - API=17 ABI=x86         GOO=google_apis # FlutterDriver: It is taking an unusually long time to connect to the VM...
 #    - API=17 ABI=x86         GOO=default     # FlutterDriver: It is taking an unusually long time to connect to the VM...
-    - API=17 ABI=armeabi-v7a GOO=google_apis
-    - API=17 ABI=armeabi-v7a GOO=default
+#    - API=17 ABI=armeabi-v7a GOO=google_apis
+#    - API=17 ABI=armeabi-v7a GOO=default
 
 #    - API=16 ABI=x86         GOO=google_apis # FlutterDriver: It is taking an unusually long time to connect to the VM...
 #    - API=16 ABI=x86         GOO=default     # FlutterDriver: It is taking an unusually long time to connect to the VM...
-    - API=16 ABI=armeabi-v7a GOO=google_apis
-    - API=16 ABI=armeabi-v7a GOO=default
+#    - API=16 ABI=armeabi-v7a GOO=google_apis
+#    - API=16 ABI=armeabi-v7a GOO=default
 
     # API=15 -- not supported by flutter
     # API=14 -- not released
@@ -152,16 +142,16 @@ env:
     # API=11 -- not released
     # API=10 -- not supported by flutter
 
-jobs:
-  fast_finish: true  # We can report success without waiting for jobs that we
-                     # allow / expect to fail.
-#  include:
-#    - env: API=24 JDK="1.11"
-  allow_failures:
-    - env: API=29 ABI=x86_64 GOO=google_apis_playstore
-    - env: API=29 ABI=x86    GOO=google_apis_playstore
-    - env: API=29 ABI=x86_64 GOO=google_apis
-    - env: API=29 ABI=x86    GOO=google_apis
+#jobs:
+#  fast_finish: true  # We can report success without waiting for jobs that we
+#                     # allow / expect to fail.
+##  include:
+##    - env: API=24 JDK="1.11"
+#  allow_failures:
+#    - env: API=29 ABI=x86_64 GOO=google_apis_playstore
+#    - env: API=29 ABI=x86    GOO=google_apis_playstore
+#    - env: API=29 ABI=x86_64 GOO=google_apis
+#    - env: API=29 ABI=x86    GOO=google_apis
 
 #    - env: API=16 ABI=x86 AUDIO=-no-audio # flutter test hangs
 #    - env: API=17 ABI=x86 # flutter test hangs
@@ -172,33 +162,23 @@ jobs:
   # (The test stage is implicit, add other stages here.)
 
 before_install:
-  # fix timezone warning on osx
-#  - if [ $TRAVIS_OS_NAME == "osx" ]; then sudo ln -sf /usr/share/zoneinfo/US/Pacific /etc/localtime; fi
+  - java -version
 
   # Set up KVM
-  - |
-    if [ $TRAVIS_OS_NAME == "linux" ]; then
-      # Install dependencies
-      sudo apt-get -y --no-install-recommends install bridge-utils libpulse0 libvirt-bin qemu-kvm virtinst ubuntu-vm-builder > /dev/null
-      # add travis user to groups
-      sudo adduser $USER libvirt
-      sudo adduser $USER kvm
-    fi
+  - sudo apt-get -y --no-install-recommends install bridge-utils libpulse0 libvirt-bin qemu-kvm virtinst ubuntu-vm-builder > /dev/null
+  # add travis user to groups
+  - sudo adduser $USER libvirt
+  - sudo adduser $USER kvm
 
   # Set up JDK 8 for Android SDK
   - curl "${GRAVIS}.install-jdk-travis.sh" --output ~/.install-jdk-travis.sh
   - export TARGET_JDK="${JDK}"
-  - JDK="1.8"
+  - JDK="1.8" # used when running sdkmanager
   - source ~/.install-jdk-travis.sh
 
   # Set up Android SDK
-  - |
-    if [ $TRAVIS_OS_NAME == "osx" ]; then
-      : # noop
-      # wget -q "https://dl.google.com/android/repository/sdk-tools-darwin-$ANDROID_TOOLS.zip" -O android-sdk-tools.zip
-    else
-      wget -q "https://dl.google.com/android/repository/sdk-tools-linux-$ANDROID_TOOLS.zip" -O android-sdk-tools.zip
-    fi
+  - sudo apt-get -y --no-install-recommends install libxcursor1 # required by ARM emulator
+  - wget -q "https://dl.google.com/android/repository/sdk-tools-linux-$ANDROID_TOOLS.zip" -O android-sdk-tools.zip
   - unzip -q android-sdk-tools.zip -d ${ANDROID_HOME}
   - rm android-sdk-tools.zip
 
@@ -223,17 +203,22 @@ install:
 
   # Create an Android emulator
   - echo no | avdmanager create avd --force -n test -k "system-images;android-$API;$GOO;$ABI" -c 10M
-#  - EMU_PARAMS="-verbose -no-snapshot -no-window -camera-back none -camera-front none -selinux permissive -qemu -m 2048"
+#  - EMU_PARAMS="
+#      -verbose
+#      -no-snapshot
+#      -no-window
+#      -no-audio
+#      -no-boot-anim
+#      -camera-back none
+#      -camera-front none
+#      -selinux permissive
+#      -qemu -m 2048"
   - EMU_PARAMS="
-      -verbose
-      -no-snapshot
-      -no-window
-      -no-audio
-      -no-boot-anim
-      -camera-back none
-      -camera-front none
-      -selinux permissive
-      -qemu -m 2048"
+    -avd test
+    -verbose
+    -no-window
+    -no-audio
+    "
   - EMU_COMMAND="emulator"
   - |
     if [[ $ABI =~ "x86" ]]; then
@@ -245,17 +230,17 @@ install:
   # This double "sudo" monstrosity is used to have Travis execute the
   # emulator with its new group permissions and help preserve the rule
   # of least privilege.
-  - sudo -E sudo -u $USER -E bash -c "${ANDROID_HOME}/emulator/${EMU_COMMAND} -avd test ${EMU_PARAMS} &"
+  - sudo -E sudo -u $USER -E bash -c "${ANDROID_HOME}/emulator/${EMU_COMMAND} ${EMU_PARAMS} &"
 
   # install flutter (while emulator is starting)
-  - |
-    if [ $TRAVIS_OS_NAME == "osx" ]; then
-      : # noop
-      # wget --quiet --output-document=flutter.zip https://storage.googleapis.com/flutter_infra/releases/${FLUTTER_CHANNEL}/macos/flutter_macos_v${FLUTTER_VERSION}.zip && unzip -qq flutter.zip -d $(dirname ${FLUTTER_HOME}) && rm flutter.zip
-    else
-      sudo apt-get install -y --no-install-recommends lib32stdc++6 libstdc++6 > /dev/null
-      wget --quiet --output-document=flutter.tar.xz https://storage.googleapis.com/flutter_infra/releases/${FLUTTER_CHANNEL}/linux/flutter_linux_v${FLUTTER_VERSION}.tar.xz && tar xf flutter.tar.xz -C $(dirname ${FLUTTER_HOME}) && rm flutter.tar.xz
-    fi
+#  - |
+#    if [ $TRAVIS_OS_NAME == "osx" ]; then
+#      : # noop
+#      # wget --quiet --output-document=flutter.zip https://storage.googleapis.com/flutter_infra/releases/${FLUTTER_CHANNEL}/macos/flutter_macos_v${FLUTTER_VERSION}.zip && unzip -qq flutter.zip -d $(dirname ${FLUTTER_HOME}) && rm flutter.zip
+#    else
+#      sudo apt-get install -y --no-install-recommends lib32stdc++6 libstdc++6 > /dev/null
+#      wget --quiet --output-document=flutter.tar.xz https://storage.googleapis.com/flutter_infra/releases/${FLUTTER_CHANNEL}/linux/flutter_linux_v${FLUTTER_VERSION}.tar.xz && tar xf flutter.tar.xz -C $(dirname ${FLUTTER_HOME}) && rm flutter.tar.xz
+#    fi
 
   # Wait for emulator to be ready
   - ./script/android-wait-for-emulator.sh
@@ -265,10 +250,11 @@ install:
   - JDK="${TARGET_JDK}"
   - source ~/.install-jdk-travis.sh
 
-  - flutter doctor -v
+#  - flutter doctor -v
 
 script:
-  - cd flutter_app; flutter driver
+  - echo "Done."
+#  - cd flutter_app; flutter driver
 
 #before_cache:
 #  - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
