@@ -219,9 +219,7 @@ install:
     -verbose
     -no-window
     -no-audio
-    -camera-back none
-    -camera-front none
-    -qemu -m 2048
+    -m 2048
     "
   - EMU_COMMAND="emulator"
   - |
