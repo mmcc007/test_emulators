@@ -1,8 +1,9 @@
 # sudo: false --> run dist image in docker container on shared host for faster startup (runs slower)
 # sudo: required --> run dist image in VM on Google Compute Engine for slower startup (runs faster)
 # sudo and dist are ignored on osx
-#sudo: required
-dist: bionic
+sudo: required
+dist: trusty
+#dist: bionic
 os:
   - linux
 #  - osx
