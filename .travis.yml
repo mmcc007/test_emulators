@@ -219,7 +219,6 @@ install:
     -verbose
     -no-window
     -no-audio
-    -m 2048
     "
   - EMU_COMMAND="emulator"
   - |
