@@ -105,15 +105,24 @@ before_install:
   # fix timezone warning on osx
 #  - if [ $TRAVIS_OS_NAME == "osx" ]; then sudo ln -sf /usr/share/zoneinfo/US/Pacific /etc/localtime; fi
   # emulator debug options
+  - EMU_PARAMS="
+    -verbose
+    -no-snapshot
+    -no-window
+    -no-audio
+    -no-boot-anim
+    -camera-back none
+    -camera-front none
+    -selinux permissive
+    -qemu -m 2048"
 #  - EMU_DEBUG="-debug all -logcat *:e -verbose -show-kernel"
 #  - EMU_ADDITIONAL_OPTIONS="-camera-back none -camera-front none -memory 2048"
   - |
     if [[ "${SYS}${ABI}" == "25google_apis;armeabi-v7a" || "${SYS}${ABI}" == "24google_apis;armeabi-v7a" ]]; then
-      EMU_PARAMS="-no-window -gpu swiftshader"
+      EMU_PARAMS="${EMU_PARAMS} -gpu swiftshader"
     else
-      EMU_PARAMS="-no-boot-anim -gpu off"
+      EMU_PARAMS="${EMU_PARAMS} -gpu off"
     fi
-#  - EMU_PARAMS="-no-window -no-boot-anim -gpu off"
     # use the absolute emulator path in case older version installed (on default path)
   - $ANDROID_HOME/emulator/emulator -avd test -no-audio $EMU_PARAMS $EMU_ADDITIONAL_OPTIONS ${EMU_DEBUG} &
 
