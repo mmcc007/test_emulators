@@ -67,6 +67,7 @@ before_install:
   - source ~/.install-jdk-travis.sh
   -
   # Install android tools
+  - sudo apt-get -y --no-install-recommends install libpulse0 # required by emulator
   - ANDROID_TOOLS=4333796 # android-28
   - export ANDROID_HOME=~/android-sdk
   - |
