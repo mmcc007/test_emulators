@@ -129,4 +129,6 @@ before_script:
 
 script:
 #  - echo "Done."
-  - cd flutter_app; flutter driver
+  - cd flutter_app
+  - flutter pub get
+  - flutter driver
