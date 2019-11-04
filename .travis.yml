@@ -1,4 +1,5 @@
 dist: trusty
+language: generic
 os:
   - linux
 #  - osx
@@ -39,7 +40,6 @@ env:
 #    - env: SYS=20 ABI="default;armeabi-v7a"
 #    - env: SYS=14 ABI="default;armeabi-v7a"
 
-language: shell
 before_install:
   - java -version
 #  - |
