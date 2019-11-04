@@ -78,18 +78,18 @@ env:
 #    - API=25 ABI=x86         GOO=google_apis_playstore
 #    - API=25 ABI=x86_64      GOO=google_apis
 #    - API=25 ABI=x86         GOO=google_apis
-    - API=25 ABI=x86_64      GOO=default
+#    - API=25 ABI=x86_64      GOO=default
 #    - API=25 ABI=x86         GOO=default
-    - API=25 ABI=armeabi-v7a GOO=google_apis
-#    - API=25 ABI=arm64-v8a   GOO=google_apis
+#    - API=25 ABI=armeabi-v7a GOO=google_apis # android.util.AndroidException: Can't connect to activity manager; is the system running?
+    - API=25 ABI=arm64-v8a   GOO=google_apis
 
 #    - API=24 ABI=x86_64      GOO=google_apis
 #    - API=24 ABI=x86         GOO=google_apis
 #    - API=24 ABI=armeabi-v7a GOO=google_apis
 #    - API=24 ABI=arm64-v8a   GOO=google_apis
-#    - API=24 ABI=x86_64      GOO=default
+    - API=24 ABI=x86_64      GOO=default
 #    - API=24 ABI=x86         GOO=default
-#    - API=24 ABI=armeabi-v7a GOO=default
+    - API=24 ABI=armeabi-v7a GOO=default
 #    - API=24 ABI=arm64-v8a   GOO=default
 
 #    - API=23 ABI=x86_64      GOO=google_apis
