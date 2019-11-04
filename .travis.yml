@@ -15,8 +15,8 @@ env:
   global:
     - ANDROID_TOOLS=4333796 # android-28
     - ANDROID_HOME=${HOME}/android-sdk
-    - GRAVIS="https://raw.githubusercontent.com/DanySK/Gravis-CI/master/"
-    - JDK="1.8" # used while running sdkmanager, otherwise uses default JDK
+#    - GRAVIS="https://raw.githubusercontent.com/DanySK/Gravis-CI/master/"
+#    - JDK="1.8" # used while running sdkmanager, otherwise uses default JDK
   jobs:
 #  - SYS=25 ABI="google_apis;arm64-v8a"
   - SYS=25 ABI="google_apis;armeabi-v7a"
@@ -62,14 +62,14 @@ before_install:
 #    fi
 
   # Set up JDK 8 for Android SDK
-  - curl "${GRAVIS}.install-jdk-travis.sh" --output ~/.install-jdk-travis.sh
-  - export TARGET_JDK="${JDK}"
-  - JDK="1.8"
-  - source ~/.install-jdk-travis.sh
+#  - curl "${GRAVIS}.install-jdk-travis.sh" --output ~/.install-jdk-travis.sh
+#  - export TARGET_JDK="${JDK}"
+#  - JDK="1.8"
+#  - source ~/.install-jdk-travis.sh
   -
   # Install android tools
-  - sudo apt-get -y --no-install-recommends install libpulse0 # required by emulator
-  - sudo apt-get -y --no-install-recommends install libxcursor1 # required by emulator
+#  - sudo apt-get -y --no-install-recommends install libpulse0 # required by emulator
+#  - sudo apt-get -y --no-install-recommends install libxcursor1 # required by emulator
   - ANDROID_TOOLS=4333796 # android-28
   - export ANDROID_HOME=~/android-sdk
   - |
@@ -115,7 +115,8 @@ before_install:
     -camera-back none
     -camera-front none
     -selinux permissive
-    -qemu -m 2048"
+    -qemu -m 2048
+    "
 #  - EMU_DEBUG="-debug all -logcat *:e -verbose -show-kernel"
 #  - EMU_ADDITIONAL_OPTIONS="-camera-back none -camera-front none -memory 2048"
   - |
@@ -125,12 +126,12 @@ before_install:
       EMU_PARAMS="${EMU_PARAMS} -gpu off"
     fi
     # use the absolute emulator path in case older version installed (on default path)
-  - $ANDROID_HOME/emulator/emulator -avd test -no-audio $EMU_PARAMS $EMU_ADDITIONAL_OPTIONS ${EMU_DEBUG} &
+  - $ANDROID_HOME/emulator/emulator -avd test $EMU_PARAMS $EMU_ADDITIONAL_OPTIONS ${EMU_DEBUG} &
 
 
   # Switch back to our target JDK version to build and run tests
-  - JDK="${TARGET_JDK}"
-  - source ~/.install-jdk-travis.sh
+#  - JDK="${TARGET_JDK}"
+#  - source ~/.install-jdk-travis.sh
 
 before_script:
   # Wait for emulator to startup.
