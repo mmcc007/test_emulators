@@ -5,59 +5,60 @@ sudo: required
 dist: trusty
 os:
   - linux
-  - osx
+#  - osx
 #services:
 #  - xvfb
 env:
-  - SYS=25 ABI="google_apis;arm64-v8a"
+#  - SYS=25 ABI="google_apis;arm64-v8a"
   - SYS=25 ABI="google_apis;armeabi-v7a"
-  - SYS=24 ABI="google_apis;arm64-v8a"
-  - SYS=24 ABI="google_apis;armeabi-v7a"
-  - SYS=23 ABI="google_apis;armeabi-v7a"
+#  - SYS=24 ABI="google_apis;arm64-v8a"
+#  - SYS=24 ABI="google_apis;armeabi-v7a"
+#  - SYS=23 ABI="google_apis;armeabi-v7a"
 
 #  - SYS=22 ABI="default;x86" # demo failure due to no accelerator on travis
 #  - SYS=22 ABI="default;x86_64" # demo failure due to no accelerator on travis
 #  - SYS=22 ABI="google_apis;x86" # demo failure due to no accelerator on travis
 #  - SYS=22 ABI="google_apis;x86_64" # demo failure due to no accelerator on travis
-  - SYS=22 ABI="google_apis;armeabi-v7a"
-  - SYS=22 ABI="default;armeabi-v7a"
+#  - SYS=22 ABI="google_apis;armeabi-v7a"
+#  - SYS=22 ABI="default;armeabi-v7a"
+#
+#  - SYS=21 ABI="default;armeabi-v7a"
+#  - SYS=20 ABI="default;armeabi-v7a"
+#  - SYS=19 ABI="default;armeabi-v7a"
+#  - SYS=18 ABI="default;armeabi-v7a"
+#  - SYS=17 ABI="default;armeabi-v7a"
+#  - SYS=16 ABI="default;armeabi-v7a"
+#  - SYS=15 ABI="default;armeabi-v7a"
+#  - SYS=14 ABI="default;armeabi-v7a"
+#  - SYS=10 ABI="default;armeabi-v7a"
 
-  - SYS=21 ABI="default;armeabi-v7a"
-  - SYS=20 ABI="default;armeabi-v7a"
-  - SYS=19 ABI="default;armeabi-v7a"
-  - SYS=18 ABI="default;armeabi-v7a"
-  - SYS=17 ABI="default;armeabi-v7a"
-  - SYS=16 ABI="default;armeabi-v7a"
-  - SYS=15 ABI="default;armeabi-v7a"
-  - SYS=14 ABI="default;armeabi-v7a"
-  - SYS=10 ABI="default;armeabi-v7a"
-
-matrix:
-  allow_failures:
+#jobs:
+#  allow_failures:
 #    - env: SYS=25 ABI="google_apis;arm64-v8a"
 #    - env: SYS=24 ABI="google_apis;arm64-v8a"
 #    - env: SYS=22 ABI="default;x86"
 #    - env: SYS=22 ABI="default;x86_64"
 #    - env: SYS=22 ABI="google_apis;x86"
 #    - env: SYS=22 ABI="google_apis;x86_64"
-    - env: SYS=20 ABI="default;armeabi-v7a"
-    - env: SYS=14 ABI="default;armeabi-v7a"
+#    - env: SYS=20 ABI="default;armeabi-v7a"
+#    - env: SYS=14 ABI="default;armeabi-v7a"
 
-language: generic
+language: shell
 before_install:
-  - |
-    if [ $TRAVIS_OS_NAME == "linux" ]; then
-      export DISPLAY=:99.0
-      sh -e /etc/init.d/xvfb start
-      sleep 3 # give xvfb some time to start
-    fi
+#  - |
+#    if [ $TRAVIS_OS_NAME == "linux" ]; then
+#      export DISPLAY=:99.0
+#      sh -e /etc/init.d/xvfb start
+#      sleep 3 # give xvfb some time to start
+#    fi
 
   # Install android tools
   - ANDROID_TOOLS=4333796 # android-28
   - export ANDROID_HOME=~/android-sdk
   - |
     if [ $TRAVIS_OS_NAME == "osx" ]; then
-      wget -q "https://dl.google.com/android/repository/sdk-tools-darwin-$ANDROID_TOOLS.zip" -O android-sdk-tools.zip
+      : # noop placeholder
+#      wget -q "https://dl.google.com/android/repository/sdk-tools-darwin-$ANDROID_TOOLS.zip" -O android-sdk-tools.zip
     else
       wget -q "https://dl.google.com/android/repository/sdk-tools-linux-$ANDROID_TOOLS.zip" -O android-sdk-tools.zip
     fi
@@ -86,7 +87,7 @@ before_install:
   - sdkmanager --list | head -15
   - echo no | avdmanager create avd -n test -k "system-images;android-$SYS;$ABI"
   # fix timezone warning on osx
-  - if [ $TRAVIS_OS_NAME == "osx" ]; then sudo ln -sf /usr/share/zoneinfo/US/Pacific /etc/localtime; fi
+#  - if [ $TRAVIS_OS_NAME == "osx" ]; then sudo ln -sf /usr/share/zoneinfo/US/Pacific /etc/localtime; fi
   # emulator debug options
 #  - EMU_DEBUG="-debug all -logcat *:e -verbose -show-kernel"
 #  - EMU_ADDITIONAL_OPTIONS="-camera-back none -camera-front none -memory 2048"
