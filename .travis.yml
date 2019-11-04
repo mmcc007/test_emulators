@@ -49,7 +49,7 @@ env:
 #    - env: SYS=14 ABI="default;armeabi-v7a"
 
 before_install:
-  - java -version || : # noop, ignore failure
+  - java -version || echo # noop, ignore failure
 #  - |
 #    if [ $TRAVIS_OS_NAME == "linux" ]; then
 #      export DISPLAY=:99.0
