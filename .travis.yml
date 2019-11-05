@@ -13,23 +13,23 @@ env:
   #  - SYS=26 ABI="google_apis;x86"
   #
   #  - SYS=25 ABI="google_apis;arm64-v8a"
-    - SYS=25 ABI="google_apis;armeabi-v7a"
+#    - SYS=25 ABI="google_apis;armeabi-v7a" ==> android.util.AndroidException: Can't connect to activity manager; is the system running?
   #  - SYS=24 ABI="google_apis;arm64-v8a"
-    - SYS=24 ABI="google_apis;armeabi-v7a"
-    - SYS=23 ABI="google_apis;armeabi-v7a"
+#    - SYS=24 ABI="google_apis;armeabi-v7a" ==> Installing build/app/outputs/apk/app.apk... (This is taking an unexpectedly long time.)
+#    - SYS=23 ABI="google_apis;armeabi-v7a" ==> Hangs after Installing build/app/outputs/apk/app.apk...
 
   #  - SYS=22 ABI="default;x86" # demo failure due to no accelerator on travis
   #  - SYS=22 ABI="default;x86_64" # demo failure due to no accelerator on travis
   #  - SYS=22 ABI="google_apis;x86" # demo failure due to no accelerator on travis
   #  - SYS=22 ABI="google_apis;x86_64" # demo failure due to no accelerator on travis
-    - SYS=22 ABI="google_apis;armeabi-v7a"
-    - SYS=22 ABI="default;armeabi-v7a"
+#    - SYS=22 ABI="google_apis;armeabi-v7a" ==> android.util.AndroidException: Can't connect to activity manager; is the system running?
+#    - SYS=22 ABI="default;armeabi-v7a"
 
-#  - SYS=21 ABI="default;armeabi-v7a"
-#  - SYS=20 ABI="default;armeabi-v7a"
-#  - SYS=19 ABI="default;armeabi-v7a"
-#  - SYS=18 ABI="default;armeabi-v7a"
-#  - SYS=17 ABI="default;armeabi-v7a"
+  - SYS=21 ABI="default;armeabi-v7a"
+  - SYS=20 ABI="default;armeabi-v7a"
+  - SYS=19 ABI="default;armeabi-v7a"
+  - SYS=18 ABI="default;armeabi-v7a"
+  - SYS=17 ABI="default;armeabi-v7a"
 #  - SYS=16 ABI="default;armeabi-v7a"
 #  - SYS=15 ABI="default;armeabi-v7a"
 #  - SYS=14 ABI="default;armeabi-v7a"
