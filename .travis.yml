@@ -158,4 +158,6 @@ before_script:
 #  - adb shell input keyevent 82
 
 script:
-  - cd flutter_app; flutter driver lib/main.dart
+  - cd flutter_app
+  - flutter pub get
+  - flutter driver lib/main.dart
