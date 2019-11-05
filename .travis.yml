@@ -28,9 +28,6 @@
 language: generic
 dist: bionic
 
-# ignored on linux
-#osx_image: xcode9.4 # current default
-
 # specify global envs and jobs
 env:
   global:
@@ -54,8 +51,8 @@ env:
 ##    - API=29 ABI=x86         GOO=google_apis_playstore ==> flutter doctor reports emulator is offline
 ##    - API=29 ABI=x86_64      GOO=google_apis ==> flutter drive reports "Bad state: No element"
 ##    - API=29 ABI=x86         GOO=google_apis ==> DriverError: Failed to fulfill GetHealth due to remote error
-    - API=29 ABI=x86_64      GOO=default
-#    - API=29 ABI=x86         GOO=default
+#    - API=29 ABI=x86_64      GOO=default
+    - API=29 ABI=x86         GOO=default
 #
 #    - API=28 ABI=x86_64      GOO=google_apis_playstore
 #    - API=28 ABI=x86         GOO=google_apis_playstore
@@ -186,18 +183,26 @@ before_install:
   - mkdir ~/.android
   - echo 'count=0' > ~/.android/repositories.cfg
 
+  - sdkmanager --list | head -15
+
   # Accept licenses before installing components, no need to echo y for each component
   - yes | sdkmanager --licenses >/dev/null
 
 install:
   # Download SDK tools
   - sdkmanager "platform-tools" >/dev/null
+  - sdkmanager --list | head -15
   - sdkmanager "tools" >/dev/null # A second time per Travis docs, gets latest versions
+  - sdkmanager --list | head -15
   - sdkmanager "build-tools;28.0.3" >/dev/null # Implicit gradle dependency - gradle drives changes
+  - sdkmanager --list | head -15
   - sdkmanager "platforms;android-$API" >/dev/null # We need the API of the emulator we will run
+  - sdkmanager --list | head -15
   - sdkmanager "platforms;android-28" >/dev/null # We need the API of the current compileSdkVersion from gradle.properties
+  - sdkmanager --list | head -15
 
   - sdkmanager "emulator" >/dev/null
+  - sdkmanager --list | head -15
   # Download a pinned version of the emulator since default version can cause issues
   - ${ANDROID_HOME}/emulator/emulator -version
   - emulator_version=5264690 # 29.2.1.0 (build_id 5889189) ==> 28.0.23.0 (build_id 5264690)
@@ -209,11 +214,14 @@ install:
   - ${ANDROID_HOME}/emulator/emulator -version
 
   - sdkmanager "extras;android;m2repository" >/dev/null
+  - sdkmanager --list | head -15
   - sdkmanager "system-images;android-$API;$GOO;$ABI" >/dev/null # install system images for emulator
+  - sdkmanager --list | head -15
   - sdkmanager "build-tools;25.0.2" "platforms;android-25" > /dev/null # install build tools and platforms for arm (to allow emulator to run)
+  - sdkmanager --list | head -15
 
   # Create an Android emulator
-  - echo no | avdmanager create avd --force -n test -k "system-images;android-$API;$GOO;$ABI" -c 10M
+  - echo no | avdmanager --verbose create avd --force -n test -k "system-images;android-$API;$GOO;$ABI" -c 10M
 #  - EMU_PARAMS="
 #      -verbose
 #      -no-snapshot
