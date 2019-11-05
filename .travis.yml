@@ -13,16 +13,16 @@ env:
   #  - SYS=26 ABI="google_apis;x86"
   #
   #  - SYS=25 ABI="google_apis;arm64-v8a"
-  #  - SYS=25 ABI="google_apis;armeabi-v7a"
+    - SYS=25 ABI="google_apis;armeabi-v7a"
   #  - SYS=24 ABI="google_apis;arm64-v8a"
-  #  - SYS=24 ABI="google_apis;armeabi-v7a"
-  #  - SYS=23 ABI="google_apis;armeabi-v7a"
+    - SYS=24 ABI="google_apis;armeabi-v7a"
+    - SYS=23 ABI="google_apis;armeabi-v7a"
 
   #  - SYS=22 ABI="default;x86" # demo failure due to no accelerator on travis
   #  - SYS=22 ABI="default;x86_64" # demo failure due to no accelerator on travis
   #  - SYS=22 ABI="google_apis;x86" # demo failure due to no accelerator on travis
   #  - SYS=22 ABI="google_apis;x86_64" # demo failure due to no accelerator on travis
-  #  - SYS=22 ABI="google_apis;armeabi-v7a"
+    - SYS=22 ABI="google_apis;armeabi-v7a"
   - SYS=22 ABI="default;armeabi-v7a"
 
 #  - SYS=21 ABI="default;armeabi-v7a"
@@ -49,6 +49,12 @@ env:
 language: generic
 before_install:
 
+  # Set up KVM
+  - sudo apt-get -y --no-install-recommends install bridge-utils libpulse0 libvirt-bin qemu-kvm virtinst ubuntu-vm-builder > /dev/null
+  # add travis user to groups
+  - sudo adduser $USER libvirt
+  - sudo adduser $USER kvm
+
   # Set up JDK 8 for Android SDK
   - curl "${GRAVIS}.install-jdk-travis.sh" --output ~/.install-jdk-travis.sh
   - export TARGET_JDK="${JDK}"
@@ -56,7 +62,7 @@ before_install:
   - source ~/.install-jdk-travis.sh
 
   # Install android tools
-  - sudo apt-get -y --no-install-recommends install libpulse0 libxcursor1 # required by ARM emulator
+  - sudo apt-get -y --no-install-recommends install libxcursor1 > /dev/null # required by ARM emulator
   - ANDROID_TOOLS=4333796 # android-28
   - export ANDROID_HOME=~/android-sdk
   - wget -q "https://dl.google.com/android/repository/sdk-tools-linux-$ANDROID_TOOLS.zip" -O android-sdk-tools.zip
