@@ -78,13 +78,13 @@ before_install:
   # Silence warning.
   - mkdir -p ~/.android
   - touch ~/.android/repositories.cfg
-  # install correct version of java on osx
-  - |
-    if [ $TRAVIS_OS_NAME == "osx" ]; then
-      # skip brew update
-      export HOMEBREW_NO_AUTO_UPDATE=1
-      brew cask uninstall java; brew tap caskroom/versions; brew cask install java8;
-    fi
+#  # install correct version of java on osx
+#  - |
+#    if [ $TRAVIS_OS_NAME == "osx" ]; then
+#      # skip brew update
+#      export HOMEBREW_NO_AUTO_UPDATE=1
+#      brew cask uninstall java; brew tap caskroom/versions; brew cask install java8;
+#    fi
   # Accept licenses before installing components, no need to echo y for each component
   - yes | sdkmanager --licenses
   # Platform tools
@@ -93,18 +93,20 @@ before_install:
   # install older build tools (for emulator)
   - sdkmanager "build-tools;25.0.2" "platforms;android-25" > /dev/null
 
-  #  # Install latest canary of emulator
-  #  - rm -rf $ANDROID_HOME/emulator
-  #  - cd $ANDROID_HOME
-  #  - |
-  #    if [ $TRAVIS_OS_NAME == "osx" ]; then
-  #      wget -q "https://dl.google.com/android/repository/emulator-darwin-5346014.zip" -O emulator.zip
-  #    else
-  #      sudo apt-get install -y libunwind8 libc++1
-  #      wget -q "https://dl.google.com/android/repository/emulator-linux-5346014.zip" -O emulator.zip
-  #    fi
-  #  - unzip -q emulator.zip
-  #  - cd -
+  # Download a pinned version of the emulator since upgrades can cause issues
+  - ${ANDROID_HOME}/emulator/emulator -version
+  - emulator_version=5264690 # 29.2.1.0 (build_id 5889189) ==> 28.0.23.0 (build_id 5264690)
+  - |
+    if [ $TRAVIS_OS_NAME == "osx" ]; then
+      curl -fo emulator.zip "https://dl.google.com/android/repository/emulator-darwin-$emulator_version.zip"
+    else
+      sudo apt-get install -y libunwind8 libc++1
+      curl -fo emulator.zip "https://dl.google.com/android/repository/emulator-linux-$emulator_version.zip"
+    fi
+  - rm -rf "${ANDROID_HOME}/emulator"
+  - unzip -q emulator.zip -d "${ANDROID_HOME}"
+  - rm -f emulator.zip
+  - ${ANDROID_HOME}/emulator/emulator -version
 
   # Create and start emulator.
   - sdkmanager "system-images;android-$SYS;$ABI" > /dev/null
@@ -127,23 +129,23 @@ before_install:
     else
       EMU_COMMAND="emulator"
     fi
-  - # use the absolute emulator path in case older version installed (on default path)
+  # use the absolute emulator path in case older version installed (on default path)
   - $ANDROID_HOME/emulator/$EMU_COMMAND -verbose -avd test -no-audio $EMU_PARAMS $EMU_ADDITIONAL_OPTIONS ${EMU_DEBUG} &
 
   # install pre-compiled flutter
-  - sdkmanager "platforms;android-28" "build-tools;28.0.3" > /dev/null # required by flutter
-  - FLUTTER_CHANNEL=stable
-  - FLUTTER_VERSION=1.9.1+hotfix.6-${FLUTTER_CHANNEL}
-  - |
-    if [ $TRAVIS_OS_NAME == "osx" ]; then
-      wget --quiet --output-document=flutter.zip https://storage.googleapis.com/flutter_infra/releases/${FLUTTER_CHANNEL}/macos/flutter_macos_v${FLUTTER_VERSION}.zip && unzip -qq flutter.zip > /dev/null && rm flutter.zip
-    else
-      sudo apt-get install -y --no-install-recommends lib32stdc++6 libstdc++6 > /dev/null
-      wget --quiet --output-document=flutter.tar.xz https://storage.googleapis.com/flutter_infra/releases/${FLUTTER_CHANNEL}/linux/flutter_linux_v${FLUTTER_VERSION}.tar.xz && tar xf flutter.tar.xz > /dev/null && rm flutter.tar.xz
-    fi
-  - export PATH="$PATH":"$HOME/.pub-cache/bin"
-  - export PATH=$PWD/flutter/bin:$PWD/flutter/bin/cache/dart-sdk/bin:$PATH
-  - flutter doctor -v
+#  - sdkmanager "platforms;android-28" "build-tools;28.0.3" > /dev/null # required by flutter
+#  - FLUTTER_CHANNEL=stable
+#  - FLUTTER_VERSION=1.9.1+hotfix.6-${FLUTTER_CHANNEL}
+#  - |
+#    if [ $TRAVIS_OS_NAME == "osx" ]; then
+#      wget --quiet --output-document=flutter.zip https://storage.googleapis.com/flutter_infra/releases/${FLUTTER_CHANNEL}/macos/flutter_macos_v${FLUTTER_VERSION}.zip && unzip -qq flutter.zip > /dev/null && rm flutter.zip
+#    else
+#      sudo apt-get install -y --no-install-recommends lib32stdc++6 libstdc++6 > /dev/null
+#      wget --quiet --output-document=flutter.tar.xz https://storage.googleapis.com/flutter_infra/releases/${FLUTTER_CHANNEL}/linux/flutter_linux_v${FLUTTER_VERSION}.tar.xz && tar xf flutter.tar.xz > /dev/null && rm flutter.tar.xz
+#    fi
+#  - export PATH="$PATH":"$HOME/.pub-cache/bin"
+#  - export PATH=$PWD/flutter/bin:$PWD/flutter/bin/cache/dart-sdk/bin:$PATH
+#  - flutter doctor -v
 
   # Switch back to our target JDK version to build and run tests
   - JDK="${TARGET_JDK}"
@@ -156,4 +158,4 @@ before_script:
 #  - adb shell input keyevent 82
 
 script:
-  - cd flutter_app; flutter driver lib/main.dart
+#  - cd flutter_app; flutter driver lib/main.dart
