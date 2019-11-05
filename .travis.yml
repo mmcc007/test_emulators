@@ -3,10 +3,12 @@
 # sudo and dist are ignored on osx
 sudo: required
 dist: trusty
-#services:
-#  - xvfb
-env:
 
+env:
+  global:
+    - GRAVIS="https://raw.githubusercontent.com/DanySK/Gravis-CI/master/"
+    - JDK="1.8" # the JDK used for running tests
+  jobs:
   #  - SYS=28 ABI="google_apis;x86_64"
   #  - SYS=28 ABI="google_apis;x86"
   #  - SYS=27 ABI="google_apis;x86_64" # doesn't exist
@@ -41,25 +43,25 @@ os:
   - linux
   - osx
 
-matrix:
-  allow_failures:
-    #    - env: SYS=25 ABI="google_apis;arm64-v8a"
-    #    - env: SYS=24 ABI="google_apis;arm64-v8a"
-    #    - env: SYS=22 ABI="default;x86"
-    #    - env: SYS=22 ABI="default;x86_64"
-    #    - env: SYS=22 ABI="google_apis;x86"
-    #    - env: SYS=22 ABI="google_apis;x86_64"
-    - env: SYS=20 ABI="default;armeabi-v7a"
-    - env: SYS=14 ABI="default;armeabi-v7a"
+#matrix:
+#  allow_failures:
+#    #    - env: SYS=25 ABI="google_apis;arm64-v8a"
+#    #    - env: SYS=24 ABI="google_apis;arm64-v8a"
+#    #    - env: SYS=22 ABI="default;x86"
+#    #    - env: SYS=22 ABI="default;x86_64"
+#    #    - env: SYS=22 ABI="google_apis;x86"
+#    #    - env: SYS=22 ABI="google_apis;x86_64"
+#    - env: SYS=20 ABI="default;armeabi-v7a"
+#    - env: SYS=14 ABI="default;armeabi-v7a"
 
 language: generic
 before_install:
-  #  - |
-  #    if [ $TRAVIS_OS_NAME == "linux" ]; then
-  #      export DISPLAY=:99.0
-  #      sh -e /etc/init.d/xvfb start
-  #      sleep 3 # give xvfb some time to start
-  #    fi
+
+  # Set up JDK 8 for Android SDK
+  - curl "${GRAVIS}.install-jdk-travis.sh" --output ~/.install-jdk-travis.sh
+  - export TARGET_JDK="${JDK}"
+  - JDK="1.8" # used when running sdkmanager
+  - source ~/.install-jdk-travis.sh
 
   # Install android tools
   - ANDROID_TOOLS=4333796 # android-28
@@ -125,13 +127,13 @@ before_install:
     else
       EMU_COMMAND="emulator"
     fi
-    # use the absolute emulator path in case older version installed (on default path)
-    $ANDROID_HOME/emulator/$EMU_COMMAND -avd test -no-audio $EMU_PARAMS $EMU_ADDITIONAL_OPTIONS ${EMU_DEBUG} &
+  - # use the absolute emulator path in case older version installed (on default path)
+  - $ANDROID_HOME/emulator/$EMU_COMMAND -verbose -avd test -no-audio $EMU_PARAMS $EMU_ADDITIONAL_OPTIONS ${EMU_DEBUG} &
 
   # install pre-compiled flutter
   - sdkmanager "platforms;android-28" "build-tools;28.0.3" > /dev/null # required by flutter
   - FLUTTER_CHANNEL=stable
-  - FLUTTER_VERSION=1.2.1-${FLUTTER_CHANNEL}
+  - FLUTTER_VERSION=1.9.1+hotfix.6-${FLUTTER_CHANNEL}
   - |
     if [ $TRAVIS_OS_NAME == "osx" ]; then
       wget --quiet --output-document=flutter.zip https://storage.googleapis.com/flutter_infra/releases/${FLUTTER_CHANNEL}/macos/flutter_macos_v${FLUTTER_VERSION}.zip && unzip -qq flutter.zip > /dev/null && rm flutter.zip
@@ -142,6 +144,10 @@ before_install:
   - export PATH="$PATH":"$HOME/.pub-cache/bin"
   - export PATH=$PWD/flutter/bin:$PWD/flutter/bin/cache/dart-sdk/bin:$PATH
   - flutter doctor -v
+
+  # Switch back to our target JDK version to build and run tests
+  - JDK="${TARGET_JDK}"
+  - source ~/.install-jdk-travis.sh
 
 before_script:
   # Wait for emulator to startup.
