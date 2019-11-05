@@ -94,24 +94,24 @@ env:
 
 #    - API=23 ABI=x86_64      GOO=google_apis
 #    - API=23 ABI=x86         GOO=google_apis
-    - API=23 ABI=armeabi-v7a GOO=google_apis
+#    - API=23 ABI=armeabi-v7a GOO=google_apis
 #    - API=23 ABI=x86_64      GOO=default
 #    - API=23 ABI=x86         GOO=default
-    - API=23 ABI=armeabi-v7a GOO=default
+#    - API=23 ABI=armeabi-v7a GOO=default
 
 ##    - API=22 ABI=x86_64      GOO=google_apis # emulator does not start ??
 #    - API=22 ABI=x86         GOO=google_apis
-    - API=22 ABI=armeabi-v7a GOO=google_apis
+#    - API=22 ABI=armeabi-v7a GOO=google_apis
 #    - API=22 ABI=x86_64      GOO=default
 #    - API=22 ABI=x86         GOO=default
     - API=22 ABI=armeabi-v7a GOO=default
 
 #    - API=21 ABI=x86_64      GOO=google_apis
 #    - API=21 ABI=x86         GOO=google_apis
-    - API=21 ABI=armeabi-v7a GOO=google_apis
+#    - API=21 ABI=armeabi-v7a GOO=google_apis
 #    - API=21 ABI=x86_64      GOO=default
 #    - API=21 ABI=x86         GOO=default
-    - API=21 ABI=armeabi-v7a GOO=default
+#    - API=21 ABI=armeabi-v7a GOO=default
 
     # API=20  -- not released
 
@@ -215,7 +215,6 @@ install:
 #      -qemu -m 2048"
   - EMU_PARAMS="
     -avd test
-    -no-snapshot
     -verbose
     -no-window
     -no-audio
@@ -239,19 +238,22 @@ install:
   - tar xf flutter.tar.xz -C $(dirname ${FLUTTER_HOME})
   - rm flutter.tar.xz
 
-  # Wait for emulator to be ready
-  - ./script/android-wait-for-emulator.sh
-  - adb shell input keyevent 82 &
-
   # Switch back to our target JDK version to build and run tests
   - JDK="${TARGET_JDK}"
   - source ~/.install-jdk-travis.sh
 
   - flutter doctor -v
 
+before_script:
+  # Wait for emulator to startup.
+  - ./script/android-wait-for-emulator.sh
+  # unlock screen
+  - adb shell input keyevent 82 &
+
 script:
-#  - echo "Done."
-  - cd flutter_app; flutter driver
+  - cd flutter_app
+  - flutter pub get
+  - flutter driver lib/main.dart
 
 #before_cache:
 #  - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
