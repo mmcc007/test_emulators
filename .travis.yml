@@ -1,8 +1,4 @@
-# sudo: false --> run dist image in docker container on shared host for faster startup (runs slower)
-# sudo: required --> run dist image in VM on Google Compute Engine for slower startup (runs faster)
-# sudo and dist are ignored on osx
-sudo: required
-dist: trusty
+dist: bionic
 
 env:
   global:
@@ -39,10 +35,6 @@ env:
 #  - SYS=14 ABI="default;armeabi-v7a"
 #  - SYS=10 ABI="default;armeabi-v7a"
 
-os:
-  - linux
-  - osx
-
 #matrix:
 #  allow_failures:
 #    #    - env: SYS=25 ABI="google_apis;arm64-v8a"
@@ -66,25 +58,13 @@ before_install:
   # Install android tools
   - ANDROID_TOOLS=4333796 # android-28
   - export ANDROID_HOME=~/android-sdk
-  - |
-    if [ $TRAVIS_OS_NAME == "osx" ]; then
-      wget -q "https://dl.google.com/android/repository/sdk-tools-darwin-$ANDROID_TOOLS.zip" -O android-sdk-tools.zip
-    else
-      wget -q "https://dl.google.com/android/repository/sdk-tools-linux-$ANDROID_TOOLS.zip" -O android-sdk-tools.zip
-    fi
+  - wget -q "https://dl.google.com/android/repository/sdk-tools-linux-$ANDROID_TOOLS.zip" -O android-sdk-tools.zip
   - unzip -q android-sdk-tools.zip -d ${ANDROID_HOME}
   - rm android-sdk-tools.zip
   - PATH=${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools
   # Silence warning.
   - mkdir -p ~/.android
   - touch ~/.android/repositories.cfg
-#  # install correct version of java on osx
-#  - |
-#    if [ $TRAVIS_OS_NAME == "osx" ]; then
-#      # skip brew update
-#      export HOMEBREW_NO_AUTO_UPDATE=1
-#      brew cask uninstall java; brew tap caskroom/versions; brew cask install java8;
-#    fi
   # Accept licenses before installing components, no need to echo y for each component
   - yes | sdkmanager --licenses
   # Platform tools
@@ -96,13 +76,8 @@ before_install:
   # Download a pinned version of the emulator since upgrades can cause issues
   - ${ANDROID_HOME}/emulator/emulator -version
   - emulator_version=5264690 # 29.2.1.0 (build_id 5889189) ==> 28.0.23.0 (build_id 5264690)
-  - |
-    if [ $TRAVIS_OS_NAME == "osx" ]; then
-      curl -fo emulator.zip "https://dl.google.com/android/repository/emulator-darwin-$emulator_version.zip"
-    else
-      sudo apt-get install -y libunwind8 libc++1
-      curl -fo emulator.zip "https://dl.google.com/android/repository/emulator-linux-$emulator_version.zip"
-    fi
+  - sudo apt-get install -y libunwind8 libc++1
+  - curl -fo emulator.zip "https://dl.google.com/android/repository/emulator-linux-$emulator_version.zip"
   - rm -rf "${ANDROID_HOME}/emulator"
   - unzip -q emulator.zip -d "${ANDROID_HOME}"
   - rm -f emulator.zip
@@ -112,8 +87,6 @@ before_install:
   - sdkmanager "system-images;android-$SYS;$ABI" > /dev/null
   - sdkmanager --list | head -15
   - echo no | avdmanager create avd -n test -k "system-images;android-$SYS;$ABI"
-  # fix timezone warning on osx
-  - if [ $TRAVIS_OS_NAME == "osx" ]; then sudo ln -sf /usr/share/zoneinfo/US/Pacific /etc/localtime; fi
   # emulator debug options
   #  - EMU_DEBUG="-debug all -logcat *:e -verbose -show-kernel"
   #  - EMU_ADDITIONAL_OPTIONS="-camera-back none -camera-front none -memory 2048"
@@ -136,13 +109,10 @@ before_install:
   - sdkmanager "platforms;android-28" "build-tools;28.0.3" > /dev/null # required by flutter
   - FLUTTER_CHANNEL=stable
   - FLUTTER_VERSION=1.9.1+hotfix.6-${FLUTTER_CHANNEL}
-  - |
-    if [ $TRAVIS_OS_NAME == "osx" ]; then
-      wget --quiet --output-document=flutter.zip https://storage.googleapis.com/flutter_infra/releases/${FLUTTER_CHANNEL}/macos/flutter_macos_v${FLUTTER_VERSION}.zip && unzip -qq flutter.zip > /dev/null && rm flutter.zip
-    else
-      sudo apt-get install -y --no-install-recommends lib32stdc++6 libstdc++6 > /dev/null
-      wget --quiet --output-document=flutter.tar.xz https://storage.googleapis.com/flutter_infra/releases/${FLUTTER_CHANNEL}/linux/flutter_linux_v${FLUTTER_VERSION}.tar.xz && tar xf flutter.tar.xz > /dev/null && rm flutter.tar.xz
-    fi
+  - sudo apt-get install -y --no-install-recommends lib32stdc++6 libstdc++6 > /dev/null
+  - wget --quiet --output-document=flutter.tar.xz https://storage.googleapis.com/flutter_infra/releases/${FLUTTER_CHANNEL}/linux/flutter_linux_v${FLUTTER_VERSION}.tar.xz
+  - tar xf flutter.tar.xz > /dev/null
+  - rm flutter.tar.xz
   - export PATH="$PATH":"$HOME/.pub-cache/bin"
   - export PATH=$PWD/flutter/bin:$PWD/flutter/bin/cache/dart-sdk/bin:$PATH
   - flutter doctor -v
