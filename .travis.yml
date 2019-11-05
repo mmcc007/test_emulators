@@ -139,6 +139,19 @@ env:
     # API=11 -- not released
     # API=10 -- not supported by flutter
 
+jobs:
+  fast_finish: true
+  # jobs that are flakey
+  allow_failures:
+    - env: API=29 ABI=x86         GOO=default
+    - env: API=28 ABI=x86_64      GOO=google_apis_playstore # DriverError: Failed to fulfill GetHealth due to remote error
+    - env: API=28 ABI=x86         GOO=google_apis # DriverError: Failed to fulfill GetHealth due to remote error
+    - env: API=27 ABI=x86         GOO=google_apis_playstore # DriverError: Failed to fulfill GetHealth due to remote error
+    - env: API=27 ABI=x86         GOO=google_apis # DriverError: Failed to fulfill GetHealth due to remote error
+    - env: API=26 ABI=x86         GOO=google_apis_playstore # DriverError: Failed to fulfill GetHealth due to remote error
+    - env: API=26 ABI=x86         GOO=google_apis # Scanning for devices is taking a long time...
+    - env: API=18 ABI=x86         GOO=google_apis # hangs on Installing build/app/outputs/apk/app.apk...
+
 before_install:
   - java -version
 
