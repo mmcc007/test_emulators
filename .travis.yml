@@ -56,6 +56,7 @@ before_install:
   - source ~/.install-jdk-travis.sh
 
   # Install android tools
+  - sudo apt-get -y --no-install-recommends install libpulse0 libxcursor1 # required by ARM emulator
   - ANDROID_TOOLS=4333796 # android-28
   - export ANDROID_HOME=~/android-sdk
   - wget -q "https://dl.google.com/android/repository/sdk-tools-linux-$ANDROID_TOOLS.zip" -O android-sdk-tools.zip
