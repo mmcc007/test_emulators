@@ -50,29 +50,29 @@ env:
   # define full matrix of APIxABIxGOO and comment-out invalid entries
   # (see "sdkmanager --list --verbose| grep ^system-images" for full list)
   jobs:
-##    - API=29 ABI=x86_64      GOO=google_apis_playstore # DriverError: Failed to fulfill GetHealth due to remote error
-##    - API=29 ABI=x86         GOO=google_apis_playstore # flutter doctor reports emulator is offline
-##    - API=29 ABI=x86_64      GOO=google_apis # flutter drive reports "Bad state: No element"
-##    - API=29 ABI=x86         GOO=google_apis # DriverError: Failed to fulfill GetHealth due to remote error
-#    - API=29 ABI=x86_64      GOO=default
+##    - API=29 ABI=x86_64      GOO=google_apis_playstore ==> DriverError: Failed to fulfill GetHealth due to remote error
+##    - API=29 ABI=x86         GOO=google_apis_playstore ==> flutter doctor reports emulator is offline
+##    - API=29 ABI=x86_64      GOO=google_apis ==> flutter drive reports "Bad state: No element"
+##    - API=29 ABI=x86         GOO=google_apis ==> DriverError: Failed to fulfill GetHealth due to remote error
+    - API=29 ABI=x86_64      GOO=default
 #    - API=29 ABI=x86         GOO=default
 #
 #    - API=28 ABI=x86_64      GOO=google_apis_playstore
 #    - API=28 ABI=x86         GOO=google_apis_playstore
 #    - API=28 ABI=x86_64      GOO=google_apis
 #    - API=28 ABI=x86         GOO=google_apis
-#    - API=28 ABI=x86_64      GOO=default
+    - API=28 ABI=x86_64      GOO=default
 #    - API=28 ABI=x86         GOO=default
 #
 #    - API=27 ABI=x86         GOO=google_apis_playstore
 #    - API=27 ABI=x86         GOO=google_apis
-#    - API=27 ABI=x86_64      GOO=default
+    - API=27 ABI=x86_64      GOO=default
 #    - API=27 ABI=x86         GOO=default
 #
 #    - API=26 ABI=x86         GOO=google_apis_playstore
 #    - API=26 ABI=x86_64      GOO=google_apis
 #    - API=26 ABI=x86         GOO=google_apis
-#    - API=26 ABI=x86_64      GOO=default
+    - API=26 ABI=x86_64      GOO=default
 #    - API=26 ABI=x86         GOO=default
 #
 #    - API=25 ABI=x86         GOO=google_apis_playstore
@@ -80,8 +80,8 @@ env:
 #    - API=25 ABI=x86         GOO=google_apis
 #    - API=25 ABI=x86_64      GOO=default
 #    - API=25 ABI=x86         GOO=default
-##    - API=25 ABI=armeabi-v7a GOO=google_apis # android.util.AndroidException: Can't connect to activity manager; is the system running?
-##    - API=25 ABI=arm64-v8a   GOO=google_apis # emulator takes over 5 minutes to start
+##    - API=25 ABI=armeabi-v7a GOO=google_apis ==> android.util.AndroidException: Can't connect to activity manager; is the system running?
+##    - API=25 ABI=arm64-v8a   GOO=google_apis ==> emulator takes over 5 minutes to start
 
 #    - API=24 ABI=x86_64      GOO=google_apis
 #    - API=24 ABI=x86         GOO=google_apis
@@ -89,7 +89,7 @@ env:
 #    - API=24 ABI=arm64-v8a   GOO=google_apis
 #    - API=24 ABI=x86_64      GOO=default
 #    - API=24 ABI=x86         GOO=default
-##    - API=24 ABI=armeabi-v7a GOO=default # hangs after installing apk
+##    - API=24 ABI=armeabi-v7a GOO=default    ==> hangs after installing apk
 #    - API=24 ABI=arm64-v8a   GOO=default
 
 #    - API=23 ABI=x86_64      GOO=google_apis
@@ -99,39 +99,39 @@ env:
 #    - API=23 ABI=x86         GOO=default
 #    - API=23 ABI=armeabi-v7a GOO=default
 
-##    - API=22 ABI=x86_64      GOO=google_apis # emulator does not start ??
+##    - API=22 ABI=x86_64      GOO=google_apis ==> emulator does not start ??
 #    - API=22 ABI=x86         GOO=google_apis
 #    - API=22 ABI=armeabi-v7a GOO=google_apis
 #    - API=22 ABI=x86_64      GOO=default
 #    - API=22 ABI=x86         GOO=default
-    - API=22 ABI=armeabi-v7a GOO=default
+#    - API=22 ABI=armeabi-v7a GOO=default
 
 #    - API=21 ABI=x86_64      GOO=google_apis
 #    - API=21 ABI=x86         GOO=google_apis
 #    - API=21 ABI=armeabi-v7a GOO=google_apis
 #    - API=21 ABI=x86_64      GOO=default
 #    - API=21 ABI=x86         GOO=default
-#    - API=21 ABI=armeabi-v7a GOO=default
+    - API=21 ABI=armeabi-v7a GOO=default
 
     # API=20  -- not released
 
 #    - API=19 ABI=x86         GOO=google_apis
 #    - API=19 ABI=x86         GOO=default
 #    - API=19 ABI=armeabi-v7a GOO=google_apis
-#    - API=19 ABI=armeabi-v7a GOO=default
+##    - API=19 ABI=armeabi-v7a GOO=default     ==> hangs on Installing build/app/outputs/apk/app.apk...
 #
 #    - API=18 ABI=x86         GOO=google_apis
 #    - API=18 ABI=x86         GOO=default
 #    - API=18 ABI=armeabi-v7a GOO=google_apis
-#    - API=18 ABI=armeabi-v7a GOO=default
+##    - API=18 ABI=armeabi-v7a GOO=default     ==> exits after Installing build/app/outputs/apk/app.apk...
 
-##    - API=17 ABI=x86         GOO=google_apis # FlutterDriver: It is taking an unusually long time to connect to the VM...
-##    - API=17 ABI=x86         GOO=default     # FlutterDriver: It is taking an unusually long time to connect to the VM...
+##    - API=17 ABI=x86         GOO=google_apis ==> FlutterDriver: It is taking an unusually long time to connect to the VM...
+##    - API=17 ABI=x86         GOO=default     ==> FlutterDriver: It is taking an unusually long time to connect to the VM...
 #    - API=17 ABI=armeabi-v7a GOO=google_apis
-#    - API=17 ABI=armeabi-v7a GOO=default
+##    - API=17 ABI=armeabi-v7a GOO=default     ==> exits after Installing build/app/outputs/apk/app.apk...
 
-##    - API=16 ABI=x86         GOO=google_apis # FlutterDriver: It is taking an unusually long time to connect to the VM...
-##    - API=16 ABI=x86         GOO=default     # FlutterDriver: It is taking an unusually long time to connect to the VM...
+##    - API=16 ABI=x86         GOO=google_apis ==> FlutterDriver: It is taking an unusually long time to connect to the VM...
+##    - API=16 ABI=x86         GOO=default     ==> FlutterDriver: It is taking an unusually long time to connect to the VM...
 #    - API=16 ABI=armeabi-v7a GOO=google_apis
 #    - API=16 ABI=armeabi-v7a GOO=default
 
@@ -201,6 +201,16 @@ install:
   - sdkmanager "system-images;android-$API;$GOO;$ABI" >/dev/null # install system images for emulator
   - sdkmanager "build-tools;25.0.2" "platforms;android-25" > /dev/null # install build tools and platforms for arm (to allow emulator to run)
 
+  # Download a pinned version of the emulator since upgrades can cause issues
+  - ${ANDROID_HOME}/emulator/emulator -version
+  - emulator_version=5264690 # 29.2.1.0 (build_id 5889189) ==> 28.0.23.0 (build_id 5264690)
+  - sudo apt-get install -y libunwind8 libc++1
+  - curl -fo emulator.zip "https://dl.google.com/android/repository/emulator-linux-$emulator_version.zip"
+  - rm -rf "${ANDROID_HOME}/emulator"
+  - unzip -q emulator.zip -d "${ANDROID_HOME}"
+  - rm -f emulator.zip
+  - ${ANDROID_HOME}/emulator/emulator -version
+
   # Create an Android emulator
   - echo no | avdmanager create avd --force -n test -k "system-images;android-$API;$GOO;$ABI" -c 10M
 #  - EMU_PARAMS="
@@ -245,7 +255,7 @@ install:
   - flutter doctor -v
 
 before_script:
-  # Wait for emulator to startup.
+  # Wait for emulator to finish startup.
   - ./script/android-wait-for-emulator.sh
   # unlock screen
   - adb shell input keyevent 82 &
