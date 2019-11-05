@@ -23,7 +23,7 @@ env:
   #  - SYS=22 ABI="google_apis;x86" # demo failure due to no accelerator on travis
   #  - SYS=22 ABI="google_apis;x86_64" # demo failure due to no accelerator on travis
     - SYS=22 ABI="google_apis;armeabi-v7a"
-  - SYS=22 ABI="default;armeabi-v7a"
+    - SYS=22 ABI="default;armeabi-v7a"
 
 #  - SYS=21 ABI="default;armeabi-v7a"
 #  - SYS=20 ABI="default;armeabi-v7a"
