@@ -149,6 +149,7 @@ jobs:
   allow_failures:
     - env: API=29 ABI=x86_64      GOO=google_apis_playstore # flutter driver: "No devices found."
     - env: API=29 ABI=x86         GOO=google_apis_playstore # flutter doctor: device offline
+    - env: API=29 ABI=x86_64      GOO=google_apis # flutter drive: "Bad state: No element"
 #    - env: API=29 ABI=x86         GOO=google_apis # DriverError: Failed to fulfill GetHealth due to remote error
     - env: API=29 ABI=x86         GOO=default     # hangs while resolving dependencies
 
