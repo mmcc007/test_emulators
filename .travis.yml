@@ -168,6 +168,7 @@ jobs:
     - env: API=23 ABI=armeabi-v7a GOO=google_apis # hangs during Installing build/app/outputs/apk/app.apk...
     - env: API=23 ABI=armeabi-v7a GOO=default     # hangs after installing apk
 
+    - env: API=22 ABI=x86_64      GOO=default     # flutter drive hangs during installation of apk
     - env: API=22 ABI=armeabi-v7a GOO=google_apis # hangs after installing apk
 
     - env: API=21 ABI=armeabi-v7a GOO=google_apis # Timeout (600 seconds) reached; failed to start emulator
