@@ -29,8 +29,7 @@ task:
           - GOO: google_apis
   install_emulator_script: sdkmanager "system-images;android-$API;$GOO;$ABI" > /dev/null
 #  allow_failures: $API$GOO$ABI == "27google_apisx86_64"
-  only_if: ! (($API == "27" && $ABI == "x86_64" && $GOO == "google_apis") ||
-  ($API == "24" && $ABI == "armeabi-v7a" && $GOO == "google_apis"))
+  only_if: ! (($API == "27" && $ABI == "x86_64" && $GOO == "google_apis") || ($API == "24" && $ABI == "armeabi-v7a" && $GOO == "google_apis"))
 
 
 #timeout_in: 15m
