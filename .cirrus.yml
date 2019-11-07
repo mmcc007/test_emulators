@@ -17,4 +17,4 @@ task:
   test_script:
     - export PATH="$PATH":"$HOME/.pub-cache/bin"
     - cd flutter_app
-    - flutter drive test_driver/main.dart
+    - flutter drive lib/main.dart
