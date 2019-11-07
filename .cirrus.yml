@@ -8,10 +8,10 @@ task:
 #        kvm: true
       env:
         matrix:
-          - API: 28
+#          - API: 28
           - API: 27
-          - API: 26
-          - API: 25
+#          - API: 26
+#          - API: 25
         matrix:
           - ABI: x86_64
           - ABI: x86
