@@ -10,7 +10,7 @@ task:
   pub_cache:
     folder: ~/.pub-cache
   matrix:
-    - name: x86 (API:- 29-25)
+    - name: x86:- API:- 29-25
       env:
 #        matrix:
 #          - API: 29
@@ -26,15 +26,12 @@ task:
 #          - GOO: google_apis
 #          - GOO: google_apis_playstore
 #        allow_failures: $API$GOO$ABI == "29google_apis_playstorex86_64" || $API$GOO$ABI == "29google_apis_playstorex86" || $API$GOO$ABI == "29google_apisx86_64" || $API$GOO$ABI == "29defaultx86" || $API$GOO$ABI == "28google_apis_playstorex86_64" || $API$GOO$ABI == "27google_apis_playstorex86_64" || $API$GOO$ABI == "27google_apisx86_64" || $API$GOO$ABI == "24google_apisx86" || $API$GOO$ABI == "26google_apis_playstorex86_64" || $API$GOO$ABI == "25google_apis_playstorex86_64"
-        matrix:
-          - GOO: google_apis
-        matrix:
-          - ABI: x86_64
-        matrix:
-          - API: 27
+        GOO: google_apis
+        ABI: x86_64
+        API: 27
 
 #        allow_failures: $API$GOO$ABI == "27google_apisx86_64"
-        allow_failures: [[ $API == "27" ]]
+        allow_failures: $API == "27"
 
 #    - name: ARM
 #      env:
