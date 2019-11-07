@@ -10,37 +10,45 @@ task:
   pub_cache:
     folder: ~/.pub-cache
   matrix:
-    - name: x86
+    - name: x86 (API: 29-25)
       env:
+#        matrix:
+#          - API: 29
+#          - API: 28
+#          - API: 27
+#          - API: 26
+#          - API: 25
+#        matrix:
+#          - ABI: x86
+#          - ABI: x86_64
+#        matrix:
+#          - GOO: default
+#          - GOO: google_apis
+#          - GOO: google_apis_playstore
+#        allow_failures: $API$GOO$ABI == "29google_apis_playstorex86_64" || $API$GOO$ABI == "29google_apis_playstorex86" || $API$GOO$ABI == "29google_apisx86_64" || $API$GOO$ABI == "29defaultx86" || $API$GOO$ABI == "28google_apis_playstorex86_64" || $API$GOO$ABI == "27google_apis_playstorex86_64" || $API$GOO$ABI == "27google_apisx86_64" || $API$GOO$ABI == "24google_apisx86" || $API$GOO$ABI == "26google_apis_playstorex86_64" || $API$GOO$ABI == "25google_apis_playstorex86_64"
         matrix:
-          - GOO: default
           - GOO: google_apis
-          - GOO: google_apis_playstore
         matrix:
-          - ABI: x86
           - ABI: x86_64
         matrix:
           - API: 29
-          - API: 28
-          - API: 27
-          - API: 26
-          - API: 25
-        allow_failures: $API$GOO$ABI == "29google_apis_playstorex86_64" || $API$GOO$ABI == "29google_apis_playstorex86" || $API$GOO$ABI == "29google_apisx86_64" || $API$GOO$ABI == "29defaultx86" || $API$GOO$ABI == "28google_apis_playstorex86_64" || $API$GOO$ABI == "27google_apis_playstorex86_64" || $API$GOO$ABI == "27google_apisx86_64" || $API$GOO$ABI == "24google_apisx86" || $API$GOO$ABI == "26google_apis_playstorex86_64" || $API$GOO$ABI == "25google_apis_playstorex86_64"
 
-    - name: ARM
-      env:
-        matrix:
-          - GOO: default
-          - GOO: google_apis
-        matrix:
-          - ABI: x86
-          - ABI: armeabi-v7a
-        matrix:
-          - API: 19
-          - API: 18
-          - API: 17
-          - API: 16
-        allow_failures: $API$GOO$ABI == "25defaultarmeabi-v7a" || $API$GOO$ABI == "24defaultarmeabi-v7a"
+        allow_failures: $API$GOO$ABI == "29google_apis_playstorex86_64"
+
+#    - name: ARM
+#      env:
+#        matrix:
+#          - GOO: default
+#          - GOO: google_apis
+#        matrix:
+#          - ABI: x86
+#          - ABI: armeabi-v7a
+#        matrix:
+#          - API: 19
+#          - API: 18
+#          - API: 17
+#          - API: 16
+#        allow_failures: $API$GOO$ABI == "25defaultarmeabi-v7a" || $API$GOO$ABI == "24defaultarmeabi-v7a"
 
   install_emulator_script: sdkmanager --update && sdkmanager "system-images;android-$API;$GOO;$ABI"
   create_emulator_script:
