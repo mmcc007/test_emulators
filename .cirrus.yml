@@ -5,7 +5,7 @@ task:
     memory: 10G
   env:
     matrix:
-#      - API: 28
+      - API: 28
       - API: 27
 #          - API: 26
 #          - API: 25
@@ -18,7 +18,7 @@ task:
 #      - GOO: google_apis_playstore
 #  only_if: ! $ABI == "x86_64" # unary ignored
 #  only_if: $ABI != "x86_64"
-  only_if: $ABI != "x86_64" && $GOO != "default"
+  only_if: $ABI != "x86_64" && $GOO != "default" && $API != "28"
 
 
 
