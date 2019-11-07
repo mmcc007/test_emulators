@@ -1,65 +1,78 @@
-timeout_in: 15m
-
 task:
   name: Test (x86)
   container:
     image: cirrusci/flutter:latest
     cpu: 4
     memory: 10G
-#    kvm: true
-  pub_cache:
-    folder: ~/.pub-cache
-  matrix:
-    - name: x86:- API:- 29-25
-      env:
-#        matrix:
-#          - API: 29
-#          - API: 28
-#          - API: 27
-#          - API: 26
-#          - API: 25
-#        matrix:
-#          - ABI: x86
-#          - ABI: x86_64
-#        matrix:
-#          - GOO: default
-#          - GOO: google_apis
-#          - GOO: google_apis_playstore
-#        allow_failures: $API$GOO$ABI == "29google_apis_playstorex86_64" || $API$GOO$ABI == "29google_apis_playstorex86" || $API$GOO$ABI == "29google_apisx86_64" || $API$GOO$ABI == "29defaultx86" || $API$GOO$ABI == "28google_apis_playstorex86_64" || $API$GOO$ABI == "27google_apis_playstorex86_64" || $API$GOO$ABI == "27google_apisx86_64" || $API$GOO$ABI == "24google_apisx86" || $API$GOO$ABI == "26google_apis_playstorex86_64" || $API$GOO$ABI == "25google_apis_playstorex86_64"
-        GOO: google_apis
-        ABI: x86_64
-        API: 27
-
-#        allow_failures: $API$GOO$ABI == "27google_apisx86_64"
-        allow_failures: $API == "27"
-
-#    - name: ARM
-#      env:
-#        matrix:
-#          - GOO: default
-#          - GOO: google_apis
-#        matrix:
-#          - ABI: x86
-#          - ABI: armeabi-v7a
-#        matrix:
-#          - API: 19
-#          - API: 18
-#          - API: 17
-#          - API: 16
-#        allow_failures: $API$GOO$ABI == "25defaultarmeabi-v7a" || $API$GOO$ABI == "24defaultarmeabi-v7a"
-
+    env:
+      GOO: google_apis
+      ABI: x86_64
+      API: 27
   install_emulator_script: sdkmanager "system-images;android-$API;$GOO;$ABI" > /dev/null
-  create_emulator_script:
-    - echo no | avdmanager --verbose create avd --force -n test -k "system-images;android-$API;$GOO;$ABI"
-  start_emulator_background_script:
-    - sudo chown cirrus:cirrus /dev/kvm
-    - $ANDROID_HOME/emulator/emulator-headless -version
-    - $ANDROID_HOME/emulator/emulator-headless -avd test -no-audio -no-window
-  wait_for_emulator_script:
-    - ./script/android-wait-for-emulator.sh
-  doctor_script: flutter doctor -v
-  test_script:
-    - export PATH="$PATH":"$HOME/.pub-cache/bin"
-    - cd flutter_app
-#    - flutter drive lib/main.dart || flutter drive lib/main.dart
-    - flutter drive lib/main.dart
+  allow_failures: $API == "27"
+
+#timeout_in: 15m
+#
+#task:
+#  name: Test (x86)
+#  container:
+#    image: cirrusci/flutter:latest
+#    cpu: 4
+#    memory: 10G
+##    kvm: true
+#  pub_cache:
+#    folder: ~/.pub-cache
+#  matrix:
+#    - name: x86:- API:- 29-25
+#      env:
+##        matrix:
+##          - API: 29
+##          - API: 28
+##          - API: 27
+##          - API: 26
+##          - API: 25
+##        matrix:
+##          - ABI: x86
+##          - ABI: x86_64
+##        matrix:
+##          - GOO: default
+##          - GOO: google_apis
+##          - GOO: google_apis_playstore
+##        allow_failures: $API$GOO$ABI == "29google_apis_playstorex86_64" || $API$GOO$ABI == "29google_apis_playstorex86" || $API$GOO$ABI == "29google_apisx86_64" || $API$GOO$ABI == "29defaultx86" || $API$GOO$ABI == "28google_apis_playstorex86_64" || $API$GOO$ABI == "27google_apis_playstorex86_64" || $API$GOO$ABI == "27google_apisx86_64" || $API$GOO$ABI == "24google_apisx86" || $API$GOO$ABI == "26google_apis_playstorex86_64" || $API$GOO$ABI == "25google_apis_playstorex86_64"
+#        GOO: google_apis
+#        ABI: x86_64
+#        API: 27
+#
+##        allow_failures: $API$GOO$ABI == "27google_apisx86_64"
+#        allow_failures: $API == "27"
+#
+##    - name: ARM
+##      env:
+##        matrix:
+##          - GOO: default
+##          - GOO: google_apis
+##        matrix:
+##          - ABI: x86
+##          - ABI: armeabi-v7a
+##        matrix:
+##          - API: 19
+##          - API: 18
+##          - API: 17
+##          - API: 16
+##        allow_failures: $API$GOO$ABI == "25defaultarmeabi-v7a" || $API$GOO$ABI == "24defaultarmeabi-v7a"
+#
+#  install_emulator_script: sdkmanager "system-images;android-$API;$GOO;$ABI" > /dev/null
+#  create_emulator_script:
+#    - echo no | avdmanager --verbose create avd --force -n test -k "system-images;android-$API;$GOO;$ABI"
+#  start_emulator_background_script:
+#    - sudo chown cirrus:cirrus /dev/kvm
+#    - $ANDROID_HOME/emulator/emulator-headless -version
+#    - $ANDROID_HOME/emulator/emulator-headless -avd test -no-audio -no-window
+#  wait_for_emulator_script:
+#    - ./script/android-wait-for-emulator.sh
+#  doctor_script: flutter doctor -v
+#  test_script:
+#    - export PATH="$PATH":"$HOME/.pub-cache/bin"
+#    - cd flutter_app
+##    - flutter drive lib/main.dart || flutter drive lib/main.dart
+#    - flutter drive lib/main.dart
