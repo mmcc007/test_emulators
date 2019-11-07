@@ -19,14 +19,15 @@ task:
           - API: 27
     - name: ARM
       env:
-        GOO:
-          - default
-          - google_apis
+        matrix:
+          - GOO: default
+          - GOO: google_apis
         matrix:
           - ABI: armeabi-v7a
         matrix:
           - API: 25
           - API: 24
+  allow_failures: "$API;$GOO;$ABI" == "25;default;armeabi-v7a" || "$API;$GOO;$ABI" == "24;default;armeabi-v7a"
   install_emulator_script: sdkmanager --update && sdkmanager "system-images;android-$API;$GOO;$ABI"
   create_emulator_script:
     - echo no | avdmanager --verbose create avd --force -n test -k "system-images;android-$API;$GOO;$ABI"
