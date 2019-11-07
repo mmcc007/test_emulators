@@ -8,12 +8,12 @@ task:
         kvm: true
       env:
         matrix:
-          - GOO: google_apis
+          - API: 28
+          - API: 27
         matrix:
           - ABI: x86_64
         matrix:
-          - API: 28
-          - API: 27
+          - GOO: google_apis
     - name: no accel, 25-24
       container:
         image: cirrusci/flutter:latest
@@ -21,29 +21,15 @@ task:
         memory: 10G
       env:
         matrix:
-          - GOO: google_apis
+          - API: 25
+          - API: 24
         matrix:
           - ABI: armeabi-v7a
         matrix:
-          - API: 25
-          - API: 24
-#    - name no-accel, 25-24
-#      container:
-#        image: cirrusci/flutter:latest
-#        cpu: 4
-#        memory: 10G
-#      env:
-#        matrix:
-#          - GOO: google_apis
-#        matrix:
-#          - ABI: armeabi-v7a
-#        matrix:
-#          - API: 25
-#          - API: 24
-#        allow_failures: ($API == "25" && $ABI == "armeabi-v7a" && $GOO == "google_apis") || ($API == "25" && $ABI == "armeabi-v7a4" && $GOO == "google_apis")
+          - GOO: google_apis
   install_emulator_script: sdkmanager "system-images;android-$API;$GOO;$ABI" > /dev/null
 #  allow_failures: $API$GOO$ABI == "27google_apisx86_64"
-  allow_failures: ($API == "27" && $ABI == "x86_64" && $GOO == "google_apis") || ($API == "24" && $ABI == "armeabi-v7a" && $GOO == "google_apis")
+  only_if: ($API == "27" && $ABI == "x86_64" && $GOO == "google_apis") || ($API == "24" && $ABI == "armeabi-v7a" && $GOO == "google_apis")
 
 
 #timeout_in: 15m
