@@ -33,7 +33,8 @@ task:
         matrix:
           - API: 29
 
-        allow_failures: $API$GOO$ABI == "29google_apisx86_64"
+#        allow_failures: $API$GOO$ABI == "29google_apisx86_64"
+        allow_failures: $API == '29' && $ABI == 'x86_64'
 
 #    - name: ARM
 #      env:
@@ -50,7 +51,7 @@ task:
 #          - API: 16
 #        allow_failures: $API$GOO$ABI == "25defaultarmeabi-v7a" || $API$GOO$ABI == "24defaultarmeabi-v7a"
 
-  install_emulator_script: sdkmanager --update && sdkmanager "system-images;android-$API;$GOO;$ABI"
+  install_emulator_script: sdkmanager --update && sdkmanager "system-images;android-$API;$GOO;$ABI" > /dev/null
   create_emulator_script:
     - echo no | avdmanager --verbose create avd --force -n test -k "system-images;android-$API;$GOO;$ABI"
   start_emulator_background_script:
