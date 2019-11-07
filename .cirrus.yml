@@ -4,10 +4,10 @@ task:
     image: cirrusci/flutter:latest
     cpu: 4
     memory: 10G
-    env:
-      GOO: google_apis
-      ABI: x86_64
-      API: 27
+  env:
+    GOO: google_apis
+    ABI: x86_64
+    API: 27
   install_emulator_script: sdkmanager "system-images;android-$API;$GOO;$ABI" > /dev/null
   allow_failures: $API == "27"
 
