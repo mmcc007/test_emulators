@@ -14,7 +14,7 @@ task:
         matrix:
           - API: 28
           - API: 27
-    - name: no accel, 28-27
+    - name: no accel, 25-24
       container:
         image: cirrusci/flutter:latest
         cpu: 4
@@ -43,7 +43,7 @@ task:
 #        allow_failures: ($API == "25" && $ABI == "armeabi-v7a" && $GOO == "google_apis") || ($API == "25" && $ABI == "armeabi-v7a4" && $GOO == "google_apis")
   install_emulator_script: sdkmanager "system-images;android-$API;$GOO;$ABI" > /dev/null
 #  allow_failures: $API$GOO$ABI == "27google_apisx86_64"
-  allow_failures: ($API == "27" && $ABI == "x86_64" && $GOO == "google_apis") || ($API == "24" && $ABI == "x86_64" && $GOO == "google_apis")
+  allow_failures: ($API == "27" && $ABI == "x86_64" && $GOO == "google_apis") || ($API == "24" && $ABI == "armeabi-v7a" && $GOO == "google_apis")
 
 
 #timeout_in: 15m
