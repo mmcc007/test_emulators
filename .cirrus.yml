@@ -10,13 +10,20 @@ task:
   matrix:
     - name: x86
       env:
-        GOO: default
+        matrix:
+          - GOO: default
+          - GOO: google_apis
+          - GOO: google_apis_playstore
         matrix:
           - ABI: x86
           - ABI: x86_64
         matrix:
+          - API: 29
           - API: 28
           - API: 27
+          - API: 26
+          - API: 25
+        allow_failures: $API$GOO$ABI == "29defaultx86_64" || $API$GOO$ABI == "29defaultx86_64"
     - name: ARM
       env:
         matrix:
@@ -27,7 +34,7 @@ task:
         matrix:
           - API: 25
           - API: 24
-  allow_failures: $API$GOO$ABI == "25defaultarmeabi-v7a" || $API$GOO$ABI == "24defaultarmeabi-v7a"
+        allow_failures: $API$GOO$ABI == "25defaultarmeabi-v7a" || $API$GOO$ABI == "24defaultarmeabi-v7a"
   install_emulator_script: sdkmanager --update && sdkmanager "system-images;android-$API;$GOO;$ABI"
   create_emulator_script:
     - echo no | avdmanager --verbose create avd --force -n test -k "system-images;android-$API;$GOO;$ABI"
