@@ -18,7 +18,7 @@ task:
       - API: 27
       - ABI: x86
       - GOO: default
-  install_emulator_image: sdkmanager --update && sdkmanager "system-images;android-$API;$ABI"
+  install_emulator_script: sdkmanager --update && sdkmanager "system-images;android-$API;$ABI"
   create_emulator_script:
     - echo no | avdmanager --verbose create avd --force -n test -k "system-images;android-$API;$GOO;$ABI"
   start_emulator_background_script:
