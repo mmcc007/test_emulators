@@ -10,7 +10,7 @@ task:
   pub_cache:
     folder: ~/.pub-cache
   matrix:
-    - name: x86 (API: 29-25)
+    - name: x86 (API:- 29-25)
       env:
 #        matrix:
 #          - API: 29
