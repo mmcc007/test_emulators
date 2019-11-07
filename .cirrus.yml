@@ -18,8 +18,9 @@ task:
       - GOO: google_apis
 #      - GOO: google_apis_playstore
 #  only_if: !( $ABI == "x86_64" ) # Parentheses mismatched!
-#  only_if: ! ( $ABI == "x86_64" ) # unary ignored, 4 jobs
-  only_if: $ABI != "x86_64"
+#  only_if: ! ( $ABI == "x86_64" ) # unary ignored, 4 wrong jobs
+#  only_if: $ABI != "x86_64" # worked, 4 jobs
+  only_if: $ABI != "x86_64" && $GOO != "default"
 #  only_if: $ABI != "x86_64" && $GOO != "default" && $API != "28" #
 #  only_if: $ABI != "x86_64" && $GOO != "default" && $API != "28"
 
