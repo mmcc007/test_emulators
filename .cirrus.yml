@@ -16,7 +16,7 @@ task:
           - ABI: x86_64
           - ABI: x86
         matrix:
-          - GOO: default
+#          - GOO: default
           - GOO: google_apis
           - GOO: google_apis_playstore
 #    - name: accel, no playstore, 24-21
