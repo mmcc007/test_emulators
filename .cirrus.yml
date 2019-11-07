@@ -14,7 +14,7 @@ task:
         matrix:
           - API: 28
           - API: 27
-        allow_failures: ($API == "27" && $ABI == "x86_64" && $GOO == "google_apis") || ($API == "27" && $ABI == "x86_64" && $GOO == "google_apis")
+  allow_failures: ($API == "27" && $ABI == "x86_64" && $GOO == "google_apis") || ($API == "27" && $ABI == "x86_64" && $GOO == "google_apis")
 #    - name no-accel, 25-24
 #      container:
 #        image: cirrusci/flutter:latest
