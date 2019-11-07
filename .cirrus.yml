@@ -33,7 +33,7 @@ task:
         matrix:
           - API: 29
 
-        allow_failures: $API$GOO$ABI == "29google_apis_playstorex86_64"
+        allow_failures: $API$GOO$ABI == "29google_apisx86_64"
 
 #    - name: ARM
 #      env:
