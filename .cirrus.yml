@@ -16,6 +16,7 @@ task:
       - GOO: default
       - GOO: google_apis
       - GOO: google_apis_playstore
+  only_if: ! $ABI == "x86_64"
 
 
 
