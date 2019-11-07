@@ -11,7 +11,7 @@ task:
     matrix:
       - API: 27
   install_emulator_script: sdkmanager "system-images;android-$API;$GOO;$ABI" > /dev/null
-  allow_failures: $API == "27"
+  allow_failures: $API$GOO$ABI == "27google_apisx86_64"
 
 #timeout_in: 15m
 #
