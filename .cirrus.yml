@@ -27,7 +27,7 @@ task:
         matrix:
           - API: 25
           - API: 24
-  allow_failures: "$API$GOO$ABI" == "25defaultarmeabi-v7a" || "$API$GOO$ABI" == "24defaultarmeabi-v7a"
+  allow_failures: $API$GOO$ABI == "25defaultarmeabi-v7a" || $API$GOO$ABI == "24defaultarmeabi-v7a"
   install_emulator_script: sdkmanager --update && sdkmanager "system-images;android-$API;$GOO;$ABI"
   create_emulator_script:
     - echo no | avdmanager --verbose create avd --force -n test -k "system-images;android-$API;$GOO;$ABI"
