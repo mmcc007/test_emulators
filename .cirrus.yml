@@ -6,7 +6,7 @@ task:
     image: cirrusci/flutter:latest
     cpu: 4
     memory: 10G
-    kvm: true
+#    kvm: true
   pub_cache:
     folder: ~/.pub-cache
   matrix:
@@ -33,8 +33,8 @@ task:
         matrix:
           - API: 27
 
-        allow_failures: $API$GOO$ABI == "27google_apisx86_64"
-#        allow_failures: $API == '27' && $ABI == 'x86_64'
+#        allow_failures: $API$GOO$ABI == "27google_apisx86_64"
+        allow_failures: $API == '27' && $ABI == 'x86_64'
 
 #    - name: ARM
 #      env:
