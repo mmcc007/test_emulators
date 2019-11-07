@@ -13,7 +13,7 @@ task:
       - API: 27
   install_emulator_script: sdkmanager "system-images;android-$API;$GOO;$ABI" > /dev/null
 #  allow_failures: $API$GOO$ABI == "27google_apisx86_64"
-  allow_failures: ($API == "27" && $ABI == "x86_64" && $GOO == "google_apis") || ($API == "27" && $ABI == "x86_64" && $GOO == "google_apis")
+  allow_failures: ./script/cirrus-allow-failures.sh
 
 #timeout_in: 15m
 #
