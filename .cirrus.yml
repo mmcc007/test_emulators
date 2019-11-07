@@ -13,11 +13,12 @@ task:
   pub_cache:
     folder: ~/.pub-cache
   env:
+    GOO: default
+    matrix:
+      - ABI: x86
     matrix:
       - API: 28
       - API: 27
-      - ABI: x86
-      - GOO: default
   install_emulator_script: sdkmanager --update && sdkmanager "system-images;android-$API;$ABI"
   create_emulator_script:
     - echo no | avdmanager --verbose create avd --force -n test -k "system-images;android-$API;$GOO;$ABI"
