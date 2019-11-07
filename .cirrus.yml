@@ -14,21 +14,21 @@ task:
         matrix:
           - API: 28
           - API: 27
-        allow_failures: ($API == "27" && $ABI == "x86_64" && $GOO == "google_apis") || ($API == "27" && $ABI == "x86_64" && $GOO == "google_apis")
-    - name no-accel, 25-24
-      container:
-        image: cirrusci/flutter:latest
-        cpu: 4
-        memory: 10G
-      env:
-        matrix:
-          - GOO: google_apis
-        matrix:
-          - ABI: armeabi-v7a
-        matrix:
-          - API: 25
-          - API: 24
-        allow_failures: ($API == "25" && $ABI == "armeabi-v7a" && $GOO == "google_apis") || ($API == "25" && $ABI == "armeabi-v7a4" && $GOO == "google_apis")
+#        allow_failures: ($API == "27" && $ABI == "x86_64" && $GOO == "google_apis") || ($API == "27" && $ABI == "x86_64" && $GOO == "google_apis")
+#    - name no-accel, 25-24
+#      container:
+#        image: cirrusci/flutter:latest
+#        cpu: 4
+#        memory: 10G
+#      env:
+#        matrix:
+#          - GOO: google_apis
+#        matrix:
+#          - ABI: armeabi-v7a
+#        matrix:
+#          - API: 25
+#          - API: 24
+#        allow_failures: ($API == "25" && $ABI == "armeabi-v7a" && $GOO == "google_apis") || ($API == "25" && $ABI == "armeabi-v7a4" && $GOO == "google_apis")
   install_emulator_script: sdkmanager "system-images;android-$API;$GOO;$ABI" > /dev/null
 #  allow_failures: $API$GOO$ABI == "27google_apisx86_64"
 
