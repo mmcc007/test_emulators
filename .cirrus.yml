@@ -9,7 +9,7 @@ task:
     matrix:
       - ABI: x86_64
     matrix:
-      - API: 28
+#      - API: 28
       - API: 27
   install_emulator_script: sdkmanager "system-images;android-$API;$GOO;$ABI" > /dev/null
   allow_failures: $API$GOO$ABI == "27google_apisx86_64"
