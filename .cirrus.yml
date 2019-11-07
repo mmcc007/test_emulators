@@ -17,7 +17,8 @@ task:
       - GOO: default
       - GOO: google_apis
 #      - GOO: google_apis_playstore
-  only_if: !( $ABI == "x86_64" ) # unary ignored
+#  only_if: !( $ABI == "x86_64" ) # Parentheses mismatched!
+  only_if: ! ( $ABI == "x86_64" )
 #  only_if: ! $ABI == "x86_64" # unary ignored
 #  only_if: $ABI != "x86_64"
 #  only_if: $ABI != "x86_64" && $GOO != "default" && $API != "28" #
