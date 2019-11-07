@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/mmcc007/test_emulators.svg?branch=master)](https://travis-ci.org/mmcc007/test_emulators)
+[![Build Status](https://api.cirrus-ci.com/github/mmcc007/test_emulators.svg)](https://cirrus-ci.com/github/mmcc007/test_emulators)
 
 # Test Android Emulators on Travis
 
