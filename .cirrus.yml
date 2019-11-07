@@ -31,10 +31,10 @@ task:
         matrix:
           - ABI: x86_64
         matrix:
-          - API: 29
+          - API: 27
 
-#        allow_failures: $API$GOO$ABI == "29google_apisx86_64"
-        allow_failures: $API == '29' && $ABI == 'x86_64'
+        allow_failures: $API$GOO$ABI == "27google_apisx86_64"
+#        allow_failures: $API == '27' && $ABI == 'x86_64'
 
 #    - name: ARM
 #      env:
@@ -51,7 +51,7 @@ task:
 #          - API: 16
 #        allow_failures: $API$GOO$ABI == "25defaultarmeabi-v7a" || $API$GOO$ABI == "24defaultarmeabi-v7a"
 
-  install_emulator_script: sdkmanager --update && sdkmanager "system-images;android-$API;$GOO;$ABI" > /dev/null
+  install_emulator_script: sdkmanager "system-images;android-$API;$GOO;$ABI" > /dev/null
   create_emulator_script:
     - echo no | avdmanager --verbose create avd --force -n test -k "system-images;android-$API;$GOO;$ABI"
   start_emulator_background_script:
@@ -64,4 +64,5 @@ task:
   test_script:
     - export PATH="$PATH":"$HOME/.pub-cache/bin"
     - cd flutter_app
-    - flutter drive lib/main.dart || flutter drive lib/main.dart
+#    - flutter drive lib/main.dart || flutter drive lib/main.dart
+    - flutter drive lib/main.dart
