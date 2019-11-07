@@ -88,7 +88,7 @@ task:
 #          - GOO: google_apis
   install_emulator_script: sdkmanager "system-images;android-$API;$GOO;$ABI" > /dev/null
 #  only_if: ! ( ($API == "27" && $ABI == "x86_64" && $GOO == "google_apis_playstore") || ($API == "27" && $ABI == "x86_64" && $GOO == "google_apis") || ($API == "26" && $ABI == "x86_64" && $GOO == "google_apis_playstore") || ($API == "25" && $ABI == "x86_64" && $GOO == "google_apis_playstore") || ($API == "24" && $ABI == "x86_64" && $GOO == "google_apis_playstore") || ($API == "24" && $ABI == "x86" && $GOO == "google_apis_playstore") || ($API == "25" && $ABI == "armeabi-v7a" && $GOO == "default") || ($API == "25" && $ABI == "arm64-v8a" && $GOO == "default") )
-  only_if: !($API == "27" && $ABI == "x86_64" && $GOO == "google_apis_playstore")
+  only_if: ! ($API == "27" && $ABI == "x86_64" && $GOO == "google_apis_playstore")
 #  allow_failures: false
 
 
