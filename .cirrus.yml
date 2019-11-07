@@ -16,6 +16,7 @@ task:
     GOO: default
     matrix:
       - ABI: x86
+      - ABI: x86_64
     matrix:
       - API: 28
       - API: 27
