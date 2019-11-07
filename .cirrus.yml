@@ -12,24 +12,30 @@ task:
     kvm: true
   pub_cache:
     folder: ~/.pub-cache
-  matrix:
-    - name: x86
-      env:
-        GOO: default
-        matrix:
-          - ABI: x86
-          - ABI: x86_64
-        matrix:
-          - API: 28
-          - API: 27
-    - name: ARM
-      env:
-        GOO: default
-        matrix:
-          - ABI: armeabi-v7a
-        matrix:
-          - API: 25
-          - API: 24
+  env:
+    API: 28
+    ABI: x86
+    GOO: default
+#  matrix:
+#    - name: x86
+#      env:
+#        GOO: default
+#        matrix:
+#          - ABI: x86
+#          - ABI: x86_64
+#        matrix:
+#          - API: 28
+#          - API: 27
+#    - name: ARM
+#      env:
+#        GOO:
+#          - default
+#          - google_apis
+#        matrix:
+#          - ABI: armeabi-v7a
+#        matrix:
+#          - API: 25
+#          - API: 24
   install_emulator_script: sdkmanager --update && sdkmanager "system-images;android-$API;$ABI"
   create_emulator_script:
     - echo no | avdmanager --verbose create avd --force -n test -k "system-images;android-$API;$GOO;$ABI"
