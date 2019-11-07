@@ -1,12 +1,19 @@
 task:
   name: Test (x86)
   container:
-    dockerfile: .ci/Dockerfile.x86
+    image: cirrusci/flutter:latest
     cpu: 4
     memory: 10G
     kvm: true
   pub_cache:
     folder: ~/.pub-cache
+  env:
+    API: 28
+    ABI: x86
+    GOO: default
+  install_emulator_script: sdkmanager --update && sdkmanager "system-images;android-$API;$ABI"
+  create_emulator_script:
+    - echo no | avdmanager --verbose create avd --force -n test -k "system-images;android-$API;$GOO;$ABI"
   start_emulator_background_script:
     - sudo chown cirrus:cirrus /dev/kvm
     - $ANDROID_HOME/emulator/emulator-headless -version
