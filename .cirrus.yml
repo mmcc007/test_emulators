@@ -1,33 +1,3 @@
-## 8 jobs
-#task:
-#  container:
-#    image: cirrusci/flutter:latest
-#    cpu: 4
-#    memory: 10G
-#  env:
-#    matrix:
-#      - API: 28
-#      - API: 27
-#      - API: 26
-##          - API: 25
-#    matrix:
-#      - ABI: x86_64
-#      - ABI: x86
-#    matrix:
-#      - GOO: default
-#      - GOO: google_apis
-##      - GOO: google_apis_playstore
-##  only_if: $ABI == "x86_64" # 4 correct x86_64 jobs
-##  only_if: !( $ABI == "x86_64" ) # Parentheses mismatched!
-##  only_if: ! ( $ABI == "x86_64" ) # unary ignored, 4 wrong x86_64 jobs
-##  only_if: $ABI != "x86_64" # 4 correct x86 jobs
-#  only_if: ( $API != 28 || $ABI != "x86_64" || $GOO != "default" ) && ( $API != 27 || $ABI != "x86_64" || $GOO != "default" )
-#
-##  only_if: $ABI != "x86_64" && $GOO != "default" && $API != "28" #
-##  only_if: $ABI != "x86_64" && $GOO != "default" && $API != "28"
-
-
-
 timeout_in: 15m
 
 task:
@@ -41,10 +11,10 @@ task:
       env:
         matrix:
           - API: 29
-          - API: 28
-          - API: 27
-          - API: 26
-          - API: 25
+#          - API: 28
+#          - API: 27
+#          - API: 26
+#          - API: 25
         matrix:
           - ABI: x86_64
           - ABI: x86
@@ -52,73 +22,73 @@ task:
           - GOO: default
           - GOO: google_apis
           - GOO: google_apis_playstore
-    - name: accel, no playstore, 24-21
-      container:
-        image: cirrusci/flutter:latest
-        cpu: 4
-        memory: 10G
-        kvm: true
-      env:
-        matrix:
-          - API: 24
-          - API: 23
-          - API: 22
-          - API: 21
-        matrix:
-          - ABI: x86_64
-          - ABI: x86
-        matrix:
-          - GOO: default
-          - GOO: google_apis
-    - name: accel, no x86_64, 19-16
-      container:
-        image: cirrusci/flutter:latest
-        cpu: 4
-        memory: 10G
-        kvm: true
-      env:
-        matrix:
-          - API: 19
-          - API: 18
-          - API: 17
-          - API: 16
-        ABI: x86
-        matrix:
-          - GOO: default
-          - GOO: google_apis
-    - name: no accel, 25-24
-      container:
-        image: cirrusci/flutter:latest
-        cpu: 4
-        memory: 10G
-      env:
-        matrix:
-          - API: 25
-          - API: 24
-        matrix:
-          - ABI: armeabi-v7a
-          - ABI: arm64-v8a
-        matrix:
-          - GOO: default
-          - GOO: google_apis
-    - name: no accel, 23-16
-      container:
-        image: cirrusci/flutter:latest
-        cpu: 4
-        memory: 10G
-      env:
-        matrix:
-          - API: 23
-          - API: 22
-          - API: 21
-          - API: 19
-          - API: 18
-          - API: 17
-          - API: 16
-        ABI: armeabi-v7a
-        matrix:
-          - GOO: default
-          - GOO: google_apis
+#    - name: accel, no playstore, 24-21
+#      container:
+#        image: cirrusci/flutter:latest
+#        cpu: 4
+#        memory: 10G
+#        kvm: true
+#      env:
+#        matrix:
+#          - API: 24
+#          - API: 23
+#          - API: 22
+#          - API: 21
+#        matrix:
+#          - ABI: x86_64
+#          - ABI: x86
+#        matrix:
+#          - GOO: default
+#          - GOO: google_apis
+#    - name: accel, no x86_64, 19-16
+#      container:
+#        image: cirrusci/flutter:latest
+#        cpu: 4
+#        memory: 10G
+#        kvm: true
+#      env:
+#        matrix:
+#          - API: 19
+#          - API: 18
+#          - API: 17
+#          - API: 16
+#        ABI: x86
+#        matrix:
+#          - GOO: default
+#          - GOO: google_apis
+#    - name: no accel, 25-24
+#      container:
+#        image: cirrusci/flutter:latest
+#        cpu: 4
+#        memory: 10G
+#      env:
+#        matrix:
+#          - API: 25
+#          - API: 24
+#        matrix:
+#          - ABI: armeabi-v7a
+#          - ABI: arm64-v8a
+#        matrix:
+#          - GOO: default
+#          - GOO: google_apis
+#    - name: no accel, 23-16
+#      container:
+#        image: cirrusci/flutter:latest
+#        cpu: 4
+#        memory: 10G
+#      env:
+#        matrix:
+#          - API: 23
+#          - API: 22
+#          - API: 21
+#          - API: 19
+#          - API: 18
+#          - API: 17
+#          - API: 16
+#        ABI: armeabi-v7a
+#        matrix:
+#          - GOO: default
+#          - GOO: google_apis
   only_if: ($API != "27" || $ABI != "x86_64" || $GOO != "google_apis_playstore") && ($API != "27" || $ABI != "x86_64" || $GOO != "google_apis") && ($API != "26" || $ABI != "x86_64" || $GOO != "google_apis_playstore") && ($API != "25" || $ABI != "x86_64" || $GOO != "google_apis_playstore") && ($API != "24" || $ABI != "x86_64" || $GOO != "google_apis_playstore") && ($API != "24" || $ABI != "x86" || $GOO != "google_apis_playstore") && ($API != "25" || $ABI != "armeabi-v7a" || $GOO != "default") && ($API != "25" || $ABI != "arm64-v8a" || $GOO != "default")
   # jobs that are flaky or fail consistently
   allow_failures: ($API == "29" && $ABI == "x86_64" && $GOO == "google_apis_playstore") || ($API == "29" && $ABI == "x86" && $GOO == "google_apis_playstore") || ($API == "29" && $ABI == "x86" && $GOO == "google_apis") || ($API == "29" && $ABI == "x86_64" && $GOO == "default") || ($API == "28" && $ABI == "x86_64" && $GOO == "google_apis_playstore") || ($API == "26" && $ABI == "x86" && $GOO == "default") || ($API == "25" && $ABI == "armeabi-v7a" && $GOO == "google_apis") || ($API == "25" && $ABI == "arm64-v8a" && $GOO == "google_apis") || ($API == "24" && $ABI == "x86" && $GOO == "google_apis") || ($API == "24" && $ABI == "armeabi-v7a" && $GOO == "google_apis") || ($API == "24" && $ABI == "arm64-v8a" && $GOO == "google_apis") || ($API == "24" && $ABI == "armeabi-v7a" && $GOO == "default") || ($API == "24" && $ABI == "arm64-v8a" && $GOO == "default") || ($API == "23" && $ABI == "armeabi-v7a" && $GOO == "google_apis") || ($API == "23" && $ABI == "armeabi-v7a" && $GOO == "default") || ($API == "22" && $ABI == "x86_64" && $GOO == "default") || ($API == "22" && $ABI == "armeabi-v7a" && $GOO == "google_apis") || ($API == "21" && $ABI == "armeabi-v7a" && $GOO == "google_apis") || ($API == "19" && $ABI == "armeabi-v7a" && $GOO == "google_apis") || ($API == "19" && $ABI == "armeabi-v7a" && $GOO == "default") || ($API == "18" && $ABI == "armeabi-v7a" && $GOO == "google_apis") || ($API == "17" && $ABI == "x86" && $GOO == "google_apis") || ($API == "17" && $ABI == "x86" && $GOO == "default") || ($API == "16" && $ABI == "x86" && $GOO == "google_apis") || ($API == "16" && $ABI == "x86" && $GOO == "default") || ($API == "16" && $ABI == "armeabi-v7a" && $GOO == "google_apis") || ($API == "16" && $ABI == "armeabi-v7a" && $GOO == "default")
@@ -128,7 +98,13 @@ task:
         sudo chown cirrus:cirrus /dev/kvm
       fi
 
-  install_emulator_script: sdkmanager "system-images;android-$API;$GOO;$ABI" > /dev/null
+  install_emulator_script:
+    - sdkmanager "system-images;android-$API;$GOO;$ABI" > /dev/null
+    # set timezone for use by emulator
+    - timedatectl
+    - timedatectl list-timezones
+    - sudo timedatectl set-timezone US/Pacific
+    - timedatectl
   create_emulator_script:
     - echo no | avdmanager --verbose create avd --force -n test -k "system-images;android-$API;$GOO;$ABI"
   downgrade_emulator_script:
@@ -168,70 +144,6 @@ task:
   test_script:
     - export PATH="$PATH":"$HOME/.pub-cache/bin"
     - cd flutter_app
-#    - flutter drive lib/main.dart || flutter drive lib/main.dart
-    - flutter drive lib/main.dart
-
-#timeout_in: 15m
-#
-#task:
-#  name: Test (x86)
-#  container:
-#    image: cirrusci/flutter:latest
-#    cpu: 4
-#    memory: 10G
-##    kvm: true
-#  pub_cache:
-#    folder: ~/.pub-cache
-#  matrix:
-#    - name: x86:- API:- 29-25
-#      env:
-##        matrix:
-##          - API: 29
-##          - API: 28
-##          - API: 27
-##          - API: 26
-##          - API: 25
-##        matrix:
-##          - ABI: x86
-##          - ABI: x86_64
-##        matrix:
-##          - GOO: default
-##          - GOO: google_apis
-##          - GOO: google_apis_playstore
-#        GOO: google_apis
-#        ABI: x86_64
-#        API: 27
-#
-##        allow_failures: $API$GOO$ABI == "27google_apisx86_64"
-#        allow_failures: $API == "27"
-#
-##    - name: ARM
-##      env:
-##        matrix:
-##          - GOO: default
-##          - GOO: google_apis
-##        matrix:
-##          - ABI: x86
-##          - ABI: armeabi-v7a
-##        matrix:
-##          - API: 19
-##          - API: 18
-##          - API: 17
-##          - API: 16
-##        allow_failures: $API$GOO$ABI == "25defaultarmeabi-v7a" || $API$GOO$ABI == "24defaultarmeabi-v7a"
-#
-#  install_emulator_script: sdkmanager "system-images;android-$API;$GOO;$ABI" > /dev/null
-#  create_emulator_script:
-#    - echo no | avdmanager --verbose create avd --force -n test -k "system-images;android-$API;$GOO;$ABI"
-#  start_emulator_background_script:
-#    - sudo chown cirrus:cirrus /dev/kvm
-#    - $ANDROID_HOME/emulator/emulator-headless -version
-#    - $ANDROID_HOME/emulator/emulator-headless -avd test -no-audio -no-window
-#  wait_for_emulator_script:
-#    - ./script/android-wait-for-emulator.sh
-#  doctor_script: flutter doctor -v
-#  test_script:
-#    - export PATH="$PATH":"$HOME/.pub-cache/bin"
-#    - cd flutter_app
-##    - flutter drive lib/main.dart || flutter drive lib/main.dart
-#    - flutter drive lib/main.dart
+    - flutter drive lib/main.dart || flutter drive lib/main.dart
+  pub_cache:
+    folder: ~/.pub-cache
