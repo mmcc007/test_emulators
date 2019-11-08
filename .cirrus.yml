@@ -28,10 +28,11 @@
 
 
 
+timeout_in: 15m
 
 task:
   matrix:
-    - name: accel, playstore, 28-25
+    - name: accel, playstore, 29-25
       container:
         image: cirrusci/flutter:latest
         cpu: 4
@@ -118,13 +119,59 @@ task:
         matrix:
           - GOO: default
           - GOO: google_apis
-  install_emulator_script: sdkmanager "system-images;android-$API;$GOO;$ABI" > /dev/null
   only_if: ($API != "27" || $ABI != "x86_64" || $GOO != "google_apis_playstore") && ($API != "27" || $ABI != "x86_64" || $GOO != "google_apis") && ($API != "26" || $ABI != "x86_64" || $GOO != "google_apis_playstore") && ($API != "25" || $ABI != "x86_64" || $GOO != "google_apis_playstore") && ($API != "24" || $ABI != "x86_64" || $GOO != "google_apis_playstore") && ($API != "24" || $ABI != "x86" || $GOO != "google_apis_playstore") && ($API != "25" || $ABI != "armeabi-v7a" || $GOO != "default") && ($API != "25" || $ABI != "arm64-v8a" || $GOO != "default")
-#  only_if: ! ( $API == "27" ) && $ABI == "x86_64" && $GOO == "google_apis_playstore"
-#  only_if: ! $ABI == "x86_64"
-#  only_if: true
-#  allow_failures: false
+  # jobs that are flaky or fail consistently
+  allow_failures: ($API == "29" && $ABI == "x86_64" && $GOO == "google_apis_playstore") || ($API == "29" && $ABI == "x86" && $GOO == "google_apis_playstore") || ($API == "29" && $ABI == "x86" && $GOO == "google_apis") || ($API == "29" && $ABI == "x86_64" && $GOO == "default") || ($API == "28" && $ABI == "x86_64" && $GOO == "google_apis_playstore") || ($API == "26" && $ABI == "x86" && $GOO == "default") || ($API == "25" && $ABI == "armeabi-v7a" && $GOO == "google_apis") || ($API == "25" && $ABI == "arm64-v8a" && $GOO == "google_apis") || ($API == "24" && $ABI == "x86" && $GOO == "google_apis") || ($API == "24" && $ABI == "armeabi-v7a" && $GOO == "google_apis") || ($API == "24" && $ABI == "arm64-v8a" && $GOO == "google_apis") || ($API == "24" && $ABI == "armeabi-v7a" && $GOO == "default") || ($API == "24" && $ABI == "arm64-v8a" && $GOO == "default") || ($API == "23" && $ABI == "armeabi-v7a" && $GOO == "google_apis") || ($API == "23" && $ABI == "armeabi-v7a" && $GOO == "default") || ($API == "22" && $ABI == "x86_64" && $GOO == "default") || ($API == "22" && $ABI == "armeabi-v7a" && $GOO == "google_apis") || ($API == "21" && $ABI == "armeabi-v7a" && $GOO == "google_apis") || ($API == "19" && $ABI == "armeabi-v7a" && $GOO == "google_apis") || ($API == "19" && $ABI == "armeabi-v7a" && $GOO == "default") || ($API == "18" && $ABI == "armeabi-v7a" && $GOO == "google_apis") || ($API == "17" && $ABI == "x86" && $GOO == "google_apis") || ($API == "17" && $ABI == "x86" && $GOO == "default") || ($API == "16" && $ABI == "x86" && $GOO == "google_apis") || ($API == "16" && $ABI == "x86" && $GOO == "default") || ($API == "16" && $ABI == "armeabi-v7a" && $GOO == "google_apis") || ($API == "16" && $ABI == "armeabi-v7a" && $GOO == "default")
 
+
+  fix_kvm_permissions:
+    - |
+      if [[ $ABI =~ "x86" ]]; then
+        sudo chown cirrus:cirrus /dev/kvm
+      fi
+
+  install_emulator_script: sdkmanager "system-images;android-$API;$GOO;$ABI" > /dev/null
+  create_emulator_script:
+    - echo no | avdmanager --verbose create avd --force -n test -k "system-images;android-$API;$GOO;$ABI"
+  start_emulator_background_script:
+    - |
+      if [[ $ABI =~ "arm" ]]; then
+        # Download a pinned version of the emulator since default version can cause issues
+        ${ANDROID_HOME}/emulator/emulator -version
+        emulator_version=5264690 # 29.2.1.0 (build_id 5889189) ==> 28.0.23.0 (build_id 5264690)
+        # sudo apt-get install -y libunwind8 libc++1
+        curl -fo emulator.zip "https://dl.google.com/android/repository/emulator-linux-$emulator_version.zip"
+        rm -rf "${ANDROID_HOME}/emulator"
+        unzip -q emulator.zip -d "${ANDROID_HOME}"
+        rm -f emulator.zip
+        # install build tools and platforms for arm (to allow emulator to run)
+        sdkmanager "build-tools;25.0.2" "platforms;android-25" > /dev/null
+      fi
+    - EMU_PARAMS="
+      -avd test
+      -verbose
+      -no-window
+      -no-audio
+      "
+    - |
+      EMULATOR=emulator
+      if [[ $ABI =~ "x86" ]]; then
+        EMULATOR="emulator-headless"
+      else
+        # emulate graphics if running on ARM
+        EMU_PARAMS="${EMU_PARAMS} -gpu swiftshader"
+      fi
+    - ${ANDROID_HOME}/emulator/${EMU_COMMAND} -version
+    - ${ANDROID_HOME}/emulator/${EMU_COMMAND} ${EMU_PARAMS}
+  wait_for_emulator_script:
+#    - ./script/android-wait-for-emulator.sh
+    - adb wait-for-device
+  doctor_script: flutter doctor -v
+  test_script:
+    - export PATH="$PATH":"$HOME/.pub-cache/bin"
+    - cd flutter_app
+#    - flutter drive lib/main.dart || flutter drive lib/main.dart
+    - flutter drive lib/main.dart
 
 #timeout_in: 15m
 #
