@@ -99,12 +99,12 @@ task:
 #      fi
 
   install_emulator_script:
-    - sdkmanager "system-images;android-$API;$GOO;$ABI" > /dev/null
     # set timezone for use by emulator
     - timedatectl
     - timedatectl list-timezones
     - sudo timedatectl set-timezone US/Pacific
     - timedatectl
+    - sdkmanager "system-images;android-$API;$GOO;$ABI" > /dev/null
   create_emulator_script:
     - echo no | avdmanager --verbose create avd --force -n test -k "system-images;android-$API;$GOO;$ABI"
   downgrade_emulator_script:
