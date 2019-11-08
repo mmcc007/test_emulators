@@ -131,7 +131,7 @@ task:
   install_emulator_script: sdkmanager "system-images;android-$API;$GOO;$ABI" > /dev/null
   create_emulator_script:
     - echo no | avdmanager --verbose create avd --force -n test -k "system-images;android-$API;$GOO;$ABI"
-  start_emulator_background_script:
+  downgrade_emulator_script:
     - |
       if [[ $ABI =~ "arm" ]]; then
         # Download a pinned version of the emulator since default version can cause issues
@@ -145,6 +145,8 @@ task:
         # install build tools and platforms for arm (to allow emulator to run)
         sdkmanager "build-tools;25.0.2" "platforms;android-25" > /dev/null
       fi
+    - ${ANDROID_HOME}/emulator/emulator -version
+  start_emulator_background_script:
     - EMU_PARAMS="
       -avd test
       -verbose
@@ -159,7 +161,6 @@ task:
         # emulate graphics if running on ARM
         EMU_PARAMS="${EMU_PARAMS} -gpu swiftshader"
       fi
-    - ${ANDROID_HOME}/emulator/${EMU_COMMAND} -version
     - ${ANDROID_HOME}/emulator/${EMU_COMMAND} ${EMU_PARAMS}
   wait_for_emulator_script:
     - ./script/android-wait-for-emulator.sh
