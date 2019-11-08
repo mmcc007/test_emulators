@@ -133,10 +133,10 @@ task:
     - date
 #    - echo "US/Pacific" | sudo tee /etc/timezone
 #    - sudo dpkg-reconfigure --frontend noninteractive tzdata
-    - export DEBIAN_FRONTEND=noninteractive
+#    - export DEBIAN_FRONTEND=noninteractive
     - sudo ln -fs /usr/share/zoneinfo/America/New_York /etc/localtime
-    - sudo apt-get install -y tzdata
-    - sudo dpkg-reconfigure --frontend noninteractive tzdata
+#    - sudo apt-get install -y tzdata
+#    - sudo dpkg-reconfigure --frontend noninteractive tzdata
     - date
 
   install_emulator_script:
