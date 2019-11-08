@@ -8,7 +8,7 @@ task:
     matrix:
       - API: 28
       - API: 27
-#          - API: 26
+      - API: 26
 #          - API: 25
     matrix:
       - ABI: x86_64
@@ -20,8 +20,8 @@ task:
 #  only_if: $ABI == "x86_64" # 4 correct x86_64 jobs
 #  only_if: !( $ABI == "x86_64" ) # Parentheses mismatched!
 #  only_if: ! ( $ABI == "x86_64" ) # unary ignored, 4 wrong x86_64 jobs
-  only_if: $ABI != "x86_64" #
-#  only_if: $ABI != "x86_64" && $GOO != "default"
+#  only_if: $ABI != "x86_64" # 4 correct x86 jobs
+  only_if: ( $API != 28 || $ABI != "x86_64" || $GOO != "default" ) && ( $API != 27 || $ABI != "x86_64" || $GOO != "default" )
 
 #  only_if: $ABI != "x86_64" && $GOO != "default" && $API != "28" #
 #  only_if: $ABI != "x86_64" && $GOO != "default" && $API != "28"
