@@ -38,7 +38,7 @@ task:
         image: cirrusci/flutter:latest
         cpu: 4
         memory: 10G
-#        kvm: true
+        kvm: true
       env:
         matrix:
           - API: 29
@@ -130,14 +130,14 @@ task:
 #      fi
   set_timezone_script:
     # set timezone to avoid emulator warning
-    - date
+#    - date
 #    - echo "US/Pacific" | sudo tee /etc/timezone
 #    - sudo dpkg-reconfigure --frontend noninteractive tzdata
 #    - export DEBIAN_FRONTEND=noninteractive
     - sudo ln -fs /usr/share/zoneinfo/America/New_York /etc/localtime
 #    - sudo apt-get install -y tzdata
 #    - sudo dpkg-reconfigure --frontend noninteractive tzdata
-    - date
+#    - date
 
   install_emulator_script:
     - sdkmanager "system-images;android-$API;$GOO;$ABI" > /dev/null
