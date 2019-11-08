@@ -1,3 +1,34 @@
+# Run android emulator on accelerated intel CPU
+# or on emulated ARM CPU.
+# Includes test.
+
+#    +-----------+--------------------+--------------------+
+#    | API Level |     Code Name      | Android OS version |
+#    +-----------+--------------------+--------------------+
+#    |        29 | 10                 |                 10 |
+#    |        28 | Pie                |                  9 |
+#    |        27 | Oreo               |                8.1 |
+#    |        26 | Oreo               |  (dropped ARM) 8.0 |
+#    |        25 | Nougat             |                7.1 |
+#    |        24 | Nougat             |                7.0 |
+#    |        23 | Marshmallow        |                6.0 |
+#    |        22 | Lollipop           |                5.1 |
+#    |        21 | Lollipop           |                5.0 |
+#    |        20 | Not released       |                    |
+#    |        19 | Kitkat             |                4.4 |
+#    |        18 | Jellybean          |                4.3 |
+#    |        17 | Jellybean          |                4.2 |
+#    |        16 | Jellybean          |                4.1 |
+#    |        15 | Ice Cream Sandwich |                4.0 |
+#    |        14 | Not Released       |                    |
+#    |        13 | Not Released       |                    |
+#    |        12 | Not Released       |                    |
+#    |        11 | Not Released       |                    |
+#    |        10 | Gingerbread        |                2.3 |
+#    +-----------+--------------------+--------------------+
+# "https://en.wikipedia.org/wiki/Android_(operating_system)#Platform_information"
+# Note: Flutter supports down to API 16
+
 timeout_in: 15m
 
 task:
@@ -97,21 +128,14 @@ task:
 #      if [[ $ABI =~ "x86" ]]; then
 #        sudo chown cirrus:cirrus /dev/kvm
 #      fi
+  set_timezone_script:
+    # set timezone to avoid emulator warning
+    - date
+    - echo "US/Pacific" | sudo tee /etc/timezone
+    - sudo dpkg-reconfigure --frontend noninteractive tzdata
+    - date
 
   install_emulator_script:
-    # set timezone for use by emulator
-#    - sudo apt-get install systemd-services
-#    - timedatectl
-#    - timedatectl list-timezones
-#    - sudo timedatectl set-timezone US/Pacific
-#    - timedatectl
-    - date
-#    - ls -l /etc/localtime
-#    - sudo unlink /etc/localtime
-    - ls /usr/share/zoneinfo
-    - sudo ln -s /usr/share/zoneinfo/US/Pacific /etc/localtime
-    - date
-    - ls -l /etc/localtime
     - sdkmanager "system-images;android-$API;$GOO;$ABI" > /dev/null
   create_emulator_script:
     - echo no | avdmanager --verbose create avd --force -n test -k "system-images;android-$API;$GOO;$ABI"
