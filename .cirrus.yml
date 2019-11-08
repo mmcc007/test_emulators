@@ -106,8 +106,9 @@ task:
 #    - sudo timedatectl set-timezone US/Pacific
 #    - timedatectl
     - date
-    - ls -l /etc/localtime
-    - sudo unlink /etc/localtime
+#    - ls -l /etc/localtime
+#    - sudo unlink /etc/localtime
+    - ls /usr/share/zoneinfo
     - sudo ln -s /usr/share/zoneinfo/US/Pacific /etc/localtime
     - date
     - ls -l /etc/localtime
