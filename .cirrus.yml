@@ -7,7 +7,7 @@ task:
         image: cirrusci/flutter:latest
         cpu: 4
         memory: 10G
-        kvm: true
+#        kvm: true
       env:
         matrix:
           - API: 29
