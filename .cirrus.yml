@@ -162,8 +162,7 @@ task:
     - ${ANDROID_HOME}/emulator/${EMU_COMMAND} -version
     - ${ANDROID_HOME}/emulator/${EMU_COMMAND} ${EMU_PARAMS}
   wait_for_emulator_script:
-#    - ./script/android-wait-for-emulator.sh
-    - adb wait-for-device
+    - ./script/android-wait-for-emulator.sh
   doctor_script: flutter doctor -v
   test_script:
     - export PATH="$PATH":"$HOME/.pub-cache/bin"
