@@ -39,7 +39,7 @@ task:
 #        kvm: true
       env:
         matrix:
-#          - API: 28
+          - API: 28
           - API: 27
 #          - API: 26
 #          - API: 25
