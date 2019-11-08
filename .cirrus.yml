@@ -131,8 +131,12 @@ task:
   set_timezone_script:
     # set timezone to avoid emulator warning
     - date
-    - echo "US/Pacific" | sudo tee /etc/timezone
-    - sudo dpkg-reconfigure --frontend noninteractive tzdata
+#    - echo "US/Pacific" | sudo tee /etc/timezone
+#    - sudo dpkg-reconfigure --frontend noninteractive tzdata
+    - export DEBIAN_FRONTEND=noninteractive
+    - ln -fs /usr/share/zoneinfo/America/New_York /etc/localtime
+    - apt-get install -y tzdata
+    - dpkg-reconfigure --frontend noninteractive tzdata
     - date
 
   install_emulator_script:
