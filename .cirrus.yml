@@ -100,6 +100,7 @@ task:
 
   install_emulator_script:
     # set timezone for use by emulator
+    - sudo apt-get install systemd-services
     - timedatectl
     - timedatectl list-timezones
     - sudo timedatectl set-timezone US/Pacific
