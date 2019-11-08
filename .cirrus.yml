@@ -100,11 +100,17 @@ task:
 
   install_emulator_script:
     # set timezone for use by emulator
-    - sudo apt-get install systemd-services
-    - timedatectl
-    - timedatectl list-timezones
-    - sudo timedatectl set-timezone US/Pacific
-    - timedatectl
+#    - sudo apt-get install systemd-services
+#    - timedatectl
+#    - timedatectl list-timezones
+#    - sudo timedatectl set-timezone US/Pacific
+#    - timedatectl
+    - date
+    - ls -l /etc/localtime
+    - sudo unlink /etc/localtime
+    - sudo ln -s /usr/share/zoneinfo/US/Pacific /etc/localtime
+    - date
+    - ls -l /etc/localtime
     - sdkmanager "system-images;android-$API;$GOO;$ABI" > /dev/null
   create_emulator_script:
     - echo no | avdmanager --verbose create avd --force -n test -k "system-images;android-$API;$GOO;$ABI"
