@@ -41,8 +41,8 @@ task:
         matrix:
           - API: 28
           - API: 27
-#          - API: 26
-#          - API: 25
+          - API: 26
+          - API: 25
         matrix:
           - ABI: x86_64
           - ABI: x86
@@ -50,73 +50,73 @@ task:
           - GOO: default
           - GOO: google_apis
           - GOO: google_apis_playstore
-#    - name: accel, no playstore, 24-21
-#      container:
-#        image: cirrusci/flutter:latest
-#        cpu: 4
-#        memory: 10G
-##        kvm: true
-#      env:
-#        matrix:
-#          - API: 24
-#          - API: 23
-#          - API: 22
-#          - API: 21
-#        matrix:
-#          - ABI: x86_64
-#          - ABI: x86
-#        matrix:
-#          - GOO: default
-#          - GOO: google_apis
-#    - name: accel, no x86_64, 19-16
-#      container:
-#        image: cirrusci/flutter:latest
-#        cpu: 4
-#        memory: 10G
+    - name: accel, no playstore, 24-21
+      container:
+        image: cirrusci/flutter:latest
+        cpu: 4
+        memory: 10G
 #        kvm: true
-#      env:
-#        matrix:
-#          - API: 19
-#          - API: 18
-#          - API: 17
-#          - API: 16
-#        ABI: x86
-#        matrix:
-#          - GOO: default
-#          - GOO: google_apis
-#    - name: no accel, 25-24
-#      container:
-#        image: cirrusci/flutter:latest
-#        cpu: 4
-#        memory: 10G
-#      env:
-#        matrix:
-#          - API: 25
-#          - API: 24
-#        matrix:
-#          - ABI: armeabi-v7a
-#          - ABI: arm64-v8a
-#        matrix:
-#          - GOO: default
-#          - GOO: google_apis
-#    - name: no accel, 23-16
-#      container:
-#        image: cirrusci/flutter:latest
-#        cpu: 4
-#        memory: 10G
-#      env:
-#        matrix:
-#          - API: 23
-#          - API: 22
-#          - API: 21
-#          - API: 19
-#          - API: 18
-#          - API: 17
-#          - API: 16
-#        ABI: armeabi-v7a
-#        matrix:
-#          - GOO: default
-#          - GOO: google_apis
+      env:
+        matrix:
+          - API: 24
+          - API: 23
+          - API: 22
+          - API: 21
+        matrix:
+          - ABI: x86_64
+          - ABI: x86
+        matrix:
+          - GOO: default
+          - GOO: google_apis
+    - name: accel, no x86_64, 19-16
+      container:
+        image: cirrusci/flutter:latest
+        cpu: 4
+        memory: 10G
+        kvm: true
+      env:
+        matrix:
+          - API: 19
+          - API: 18
+          - API: 17
+          - API: 16
+        ABI: x86
+        matrix:
+          - GOO: default
+          - GOO: google_apis
+    - name: no accel, 25-24
+      container:
+        image: cirrusci/flutter:latest
+        cpu: 4
+        memory: 10G
+      env:
+        matrix:
+          - API: 25
+          - API: 24
+        matrix:
+          - ABI: armeabi-v7a
+          - ABI: arm64-v8a
+        matrix:
+          - GOO: default
+          - GOO: google_apis
+    - name: no accel, 23-16
+      container:
+        image: cirrusci/flutter:latest
+        cpu: 4
+        memory: 10G
+      env:
+        matrix:
+          - API: 23
+          - API: 22
+          - API: 21
+          - API: 19
+          - API: 18
+          - API: 17
+          - API: 16
+        ABI: armeabi-v7a
+        matrix:
+          - GOO: default
+          - GOO: google_apis
   install_emulator_script: sdkmanager "system-images;android-$API;$GOO;$ABI" > /dev/null
   only_if: ($API != "27" || $ABI != "x86_64" || $GOO != "google_apis_playstore") && ($API != "27" || $ABI != "x86_64" || $GOO != "google_apis") && ($API != "26" || $ABI != "x86_64" || $GOO != "google_apis_playstore") && ($API != "25" || $ABI != "x86_64" || $GOO != "google_apis_playstore") && ($API != "24" || $ABI != "x86_64" || $GOO != "google_apis_playstore") && ($API != "24" || $ABI != "x86" || $GOO != "google_apis_playstore") && ($API != "25" || $ABI != "armeabi-v7a" || $GOO != "default") && ($API != "25" || $ABI != "arm64-v8a" || $GOO != "default")
 #  only_if: ! ( $API == "27" ) && $ABI == "x86_64" && $GOO == "google_apis_playstore"
