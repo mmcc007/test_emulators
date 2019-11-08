@@ -31,6 +31,8 @@
 
 timeout_in: 15m
 
+# matrix of APIxABIxGOO
+# (see "sdkmanager --list --verbose| grep ^system-images" for full list)
 task:
   matrix:
     - name: accel, playstore, 29-25
@@ -42,10 +44,10 @@ task:
       env:
         matrix:
           - API: 29
-#          - API: 28
-#          - API: 27
-#          - API: 26
-#          - API: 25
+          - API: 28
+          - API: 27
+          - API: 26
+          - API: 25
         matrix:
           - ABI: x86_64
           - ABI: x86
@@ -53,73 +55,74 @@ task:
           - GOO: default
           - GOO: google_apis
           - GOO: google_apis_playstore
-#    - name: accel, no playstore, 24-21
-#      container:
-#        image: cirrusci/flutter:latest
-#        cpu: 4
-#        memory: 10G
-#        kvm: true
-#      env:
-#        matrix:
-#          - API: 24
-#          - API: 23
-#          - API: 22
-#          - API: 21
-#        matrix:
-#          - ABI: x86_64
-#          - ABI: x86
-#        matrix:
-#          - GOO: default
-#          - GOO: google_apis
-#    - name: accel, no x86_64, 19-16
-#      container:
-#        image: cirrusci/flutter:latest
-#        cpu: 4
-#        memory: 10G
-#        kvm: true
-#      env:
-#        matrix:
-#          - API: 19
-#          - API: 18
-#          - API: 17
-#          - API: 16
-#        ABI: x86
-#        matrix:
-#          - GOO: default
-#          - GOO: google_apis
-#    - name: no accel, 25-24
-#      container:
-#        image: cirrusci/flutter:latest
-#        cpu: 4
-#        memory: 10G
-#      env:
-#        matrix:
-#          - API: 25
-#          - API: 24
-#        matrix:
-#          - ABI: armeabi-v7a
-#          - ABI: arm64-v8a
-#        matrix:
-#          - GOO: default
-#          - GOO: google_apis
-#    - name: no accel, 23-16
-#      container:
-#        image: cirrusci/flutter:latest
-#        cpu: 4
-#        memory: 10G
-#      env:
-#        matrix:
-#          - API: 23
-#          - API: 22
-#          - API: 21
-#          - API: 19
-#          - API: 18
-#          - API: 17
-#          - API: 16
-#        ABI: armeabi-v7a
-#        matrix:
-#          - GOO: default
-#          - GOO: google_apis
+    - name: accel, no playstore, 24-21
+      container:
+        image: cirrusci/flutter:latest
+        cpu: 4
+        memory: 10G
+        kvm: true
+      env:
+        matrix:
+          - API: 24
+          - API: 23
+          - API: 22
+          - API: 21
+        matrix:
+          - ABI: x86_64
+          - ABI: x86
+        matrix:
+          - GOO: default
+          - GOO: google_apis
+    - name: accel, no x86_64, 19-16
+      container:
+        image: cirrusci/flutter:latest
+        cpu: 4
+        memory: 10G
+        kvm: true
+      env:
+        matrix:
+          - API: 19
+          - API: 18
+          - API: 17
+          - API: 16
+        ABI: x86
+        matrix:
+          - GOO: default
+          - GOO: google_apis
+    - name: no accel, 25-24
+      container:
+        image: cirrusci/flutter:latest
+        cpu: 4
+        memory: 10G
+      env:
+        matrix:
+          - API: 25
+          - API: 24
+        matrix:
+          - ABI: armeabi-v7a
+          - ABI: arm64-v8a
+        matrix:
+          - GOO: default
+          - GOO: google_apis
+    - name: no accel, 23-16
+      container:
+        image: cirrusci/flutter:latest
+        cpu: 4
+        memory: 10G
+      env:
+        matrix:
+          - API: 23
+          - API: 22
+          - API: 21
+          - API: 19
+          - API: 18
+          - API: 17
+          - API: 16
+        ABI: armeabi-v7a
+        matrix:
+          - GOO: default
+          - GOO: google_apis
+  # remove unsupported jobs from job matrix
   only_if: ($API != "27" || $ABI != "x86_64" || $GOO != "google_apis_playstore") && ($API != "27" || $ABI != "x86_64" || $GOO != "google_apis") && ($API != "26" || $ABI != "x86_64" || $GOO != "google_apis_playstore") && ($API != "25" || $ABI != "x86_64" || $GOO != "google_apis_playstore") && ($API != "24" || $ABI != "x86_64" || $GOO != "google_apis_playstore") && ($API != "24" || $ABI != "x86" || $GOO != "google_apis_playstore") && ($API != "25" || $ABI != "armeabi-v7a" || $GOO != "default") && ($API != "25" || $ABI != "arm64-v8a" || $GOO != "default")
   # jobs that are flaky or fail consistently
   allow_failures: ($API == "29" && $ABI == "x86_64" && $GOO == "google_apis_playstore") || ($API == "29" && $ABI == "x86" && $GOO == "google_apis_playstore") || ($API == "29" && $ABI == "x86" && $GOO == "google_apis") || ($API == "29" && $ABI == "x86_64" && $GOO == "default") || ($API == "28" && $ABI == "x86_64" && $GOO == "google_apis_playstore") || ($API == "26" && $ABI == "x86" && $GOO == "default") || ($API == "25" && $ABI == "armeabi-v7a" && $GOO == "google_apis") || ($API == "25" && $ABI == "arm64-v8a" && $GOO == "google_apis") || ($API == "24" && $ABI == "x86" && $GOO == "google_apis") || ($API == "24" && $ABI == "armeabi-v7a" && $GOO == "google_apis") || ($API == "24" && $ABI == "arm64-v8a" && $GOO == "google_apis") || ($API == "24" && $ABI == "armeabi-v7a" && $GOO == "default") || ($API == "24" && $ABI == "arm64-v8a" && $GOO == "default") || ($API == "23" && $ABI == "armeabi-v7a" && $GOO == "google_apis") || ($API == "23" && $ABI == "armeabi-v7a" && $GOO == "default") || ($API == "22" && $ABI == "x86_64" && $GOO == "default") || ($API == "22" && $ABI == "armeabi-v7a" && $GOO == "google_apis") || ($API == "21" && $ABI == "armeabi-v7a" && $GOO == "google_apis") || ($API == "19" && $ABI == "armeabi-v7a" && $GOO == "google_apis") || ($API == "19" && $ABI == "armeabi-v7a" && $GOO == "default") || ($API == "18" && $ABI == "armeabi-v7a" && $GOO == "google_apis") || ($API == "17" && $ABI == "x86" && $GOO == "google_apis") || ($API == "17" && $ABI == "x86" && $GOO == "default") || ($API == "16" && $ABI == "x86" && $GOO == "google_apis") || ($API == "16" && $ABI == "x86" && $GOO == "default") || ($API == "16" && $ABI == "armeabi-v7a" && $GOO == "google_apis") || ($API == "16" && $ABI == "armeabi-v7a" && $GOO == "default")
@@ -128,13 +131,13 @@ task:
       if [[ $ABI =~ "x86" ]]; then
         sudo chown cirrus:cirrus /dev/kvm
       fi
-  set_timezone_script:
+#  set_timezone_script:
     # set timezone to avoid emulator warning
 #    - date
 #    - echo "US/Pacific" | sudo tee /etc/timezone
 #    - sudo dpkg-reconfigure --frontend noninteractive tzdata
 #    - export DEBIAN_FRONTEND=noninteractive
-    - sudo ln -fs /usr/share/zoneinfo/America/New_York /etc/localtime
+#    - sudo ln -fs /usr/share/zoneinfo/America/New_York /etc/localtime
 #    - sudo apt-get install -y tzdata
 #    - sudo dpkg-reconfigure --frontend noninteractive tzdata
 #    - date
