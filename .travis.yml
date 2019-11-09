@@ -154,8 +154,7 @@ jobs:
     - env: API=29 ABI=x86         GOO=default     # hangs while resolving dependencies
 
     - env: API=28 ABI=x86_64      GOO=google_apis_playstore # flutter driver hangs
-#    - env: API=28 ABI=x86         GOO=google_apis_playstore # flutter driver hangs
-    - env: API=28 ABI=x86 GOO=google_apis         # flutter driver hangs
+    - env: API=28 ABI=x86         GOO=google_apis # DriverError: Failed to fulfill GetHealth due to remote error
 
     - env: API=26 ABI=x86         GOO=default     # emulator hangs
     - env: API=25 ABI=armeabi-v7a GOO=google_apis # flutter drive reports "apk: Can't find service: package"
