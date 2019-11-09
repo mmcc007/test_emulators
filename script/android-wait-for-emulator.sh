@@ -2,6 +2,7 @@
 
 # Originally written by Ralf Kistner <ralf@embarkmobile.com>, but placed in the public domain
 
+#set -x
 set +e
 
 bootanim=""
@@ -15,8 +16,8 @@ until [[ "$bootanim" =~ "stopped" ]]; do
   if [[ "$bootanim" =~ "device not found" || "$bootanim" =~ "device offline"
     || "$bootanim" =~ "running" || "$bootanim" =~  "error: no emulators found" ]]; then
     let "failcounter += 1"
-    echo "Waiting for emulator to start"
-    if [[ $failcounter -gt timeout_in_sec ]]; then
+    echo "Waiting for emulator to start: $failcounter of $timeout_in_sec : status: $bootanim"
+    if [[ $failcounter -ge timeout_in_sec ]]; then
       echo "Timeout ($timeout_in_sec seconds) reached; failed to start emulator"
       exit 1
     fi
