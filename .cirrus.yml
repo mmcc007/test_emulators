@@ -73,7 +73,7 @@ task:
         matrix:
           - GOO: default
           - GOO: google_apis
-    - name: accel, no x86_64, 19-16
+    - name: accel, x86, 19-16
       container:
         image: cirrusci/flutter:latest
         cpu: 4
@@ -89,7 +89,7 @@ task:
         matrix:
           - GOO: default
           - GOO: google_apis
-    - name: no accel, 25-24
+    - name: no accel, ARM, 25-24
       container:
         image: cirrusci/flutter:latest
         cpu: 4
@@ -104,7 +104,7 @@ task:
         matrix:
           - GOO: default
           - GOO: google_apis
-    - name: no accel, 23-16
+    - name: no accel, ARM, 23-16
       container:
         image: cirrusci/flutter:latest
         cpu: 4
@@ -146,7 +146,7 @@ task:
     - sdkmanager "system-images;android-$API;$GOO;$ABI" > /dev/null
   create_emulator_script:
     - echo no | avdmanager --verbose create avd --force -n test -k "system-images;android-$API;$GOO;$ABI"
-  downgrade_emulator_script:
+  pin_arm_emulator_script:
     - |
       if [[ $ABI =~ "arm" ]]; then
         # Download a pinned version of the emulator since default version can cause issues
