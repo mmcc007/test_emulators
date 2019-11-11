@@ -181,7 +181,7 @@ jobs:
 
     - env: API=21 ABI=armeabi-v7a GOO=google_apis # Timeout (600 seconds) reached; failed to start emulator
     - env: API=21 ABI=armeabi-v7a GOO=default     # hangs before test starts
-      -
+
     - env: API=19 ABI=armeabi-v7a GOO=google_apis # hangs after installing apk
     - env: API=19 ABI=armeabi-v7a GOO=default     # hangs on Installing build/app/outputs/apk/app.apk...
 
