@@ -7,7 +7,7 @@ Update: see [article](https://medium.com/@nocnoc/android-emulators-in-thcloud-f3
 
 This project shows emulators running on accelerated Intel CPUs and on emulated ARM CPUs on travis with their run times.
 
-Click on the travis and cirrus badges to find out the time it takes to run an android test on an emulator.
+Click on the travis and cirrus badges to find out the time it takes to run an android test on an emulator. 
 
 Note: there are many emulator configurations that have not been tried.
 
