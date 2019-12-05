@@ -232,7 +232,17 @@ install:
   - sdkmanager "platforms;android-$API" >/dev/null # We need the API of the emulator we will run
   - sdkmanager "platforms;android-28" >/dev/null # We need the API of the current compileSdkVersion from gradle.properties  -
 
-  - sdkmanager "emulator" >/dev/null
+#  - sdkmanager "emulator" >/dev/null
+  - |
+    if [[ $ABI =~ "x86" ]]; then
+      # Download a pinned version of the emulator since default version can cause issues
+      ${ANDROID_HOME}/emulator/emulator -version
+      emulator_version=5889189 # 29.2.11.0 (build_id 6031357) or later ==> 29.2.1.0 (build_id 5889189)
+      curl -fo emulator.zip "https://dl.google.com/android/repository/emulator-linux-$emulator_version.zip"
+      rm -rf "${ANDROID_HOME}/emulator"
+      unzip -q emulator.zip -d "${ANDROID_HOME}"
+      rm -f emulator.zip
+    fi
   - |
     if [[ $ABI =~ "arm" ]]; then
       # Download a pinned version of the emulator since default version can cause issues
