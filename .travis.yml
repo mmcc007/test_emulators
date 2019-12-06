@@ -261,7 +261,7 @@ install:
   - ${ANDROID_HOME}/emulator/emulator -version
 
   - sdkmanager "extras;android;m2repository" >/dev/null
-  - sdkmanager "system-images;android-$ANDROID_SDK_VERSION;$GOO;$ABI" >/dev/null # install system images used in gradle.build
+  - sdkmanager "system-images;android-$ANDROID_SDK_VERSION;default;x86" >/dev/null # install system images used in gradle.build
   - sdkmanager "system-images;android-$API;$GOO;$ABI" >/dev/null # install system images for emulator
 
   # Create an Android emulator
@@ -286,8 +286,8 @@ install:
   - EMU_COMMAND="emulator"
   - |
     if [[ $ABI =~ "x86" ]]; then
-      EMU_COMMAND="emulator-headless"
-      #echo -n # noop
+      #EMU_COMMAND="emulator-headless"
+      echo -n # noop
     else
       # emulate graphics if running on ARM
       EMU_PARAMS="${EMU_PARAMS} -gpu swiftshader"
