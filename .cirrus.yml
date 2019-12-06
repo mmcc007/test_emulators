@@ -143,7 +143,6 @@ task:
 #    - sudo apt-get install -y tzdata
 #    - sudo dpkg-reconfigure --frontend noninteractive tzdata
 #    - date
-
   install_emulator_script:
     - sdkmanager "system-images;android-$API;$GOO;$ABI" > /dev/null
   create_emulator_script:
@@ -181,6 +180,9 @@ task:
     - ${ANDROID_HOME}/emulator/${EMU_COMMAND} ${EMU_PARAMS}
   wait_for_emulator_script:
     - ./script/android-wait-for-emulator.sh
+  accept_licenses:
+    # Accept licenses for flutter doctor
+    - yes | sdkmanager --licenses >/dev/null
   doctor_script: flutter doctor -v
   test_script:
     - export PATH="$PATH":"$HOME/.pub-cache/bin"
