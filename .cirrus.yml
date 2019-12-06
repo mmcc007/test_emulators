@@ -180,7 +180,7 @@ task:
     - ${ANDROID_HOME}/emulator/${EMU_COMMAND} ${EMU_PARAMS}
   wait_for_emulator_script:
     - ./script/android-wait-for-emulator.sh
-  accept_licenses:
+  accept_licenses_script:
     # Accept licenses for flutter doctor
     - yes | sdkmanager --licenses >/dev/null
   doctor_script: flutter doctor -v
