@@ -36,6 +36,8 @@ dist: bionic
 env:
   global:
     - ANDROID_TOOLS=4333796 # android-28
+    - ANDROID_SDK_VERSION=28 # The current compileSdkVersion from build.gradle
+    - ANDROID_BUILD_TOOLS_VERSION=28.0.3 # Depends on compileSdkVersion
     - ANDROID_HOME=${HOME}/android-sdk
     - GRAVIS="https://raw.githubusercontent.com/DanySK/Gravis-CI/master/"
     - JDK="1.8" # the JDK used for running tests
@@ -228,9 +230,9 @@ install:
   # Download SDK tools
   - sdkmanager "platform-tools" >/dev/null
   - sdkmanager "tools" >/dev/null # A second time per Travis docs, gets latest versions
-  - sdkmanager "build-tools;28.0.3" >/dev/null # Implicit gradle dependency - gradle drives changes
+  - sdkmanager "build-tools;$ANDROID_BUILD_TOOLS_VERSION" >/dev/null # Implicit gradle dependency - gradle drives changes
   - sdkmanager "platforms;android-$API" >/dev/null # We need the API of the emulator we will run
-  - sdkmanager "platforms;android-28" >/dev/null # We need the API of the current compileSdkVersion from gradle.properties  -
+  - sdkmanager "platforms;android-$ANDROID_SDK_VERSION" >/dev/null # We need the API of the current compileSdkVersion from build.gradle  -
 
 #  - sdkmanager "emulator" >/dev/null
   - |
@@ -259,6 +261,7 @@ install:
   - ${ANDROID_HOME}/emulator/emulator -version
 
   - sdkmanager "extras;android;m2repository" >/dev/null
+  - sdkmanager "system-images;android-$ANDROID_SDK_VERSION;$GOO;$ABI" >/dev/null # install system images used in gradle.build
   - sdkmanager "system-images;android-$API;$GOO;$ABI" >/dev/null # install system images for emulator
 
   # Create an Android emulator
