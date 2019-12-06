@@ -34,12 +34,14 @@ timeout_in: 15m
 # matrix of APIxABIxGOO
 # (see "sdkmanager --list --verbose| grep ^system-images" for full list)
 task:
+  pub_cache:
+    folder: ~/.pub-cache
   matrix:
     - name: accel, playstore, 29-25
       container:
         image: cirrusci/flutter:latest
-        cpu: 4
-        memory: 10G
+#        cpu: 4
+#        memory: 10G
         kvm: true
       env:
         matrix:
@@ -107,8 +109,8 @@ task:
     - name: no accel, ARM, 23-16
       container:
         image: cirrusci/flutter:latest
-        cpu: 4
-        memory: 10G
+#        cpu: 4
+#        memory: 10G
       env:
         matrix:
           - API: 23
@@ -184,5 +186,3 @@ task:
     - export PATH="$PATH":"$HOME/.pub-cache/bin"
     - cd flutter_app
     - flutter drive lib/main.dart || flutter drive lib/main.dart
-  pub_cache:
-    folder: ~/.pub-cache
