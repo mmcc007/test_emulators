@@ -36,6 +36,10 @@ timeout_in: 15m
 task:
   pub_cache:
     folder: ~/.pub-cache
+  gradle_cache:
+    folder: $HOME/.gradle/caches
+  gradle_wrapper_cache:
+    folder: $HOME/.gradle/wrapper/
   matrix:
     - name: accel, playstore, 29-25
       container:
@@ -186,5 +190,14 @@ task:
   doctor_script: flutter doctor -v
   test_script:
     - export PATH="$PATH":"$HOME/.pub-cache/bin"
-    - cd flutter_app
+    - cd example
     - flutter drive lib/main.dart || flutter drive lib/main.dart
+  cleanup_before_cache_script:
+    - GRADLE_VERSION=$(./example/android/gradlew -version | grep Gradle | awk '{print $2}')
+    - echo GRADLE_VERSION=$GRADLE_VERSION
+    - rm -rf ~/.gradle/caches/$GRADLE_VERSION/
+    - rm -rf ~/.gradle/caches/${gradle_wrapper_version}/
+    - rm -rf ~/.gradle/caches/transforms-1
+    - rm -rf ~/.gradle/caches/transforms-2
+    - rm -rf ~/.gradle/caches/journal-1
+    - find ~/.gradle/caches/ -name "*.lock" -type f -delete

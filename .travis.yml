@@ -318,7 +318,7 @@ before_script:
   - adb shell input keyevent 82 &
 
 script:
-  - cd flutter_app
+  - cd example
   - flutter pub get
   # run test with retries
   - flutter driver lib/main.dart || flutter driver lib/main.dart || flutter driver lib/main.dart
@@ -327,9 +327,19 @@ script:
 #  - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
 #  - curl "${GRAVIS}.clean_gradle_cache.sh" --output ~/.clean_gradle_cache.sh
 #  - bash ~/.clean_gradle_cache.sh
-#
+
+before_cache:
+  - GRADLE_VERSION=$(./example/android/gradlew -version | grep Gradle | awk '{print $2}')
+  - echo GRADLE_VERSION=$GRADLE_VERSION
+  - rm -rf ~/.gradle/caches/$GRADLE_VERSION/
+  - rm -rf ~/.gradle/caches/${gradle_wrapper_version}/
+  - rm -rf ~/.gradle/caches/transforms-1
+  - rm -rf ~/.gradle/caches/transforms-2
+  - rm -rf ~/.gradle/caches/journal-1
+  - find ~/.gradle/caches/ -name "*.lock" -type f -delete
+
 cache:
   directories:
     - $HOME/.pub-cache
-#    - $HOME/.gradle/caches/
-#    - $HOME/.gradle/wrapper/
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
