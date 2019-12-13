@@ -149,6 +149,12 @@ task:
 #    - date
   install_emulator_script:
     - sdkmanager "system-images;android-$API;$GOO;$ABI" > /dev/null
+    - ANDROID_SDK_VERSION=28 # The current compileSdkVersion from build.gradle
+    - ANDROID_BUILD_TOOLS_VERSION=28.0.3 # Depends on compileSdkVersion
+    - sdkmanager "build-tools;$ANDROID_BUILD_TOOLS_VERSION" >/dev/null # Implicit gradle dependency - gradle drives changes
+    - sdkmanager "platforms;android-$API" >/dev/null # We need the API of the emulator we will run
+    - sdkmanager "platforms;android-$ANDROID_SDK_VERSION" >/dev/null # We need the API of the current compileSdkVersion from build.gradle
+    - sdkmanager "system-images;android-$ANDROID_SDK_VERSION;default;x86" >/dev/null # install system images used in gradle.build
   create_emulator_script:
     - echo no | avdmanager --verbose create avd --force -n test -k "system-images;android-$API;$GOO;$ABI"
   pin_arm_emulator_script:
@@ -196,9 +202,9 @@ task:
     - cd example
     - flutter drive lib/main.dart || flutter drive lib/main.dart
   cleanup_before_cache_script:
-    - GRADLE_VERSION=$(gradle -version | grep Gradle | awk '{print $2}')
-    - echo GRADLE_VERSION=$GRADLE_VERSION
-    - rm -rf ~/.gradle/caches/$GRADLE_VERSION/
+#    - GRADLE_VERSION=$(gradle -version | grep Gradle | awk '{print $2}')
+#    - echo GRADLE_VERSION=$GRADLE_VERSION
+    - rm -rf ~/.gradle/caches/?.?.?/
     - rm -rf ~/.gradle/caches/transforms-1
     - rm -rf ~/.gradle/caches/transforms-2
     - rm -rf ~/.gradle/caches/journal-1

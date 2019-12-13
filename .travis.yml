@@ -236,6 +236,9 @@ install:
   - sdkmanager "build-tools;$ANDROID_BUILD_TOOLS_VERSION" >/dev/null # Implicit gradle dependency - gradle drives changes
   - sdkmanager "platforms;android-$API" >/dev/null # We need the API of the emulator we will run
   - sdkmanager "platforms;android-$ANDROID_SDK_VERSION" >/dev/null # We need the API of the current compileSdkVersion from build.gradle
+  - sdkmanager "extras;android;m2repository" >/dev/null
+  - sdkmanager "system-images;android-$ANDROID_SDK_VERSION;default;x86" >/dev/null # install system images used in gradle.build
+  - sdkmanager "system-images;android-$API;$GOO;$ABI" >/dev/null # install system images for emulator
 
   - sdkmanager "emulator" >/dev/null
   - ${ANDROID_HOME}/emulator/emulator -version
@@ -263,10 +266,6 @@ install:
       sdkmanager "build-tools;25.0.2" "platforms;android-25" > /dev/null
     fi
   - ${ANDROID_HOME}/emulator/emulator -version
-
-  - sdkmanager "extras;android;m2repository" >/dev/null
-  - sdkmanager "system-images;android-$ANDROID_SDK_VERSION;default;x86" >/dev/null # install system images used in gradle.build
-  - sdkmanager "system-images;android-$API;$GOO;$ABI" >/dev/null # install system images for emulator
 
   # Create an Android emulator
 #  - echo no | avdmanager --verbose create avd --force -n test -k "system-images;android-$API;$GOO;$ABI" -c 10M
@@ -331,11 +330,9 @@ script:
 #  - bash ~/.clean_gradle_cache.sh
 
 before_cache:
-  - echo $PWD
-  -
-  - GRADLE_VERSION=$(gradle -version | grep Gradle | awk '{print $2}')
-  - echo GRADLE_VERSION=$GRADLE_VERSION
-  - rm -rf ~/.gradle/caches/$GRADLE_VERSION/
+#  - GRADLE_VERSION=$(gradle -version | grep Gradle | awk '{print $2}')
+#  - echo GRADLE_VERSION=$GRADLE_VERSION
+  - rm -rf ~/.gradle/caches/?.?.?/
   - rm -rf ~/.gradle/caches/transforms-1
   - rm -rf ~/.gradle/caches/transforms-2
   - rm -rf ~/.gradle/caches/journal-1
