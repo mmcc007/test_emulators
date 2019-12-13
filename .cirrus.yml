@@ -196,7 +196,7 @@ task:
     - cd example
     - flutter drive lib/main.dart || flutter drive lib/main.dart
   cleanup_before_cache_script:
-    - GRADLE_VERSION=$(./example/android/gradlew -version | grep Gradle | awk '{print $2}')
+    - GRADLE_VERSION=$(gradle -version | grep Gradle | awk '{print $2}')
     - echo GRADLE_VERSION=$GRADLE_VERSION
     - rm -rf ~/.gradle/caches/$GRADLE_VERSION/
     - rm -rf ~/.gradle/caches/transforms-1

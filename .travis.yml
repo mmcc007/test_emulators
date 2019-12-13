@@ -36,8 +36,10 @@ dist: bionic # ubuntu 18.04
 env:
   global:
     - ANDROID_TOOLS=4333796 # android-28
-    - ANDROID_SDK_VERSION=29 # The current compileSdkVersion from build.gradle
-    - ANDROID_BUILD_TOOLS_VERSION=29.0.2 # Depends on compileSdkVersion
+#    - ANDROID_SDK_VERSION=29 # The current compileSdkVersion from build.gradle
+#    - ANDROID_BUILD_TOOLS_VERSION=29.0.2 # Depends on compileSdkVersion
+    - ANDROID_SDK_VERSION=28 # The current compileSdkVersion from build.gradle
+    - ANDROID_BUILD_TOOLS_VERSION=28.0.3 # Depends on compileSdkVersion
     - ANDROID_HOME=${HOME}/android-sdk
     - GRAVIS="https://raw.githubusercontent.com/DanySK/Gravis-CI/master/"
     - JDK="1.8" # the JDK used for running tests
@@ -329,7 +331,9 @@ script:
 #  - bash ~/.clean_gradle_cache.sh
 
 before_cache:
-  - GRADLE_VERSION=$($TRAVIS_BUILD_DIR/example/android/gradlew -version | grep Gradle | awk '{print $2}')
+  - echo $PWD
+  -
+  - GRADLE_VERSION=$(gradle -version | grep Gradle | awk '{print $2}')
   - echo GRADLE_VERSION=$GRADLE_VERSION
   - rm -rf ~/.gradle/caches/$GRADLE_VERSION/
   - rm -rf ~/.gradle/caches/transforms-1
