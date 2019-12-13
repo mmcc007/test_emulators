@@ -30,7 +30,7 @@
 # Note: Flutter supports down to API 16
 
 language: generic
-dist: bionic
+dist: bionic # ubuntu 18.04
 
 # specify global envs and jobs
 env:
@@ -45,7 +45,7 @@ env:
     # PATH order is incredibly important. e.g. the 'emulator' script exists in more than one place!
     - PATH=${ANDROID_HOME}:${ANDROID_HOME}/emulator:${TOOLS}:${TOOLS}/bin:${ANDROID_HOME}/platform-tools:${PATH}
     - FLUTTER_CHANNEL=stable
-    - FLUTTER_VERSION=1.9.1+hotfix.6-${FLUTTER_CHANNEL}
+    - FLUTTER_VERSION=1.12.13+hotfix.5-${FLUTTER_CHANNEL}
     - FLUTTER_HOME=${HOME}/flutter
     - PATH=${HOME}/.pub-cache/bin:${PATH}
     - PATH=${FLUTTER_HOME}/bin:${FLUTTER_HOME}/bin/cache/dart-sdk/bin:${PATH}
@@ -237,15 +237,17 @@ install:
 
   - sdkmanager "emulator" >/dev/null
   - ${ANDROID_HOME}/emulator/emulator -version
-  - |
-    if [[ $ABI =~ "x86" ]]; then
-      # Download a pinned version of the emulator since default version can cause issues
-      emulator_version=5889189 # 29.2.11.0 (build_id 6031357) or later ==> 29.2.1.0 (build_id 5889189)
-      curl -fo emulator.zip "https://dl.google.com/android/repository/emulator-linux-$emulator_version.zip"
-      rm -rf "${ANDROID_HOME}/emulator"
-      unzip -q emulator.zip -d "${ANDROID_HOME}"
-      rm -f emulator.zip
-    fi
+  # Fixed in version 29.3.1 https://androidstudio.googleblog.com/2019/12/emulator-2930-stable.html
+  # Pinning should no longer be necessary: https://issuetracker.google.com/issues/145622251
+#  - |
+#    if [[ $ABI =~ "x86" ]]; then
+#      # Download a pinned version of the emulator since default version can cause issues
+#      emulator_version=5889189 # 29.2.11.0 (build_id 6031357) or later ==> 29.2.1.0 (build_id 5889189)
+#      curl -fo emulator.zip "https://dl.google.com/android/repository/emulator-linux-$emulator_version.zip"
+#      rm -rf "${ANDROID_HOME}/emulator"
+#      unzip -q emulator.zip -d "${ANDROID_HOME}"
+#      rm -f emulator.zip
+#    fi
   - |
     if [[ $ABI =~ "arm" ]]; then
       # Download a pinned version of the emulator since default version can cause issues
@@ -326,7 +328,8 @@ script:
 #  - curl "${GRAVIS}.clean_gradle_cache.sh" --output ~/.clean_gradle_cache.sh
 #  - bash ~/.clean_gradle_cache.sh
 #
-#cache:
-#  directories:
+cache:
+  directories:
+    - $HOME/.pub-cache
 #    - $HOME/.gradle/caches/
 #    - $HOME/.gradle/wrapper/
