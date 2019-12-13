@@ -186,7 +186,10 @@ task:
     - ./script/android-wait-for-emulator.sh
   accept_licenses_script:
     # Accept licenses for flutter doctor
-    - yes | sdkmanager --licenses >/dev/null
+#    - yes | sdkmanager --licenses >/dev/null
+    - mkdir -p "$ANDROID_HOME/licenses/"
+#    - echo > "$ANDROID_HOME/licenses/android-sdk-license"
+    - echo -n 24333f8a63b6825ea9c5514f83c2829b004d1fee > "$ANDROID_HOME/licenses/android-sdk-license"
   doctor_script: flutter doctor -v
   test_script:
     - export PATH="$PATH":"$HOME/.pub-cache/bin"
@@ -196,7 +199,6 @@ task:
     - GRADLE_VERSION=$(./example/android/gradlew -version | grep Gradle | awk '{print $2}')
     - echo GRADLE_VERSION=$GRADLE_VERSION
     - rm -rf ~/.gradle/caches/$GRADLE_VERSION/
-    - rm -rf ~/.gradle/caches/${gradle_wrapper_version}/
     - rm -rf ~/.gradle/caches/transforms-1
     - rm -rf ~/.gradle/caches/transforms-2
     - rm -rf ~/.gradle/caches/journal-1

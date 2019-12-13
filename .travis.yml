@@ -319,7 +319,7 @@ before_script:
 
 script:
   - cd example
-  - flutter pub get
+#  - flutter pub get
   # run test with retries
   - flutter driver lib/main.dart || flutter driver lib/main.dart || flutter driver lib/main.dart
 
@@ -329,10 +329,9 @@ script:
 #  - bash ~/.clean_gradle_cache.sh
 
 before_cache:
-  - GRADLE_VERSION=$(./example/android/gradlew -version | grep Gradle | awk '{print $2}')
+  - GRADLE_VERSION=$($TRAVIS_BUILD_DIR/example/android/gradlew -version | grep Gradle | awk '{print $2}')
   - echo GRADLE_VERSION=$GRADLE_VERSION
   - rm -rf ~/.gradle/caches/$GRADLE_VERSION/
-  - rm -rf ~/.gradle/caches/${gradle_wrapper_version}/
   - rm -rf ~/.gradle/caches/transforms-1
   - rm -rf ~/.gradle/caches/transforms-2
   - rm -rf ~/.gradle/caches/journal-1
