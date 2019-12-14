@@ -202,7 +202,7 @@ task:
     - cd example
     - flutter drive lib/main.dart || flutter drive lib/main.dart
   cleanup_before_cache_script:
-    - rm -rf ~/.gradle/caches/?.?.?/
+    - rm -rfv ~/.gradle/caches/?.?.?/
     - rm -rf ~/.gradle/caches/transforms-1
     - rm -rf ~/.gradle/caches/transforms-2
     - rm -rf ~/.gradle/caches/journal-1
