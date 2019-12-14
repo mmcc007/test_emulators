@@ -208,4 +208,4 @@ task:
     - rm -rf ~/.gradle/caches/journal-1
     - rm -rf ~/.gradle/caches/modules-2
     - find ~/.gradle/caches/ -name "*.lock" -type f -delete
-    - find ~/.gradle/caches -type f -mtime 0 -exec stat -c "%z" {} \; | cut -d\  -f6- | sort
+    - find ~/.gradle/caches -type f -mtime 0 -exec stat -c "%z %n" {} \; | sort
