@@ -192,9 +192,12 @@ jobs:
     - env: API=18 ABI=x86         GOO=google_apis # hangs during test
     - env: API=18 ABI=x86         GOO=default     # hangs during flutter doctor
     - env: API=18 ABI=armeabi-v7a GOO=google_apis # flutter driver: incorrect success after installing apk
+    - env: API=18 ABI=armeabi-v7a GOO=default     # flutter drive: "Error waiting for a debug connection: Bad state: No element"
 
     - env: API=17 ABI=x86         GOO=google_apis # FlutterDriver: It is taking an unusually long time to connect to the VM...
     - env: API=17 ABI=x86         GOO=default     # FlutterDriver: It is taking an unusually long time to connect to the VM...
+    - env: API=17 ABI=armeabi-v7a GOO=google_apis # flutter drive: "Error waiting for a debug connection: Bad state: No element"
+    - env: API=17 ABI=armeabi-v7a GOO=default     # flutter drive: "Error waiting for a debug connection: Bad state: No element"
 
     - env: API=16 ABI=x86         GOO=google_apis # FlutterDriver: It is taking an unusually long time to connect to the VM...
     - env: API=16 ABI=x86         GOO=default     # FlutterDriver: It is taking an unusually long time to connect to the VM...
@@ -330,13 +333,13 @@ script:
 #  - bash ~/.clean_gradle_cache.sh
 
 before_cache:
-#  - GRADLE_VERSION=$(gradle -version | grep Gradle | awk '{print $2}')
-#  - echo GRADLE_VERSION=$GRADLE_VERSION
   - rm -rf ~/.gradle/caches/?.?.?/
   - rm -rf ~/.gradle/caches/transforms-1
   - rm -rf ~/.gradle/caches/transforms-2
   - rm -rf ~/.gradle/caches/journal-1
+  - rm -rf ~/.gradle/caches/modules-2
   - find ~/.gradle/caches/ -name "*.lock" -type f -delete
+  - find . -type f -mtime -1h -exec stat -lt "%Y-%m-%d %H:%M:%S" {} \; | cut -d\  -f6- | sort
 
 cache:
   directories:
