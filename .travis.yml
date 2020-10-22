@@ -272,9 +272,7 @@ install:
     "
   - EMU_COMMAND="emulator"
   - |
-    if [[ $ABI =~ "x86" ]]; then
-      EMU_COMMAND="emulator-headless"
-    else
+    if [[ $ABI =~ "arm" ]]; then
       # emulate graphics if running on ARM
       EMU_PARAMS="${EMU_PARAMS} -gpu swiftshader"
     fi
